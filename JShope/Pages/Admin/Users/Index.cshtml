@@ -1,0 +1,148 @@
+﻿@page
+
+
+@model JShope.Pages.Admin.Users.IndexModel
+@{
+}
+
+
+
+<div class="content-wrapper" style="min-height: 474px;">
+
+    <!-- left content -->
+    <section class="left-block content fixed-left-block">
+        <a class="mdi mdi-close mdi-menu btn btn-success open-left-block d-block d-md-none" href="javascript:void(0)"></a>
+        <div class="scrollable ps-container ps-theme-default" style="height: 100%;" data-ps-id="0b1b083e-450d-2647-3558-e84c81cc1931">
+            <div class="left-content-area">
+
+                <div class="box no-shadow">
+                    <div class="box-body">
+                        <h2 class="btn btn-outline btn-success btn-block text-left mb-5">Online <span class="pull-right">103</span></h2>
+                        <h2 class="btn btn-outline btn-danger btn-block text-left mb-5">Offline <span class="pull-right">19</span></h2>
+                        <h2 class="btn btn-warning btn-block btn-lg  mt-10"> تعداد کل کاربران: @ViewData["userCount"] </h2>
+                        <a href="/admin/users/adduser" class="btn btn-success btn-block btn-lg mt-10"> + افزودن کاربر</a>
+                    </div>
+                </div>
+                <!-- /. box -->
+
+            </div>
+            <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 270px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+        </div>
+    </section>
+    <!-- /.left content -->
+    <!-- right content -->
+    <section class="right-block content">
+
+        <nav style="margin-bottom: 3%" class="navbar navbar-light bg-light">
+            <form method="get">
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button name="search" class="btn btn-outline-success my-2 my-sm-0" type="submit">جستجو</button>
+                <a href="/admin/users" class="btn btn-outline-info my-2 my-sm-0">بازگشت</a>
+            </form>
+
+        </nav>
+        @foreach (var item in Model.Users)
+        {
+            <a href="/admin/users/userprofile/@item.UserId">
+                
+                <div class="box">
+                <div id="jm9" class="media-list media-list-divided media-list-hover">
+                    <div  class="media align-items-center">
+                        @*<span class="badge badge-dot badge-danger"></span>*@
+                        <a class="avatar avatar-lg status-success" href="#">
+                            <img src="/images/avatar/@item.UserAvatar" alt="...">
+                        </a>
+                        @*<p id="jm8"></p>*@
+                        <div class="media-body">
+                            <p>
+
+                                <small class="sidetitle">Online</small>
+                                <br />
+                                <p><strong>@((item.Name) + " " + (item.Family))</strong></p>
+                            </p>
+                            <p>@item.PhoneNumber</p>
+
+                            @*<nav class="nav mt-2">
+                                    <a class="nav-link" href="#"><i class="fa fa-facebook"></i></a>
+                                    <a class="nav-link" href="#"><i class="fa fa-twitter"></i></a>
+                                    <a class="nav-link" href="#"><i class="fa fa-github"></i></a>
+                                    <a class="nav-link" href="#"><i class="fa fa-linkedin"></i></a>
+                                </nav>*@
+                        </div>
+
+                        <div class="media-right gap-items">
+                            <a class="media-action lead" href="#" data-toggle="tooltip" title="" data-original-title="سفارش جاری"><i class="ti-shopping-cart"></i></a>
+                            <a class="media-action lead" href="#" data-toggle="tooltip" title="" data-original-title="سوابق"><i class="ti-receipt"></i></a>
+
+                            <div class="btn-group">
+                                <a class="media-action lead" href="#" data-toggle="dropdown"><i class="ion-android-more-vertical"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="/admin/users/userprofile/@item.UserId"><i class="fa fa-fw fa-user"></i> پروفایل</a>
+                                    @*<a class="dropdown-item" href="#"><i class="fa fa-fw fa-comments"></i> Messages</a>
+                                        <a class="dropdown-item" href="#"><i class="fa fa-fw fa-phone"></i> Call</a>*@
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Admin/Users/RemoveUser/@item.UserId"><i class="fa fa-fw fa-remove"></i> حذف</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            </a>
+            
+        }
+        <div style="margin-right: 50%;margin-top: 20%" class="footer">
+
+            @if ((Model.NumberOfPages) > 1)
+
+            {
+
+                <nav style="margin-top: 5px" class="mt-15 pb-10">
+                    <form method="get">
+                        <ul class="pagination">
+                            @*<li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        <span class="ion-ios-arrow-thin-left"></span>
+                                    </a>
+                                </li>*@
+                            @for (var i = 1; Model.NumberOfPages != 0; i++, Model.NumberOfPages--)
+                            {
+
+                                <li class="page-item @(((int)ViewData["pageId"]==i)? "active":"" ) ">
+
+
+                                    <button type="submit" name="pageNumber" href="/admin/users" value="@i" class="page-link">
+                                        @i
+
+
+                                    </button>
+
+
+
+                                </li>
+                            }
+                            @*<li class="page-item">
+                                    <a class="page-link" href="#">
+                                        <span class="ion-ios-arrow-thin-right"></span>
+                                    </a>
+                                </li>*@
+                        </ul>
+                    </form>
+                </nav>
+            }
+
+
+        </div>
+        <!-- /. box -->
+
+
+
+    </section>
+    <!-- /.right content -->
+</div>

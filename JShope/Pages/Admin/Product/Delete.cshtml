@@ -1,0 +1,69 @@
+﻿@page "{id}"
+@using JShope.Services.Interface
+@model JShope.Pages.Admin.Product.DeleteModel
+@{
+}
+@inject IProductService _productService
+
+<div class="wrapper">
+
+    <div class="content-wrapper">
+
+        <div class="box-body">
+
+          <form method="post">
+            <div class="table-responsive">
+                <table class="table product-overview">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product info</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                    <tr>
+
+                        <td>
+                            @if (_productService.GetProductImage(Model.Product.ProductId).Count != 0)
+                            {
+                                <img src="/images/product/@_productService.GetProductImage(Model.Product.ProductId).First().Names" alt="" width="80">
+                            }
+                        </td>
+                        <td>
+                            <h5>@Model.Product.Description</h5>
+
+                        </td>
+
+                        <td width="150">
+                            <h5>@Model.Product.Price</h5>
+                        </td>
+
+                        <td width="150">
+                            @Model.Product.Quantity
+                        </td>
+
+                        <td>
+
+                            <input type="submit" class="btn btn-danger-outline" value="تائید" />
+                            <a href="/admin/product" class="btn btn-success-outline">لغو</a>
+                        </td>
+
+
+                    </tr>
+                    
+
+                    </tbody>
+                </table>
+
+            </div>
+          </form>
+        </div>
+    </div>
+</div>

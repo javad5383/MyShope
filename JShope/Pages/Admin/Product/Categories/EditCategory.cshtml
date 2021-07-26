@@ -1,0 +1,43 @@
+﻿@page "{id}"
+@model JShope.Pages.Admin.Product.Categories.EditCategoryModel
+
+
+    <div class="wrapper">
+        <div class="content-wrapper">
+            <section class="content">
+                <form method="post">
+                    <div class="container">
+                        <h1>دسته بندی ها</h1>
+                        
+                        <div style="margin-right: 50%" class="col-md-12">
+                            <h1> ویرایش نام </h1>
+                        </div>
+
+                        <div style="margin-top: 3%" class="col-md-12">
+
+                            <div  style="display: flex "  class="col-md-12">
+
+                                <input name="newCategoryName" value="@Model.Category.CategoryName" type="text" class="form-control mb-2" id="inlineFormInput1">
+                                <input name="categoryId" type="hidden" value="@Model.Category.CategoryId" />
+                                <span id="inlineFormInput2" class="text-danger"></span>
+                           
+                                <div style="margin-right: 2%">
+                                    <button style="max-height: 90%" type="submit" class="btn btn-primary ti-save "></button>
+                                </div>
+                            
+                            </div>
+                            <div class="col-md-12">
+                                <a   href=" /admin/product/Categories/addcategory" class="btn btn-danger  "> بازگشت</a>
+                            </div>
+                           
+
+                        </div>
+                        
+                       
+                        <div class="text text-danger" asp-validation-summary="All"></div>
+                    </div>
+                  
+                </form>
+            </section>
+        </div>
+    </div>

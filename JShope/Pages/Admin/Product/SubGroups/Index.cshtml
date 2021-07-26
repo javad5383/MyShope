@@ -1,0 +1,124 @@
+﻿@page "{groupId}"
+@model JShope.Pages.Admin.Product.SubGroups.IndexModel
+@{
+}
+
+
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content">
+
+            <div @*style="margin-left: 2.5%; margin-right: 2.5%"*@ class="container-fluid;col-md-10">
+                <h1> زیرگروه ها</h1>
+                <h2>@ViewData["GroupName"]:</h2>
+                <form method="post">
+
+                    <div style="margin-top: 3%" class="form-row align-items-center">
+                        <div style="margin-left: 2%">
+                            <h3>افزودن زیرگروه جدید:</h3>
+                        </div>
+                        <div class="col-auto">
+                            <input name="subGroupName" type="text" class="form-control mb-2" placeholder="نام زیرگروه جدید" id="inlineFormInput1">
+                            <span id="inlineFormInput2" class="text-danger"></span>
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn2" type="submit" class="btn btn-success-outline  "><i class="fa fa fa-plus"></i></button>
+                        </div>
+                    </div>
+
+
+                    <div style="margin-top: 3%" class="row">
+
+                        @if (Model.SubGroups.Count != 0)
+                        {
+                            @foreach (var item in Model.SubGroups)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-3  ">
+                                    <div class="form-group">
+
+                                        <div style="display: flex" class="input-group  colorpicker-element">
+
+
+
+                                            <input readonly="readonly" value="@item.SubGroupName">
+
+                                            <a href="/admin/product/subGroups/productsOfsub/@item.SubGroupId"  class="btn btn-success-outline  ti-eye"></a>
+
+                                            <a style="margin-right: 1%" href="/admin/product/subgroups/removesubgroup/@item.SubGroupId" class="btn btn-icon  ti-trash  btn-danger-outline"></a>
+
+                                            <a style="margin-right: 1%" href="/admin/product/subgroups/editsubgroup/@item.SubGroupId" class="btn btn-icon    btn-primary-outline">ویرایش</a>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <h2 class="text-danger">هیچ زیر گروهی یافت نشد </h2>
+                        }
+
+
+                    </div>
+
+
+
+
+
+                </form>
+
+                <a href="/admin/product/groups/@ViewData["CategoryId"]" class="btn btn-primary-outline ti-back-left">بازگشت</a>
+                <div style="margin-top: 2%" id="showProduct" class="row">
+
+
+
+                </div>
+            </div>
+           
+            
+                <div id="prod1" style="margin-top: 2%">
+
+                   
+
+
+                </div>
+            
+
+        </section>
+    </div>
+</div>
+
+<script>
+   
+
+
+    $(document).ready(function () {
+        $("#btn2").prop('disabled', true);
+
+       
+        
+    
+      
+
+        $("#inlineFormInput1").keyup(function () {
+            if ($(this).val() !== "") {
+                $("#btn2").prop('disabled', false);
+
+            }
+        });
+        $("#inlineFormInput1").keydown(function () {
+            if ($(this).empty()) {
+                $("#btn2").prop('disabled', true);
+
+            }
+        });
+
+    });
+</script>
+
+

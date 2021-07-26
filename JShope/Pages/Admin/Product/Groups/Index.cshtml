@@ -1,0 +1,86 @@
+﻿@page "{categoryId}"
+@model JShope.Pages.Admin.Product.Groups.IndexModel
+@{
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content">
+            <form method="post" >
+                <div  id="grp_2" class="container-fluid">
+                    <h1> @ViewData["CategoryName"]</h1>
+                    <div style="margin-top: 3%" class="form-row align-items-center">
+                        <div style="margin-left: 2%">
+                            <h3>افزودن گروه جدید:</h3>
+                        </div>
+                        <div class="col-auto">
+                            <input  name="newGroup" type="text" class="form-control mb-2" placeholder="نام گروه جدید" id="inlineFormInput1">
+                            <span id="inlineFormInput2" class="text-danger"></span>
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn2" type="submit" class="btn btn-success-outline  "><i class="fa fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 3%" class="row">
+                        @if (Model.Groups.Count != 0)
+                        {
+                            @foreach (var item in Model.Groups)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-3  ">
+                                    <div class="form-group">
+                                        <div class="input-group  colorpicker-element">
+
+                                            <input readonly="readonly" value="@item.GroupName" class="form-control">
+
+
+                                            <a href="/admin/product/subgroups/@item.GroupId" id="a123" class="btn btn-icon  ti-eye  btn-success-outline"></a>
+
+                                            <a style="margin-right: 1%" href="/admin/product/groups/removegroups/@item.GroupId" class="btn btn-icon  ti-trash  btn-danger-outline"></a>
+
+                                            <a style="margin-right: 1%" href="/admin/product/groups/editgroup/@item.GroupId" class="btn btn-icon    btn-primary-outline">ویرایش</a>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-danger">
+                                <h2>هیچ گروهی یافت نشد!</h2>
+                            </div>
+                        }
+                       
+                    </div>
+                </div>
+                <a style="padding-right: 10%; padding-left: 10%; margin-right: 35%;margin-top: 10%" href="/admin/product/categories" class="btn btn-icon    btn-danger-outline">بازگشت</a>
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#btn2").prop('disabled', true);
+        
+        $("#inlineFormInput1").keyup(function() {
+            if ($(this).val()!=="") {
+                 $("#btn2").prop('disabled', false);
+               
+            }
+        });
+        $("#inlineFormInput1").keydown(function() {
+            if ($(this).empty()) {
+                 $("#btn2").prop('disabled', true);
+                
+            }
+        });
+       
+    });
+</script>

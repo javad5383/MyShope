@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body class="hold-transition skin-info-light sidebar-mini rtl">
+
+
+    <partial name="Shared/AdminHeder" />
+    <partial name="Shared/SideBar" />
+
+    <div>
+        @RenderBody()
+
+    </div>
+</body>
+@await RenderSectionAsync("Scripts", required: false)
+
+<partial name="AdminScripts" />
+</html>

@@ -1,0 +1,288 @@
+﻿@page "{id}"
+@using JShope.Services.Interface
+@model JShope.Pages.Admin.Product.EditProductModel
+
+@inject IProductService _productService
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="wrapper">
+
+    <div class="content-wrapper">
+
+        <section class="content">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h4 class="box-title">About Product</h4>
+                        </div>
+                        <div class="box-body">
+                            <form method="post" enctype="multipart/form-data" class="form-element">
+                                <input type="hidden" asp-for="Product.ProductId" />
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="Product.ProductName" class="text-info"> نام محصول</label>
+                                                <input asp-for="Product.ProductName" type="text" class="form-control" placeholder="نام محصول">
+                                            </div>
+                                        </div>
+
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="Product.Quantity" class="text-info">تعداد</label>
+                                                <input asp-for="Product.Quantity" type="text" class="form-control" placeholder="تعداد">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+
+                                    <!--/row-->
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-info">دسته بندی</label>
+                                                <select asp-for="Product.CategoryId" class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                                                    @foreach (var item in _productService.GetCategory())
+                                                    {
+                                                        <option value="@item.CategoryId">@item.CategoryName</option>
+
+                                                    }
+                                                </select>
+                                                <label class="text-info">گروه</label>
+                                                <select asp-for="Product.GroupId" class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                                                    @foreach (var item1 in _productService.GetGroups())
+                                                    {
+                                                        <option value="@item1.GroupId">@item1.GroupName</option>
+                                                    }
+                                                </select>
+                                                <label class="text-info">زیرگروه</label>
+                                                <select asp-for="Product.SubGroupId" class="form-control" data-placeholder="Choose a Category" tabindex="2">
+                                                    @foreach (var item2 in _productService.GetSubGroups())
+                                                    {
+                                                        <option value="@item2.SubGroupId">@item2.SubGroupName</option>
+                                                    }
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-info">Status</label>
+                                                <div class="radio-list">
+                                                    <label class="radio-inline p-0 mr-10">
+                                                        <div class="radio radio-info">
+                                                            <input type="radio" name="radio" id="radio1" value="option1">
+                                                            <label for="radio1">Published</label>
+                                                        </div>
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <div class="radio radio-info">
+                                                            <input type="radio" name="radio" id="radio2" value="option2">
+                                                            <label for="radio2">Draft</label>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-info">قیمت</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"></div>
+                                                    <input asp-for="Product.Price" type="number" class="form-control" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div style="width: 150px" class="form-group">
+                                                <label class="text-info">رنگ</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"></div>
+                                                    <input asp-for="Product.Color" type="color" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-info">تخفیف</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><i class="ti-cut"></i></div>
+                                                    <input type="text" class="form-control" placeholder="50%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="text-info">توضیحات</label>
+                                                <textarea asp-for="Product.Description" class="form-control" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-12">
+                                        <h4 style="margin-bottom: 3%" class="box-title mt-20">تصویر کالا</h4>
+                                        <div class="product-img text-left">
+
+
+
+
+
+                                            <div class="row">
+
+                                                @foreach (var item in Model.ProductImage)
+                                                {
+                                                    <div class="card" style="width: 18rem;">
+                                                        <img class="card-img-top" src="/images/product/@item.Names" alt="">
+                                                        <div style="margin-left: 38%">
+
+                                                            <input value="@item.ImageId" type="checkbox" id="@item.ImageId" name="imgIdForRemove" class="chk-col-red">
+                                                            <label for="@item.ImageId">حذف</label>
+                                                        </div>
+
+
+
+                                                    </div>
+
+
+
+
+                                                }
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                        <div class="col-md-12">
+
+                                            <div class="product-img text-left">
+
+                                                <div class="container">
+                                                    <div id="dvPreview" class="row" style="display: flex"></div>
+                                                    <div style="margin-left: 90%" class="fileupload btn btn-outline btn-success">
+                                                        <span><i class="ion-upload mr-5"></i>افزودن عکس</span>
+                                                        <input id="uplodimg" type="file" name="file" class="upload" multiple>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 class="box-title mt-40">General Info</h4>
+                                        <div class="table-responsive">
+                                            <table class="table no-border td-padding">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Brand">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Sellar">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Delivery Condition">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Knock Down">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Color">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="Gift Pack">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions mt-10">
+                                    <button id="btnSuccess" type="submit" class="btn btn-outline btn-success"> <i class="fa fa-check"></i> Save</button>
+                                    <button type="button" class="btn btn-outline btn-danger">Cancel</button>
+                                </div>
+                       
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    </section>
+</div>
+</div>
+
+<script>
+
+
+    $(function () {
+        $("#uplodimg").change(function () {
+            if (typeof (FileReader) != "undefined") {
+                var dvPreview = $("#dvPreview");
+                dvPreview.html("");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    if (regex.test(file[0].name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = $("<img />");
+                            img.attr("style", "height:100px;width: 100px");
+                            img.attr("src", e.target.result);
+                            dvPreview.append(img);
+                        }
+                        reader.readAsDataURL(file[0]);
+                    } else {
+                        alert(file[0].name + " is not a valid image file.");
+                        dvPreview.html("");
+                        return false;
+                    }
+                });
+            } else {
+                alert("This browser does not support HTML5 FileReader.");
+            }
+        });
+    });
+
+
+
+
+
+
+</script>

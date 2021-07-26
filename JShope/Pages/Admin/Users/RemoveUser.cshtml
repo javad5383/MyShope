@@ -1,0 +1,47 @@
+﻿@page "{userId}"
+@model JShope.Pages.Admin.Users.RemoveUserModel
+@{
+}
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 474px;">
+        <section>
+          
+            <form method="post">
+                
+                <div style="margin-right: 35%;margin-top: 40px" class="col-12 col-lg-3">
+                    <div class="box">
+                        <div class="box-header no-border p-0 text-danger">
+                            <h4 class="box-title "><strong>از حذف این کاربر مطمئن هستید؟</strong></h4>
+                        </div>
+
+                        <div style="margin-top: 5px" class="box-header no-border p-0">
+
+                            <a href="#">
+                                <img class="img-fluid" src="/images/avatar/@Model.Users.UserAvatar" alt="">
+                            </a>
+                        </div>
+                        <div class="box-body">
+                            <div class="text-center">
+
+                                <h3 class="my-5"><a href="#">@(Model.Users.Name + " " + Model.Users.Family)</a></h3>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <button style="width: 40%" type="submit" class="btn btn-danger">بله</button>
+                                <a href="/admin/users" style="width: 40%" class="btn btn-success">خیر</a>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+           
+
+
+
+        </section>
+    </div>
+</div>

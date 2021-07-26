@@ -1,0 +1,60 @@
+﻿@page "{subGroupId}"
+@using JShope.Services.Interface
+@model JShope.Pages.Admin.Product.SubGroups.ProductsOfSubModel
+@{
+    
+}
+
+@inject IProductService _productService
+<div class="wrapper">
+
+    <div class="content-wrapper">
+        <section class="content">
+
+            <div class="row">
+                @foreach (var item in Model.Product)
+                {
+
+                    <div class="col-12 col-lg-6 col-xl-3">
+                        <div class="box">
+                            <div style="height: 350px" class="box-body">
+                                <div  class="product-img">
+                                    @if (_productService.GetProductImage(item.ProductId).Count != 0)
+                                    {
+                                        <img src="/images/product/@_productService.GetProductImage(item.ProductId).First().Names" alt="" width="80">
+                                    }
+                                </div>
+                               
+                                <div class="product-text">
+                                    <div class="pro-img-overlay">
+                                        <a href="/admin/product/editproduct/@item.ProductId" class="btn btn-info btn-icon-circle"><i class="mdi mdi-settings"></i></a>
+                                       
+                                    </div>
+                                    <h2 class="pro-price text-blue">@item.Price</h2>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <h3  class="box-title center">@item.ProductName</h3>
+                                    
+                                    @*<small class="text-muted db"></small>*@
+                                </div>
+                                
+                               
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                }
+
+            </div>
+
+        </section>
+
+
+
+
+    </div>
+</div>

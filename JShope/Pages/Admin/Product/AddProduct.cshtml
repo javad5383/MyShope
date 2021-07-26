@@ -1,0 +1,255 @@
+﻿@page
+@using JShope.Services.Interface
+@model JShope.Pages.Admin.Product.AddProductModel
+
+
+@inject IProductService _productService
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<div class="wrapper">
+
+    <div class="content-wrapper">
+        <section class="content">
+
+            <!-- Basic Forms -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Form Validation</h4>
+
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col">
+
+
+                            <form method="post" id="frm_1" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <h5>نام <span class="text-danger">*</span></h5>
+                                            <div class="controls">
+                                                <input asp-for="Product.ProductName" type="text" class="form-control">
+
+
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.ProductName"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>قیمت <span class="text-danger">*</span></h5>
+                                            <div class="controls">
+                                                <input asp-for="Product.Price" type="number" class="form-control">
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.Price"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>تعداد <span class="text-danger">*</span></h5>
+                                            <div class="controls">
+                                                <input asp-for="Product.Quantity" type="number" class="form-control">
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.Quantity"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>رنگ </h5>
+                                            <div class="controls">
+                                                <input style="width: 8%" asp-for="Product.Color" type="color" class="form-control">
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.Color"></span>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <h5>توضیحات </h5>
+                                            <div class="controls">
+                                                <textarea asp-for="Product.Description" id="textarea" class="form-control"></textarea>
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.Description"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <h5>عکس </h5>
+                                            <div class="controls">
+                                                <div class="panel">
+                                                    <div id="dvPreview" class="user-heading round">
+                                                        @*<a href="#">
+                                    <img id="pictuer" src="/images/avatar/noAvatar.png" alt="">
+
+                                </a>*@
+
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div style="margin-top: 5%; display: flex">
+                                                    <div class="col-md-12">
+                                                        @*<a href="#" onclick="MyFunc()" id="Click" class="btn btn-primary-outline btn-lg btn-block"> افزودن آواتار</a>*@
+                                                        <input multiple="" style="margin-top: 3%; margin-bottom: 3%" type="file" class="upload" name="file" id="uplodimg" />
+                                                        <a id="clrimg" onclick="clearimg()" class="btn btn-danger" href="#">پاک کردن عکس</a>
+                                                    </div>
+
+                                                </div>
+                                                @*<input asp-for="Product.ProductImages" type="file" id="pictuer" name="file" class="form-control" multiple>*@
+
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.ProductImages"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <div class="form-group">
+                                        <h5>دسته بندی </h5>
+                                        <div class="controls">
+                                            <select class="form-control" asp-for="Product.CategoryId" asp-items="@ViewData["category"] as SelectList"></select>
+
+
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>گروه </h5>
+                                        <div class="controls">
+                                            <select class="form-control" asp-for="Product.GroupId" asp-items="@ViewData["groups"] as SelectList"></select>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Product.GroupId"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h5>زیر گروه </h5>
+                                        <div class="controls">
+                                            <select class="form-control" asp-for="Product.SubGroupId" asp-items="@ViewData["subGroups"] as SelectList">
+                                                <option value="-1">انتخاب کنید</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+                                <button type="submit" form="frm_1" class="btn btn-primary-outline" id="FormValidate()" value="Add">انجام</button>
+                            </form>
+
+                            
+                            <a href="/admin/product" class="btn btn-primary-outline"  >بازگشت</a>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+    </div>
+</div>
+
+
+<script>
+   
+    //clear selected img (*by me)
+    function clearimg() {
+        var img = document.getElementById('uplodimg');
+        img.value = "";
+        var dvPreview = $("#dvPreview");
+        dvPreview.html("");
+        $("#clrimg").hide();   //hide clear button  (*by me)
+    }
+
+   
+    
+    $(function () {
+
+        //hide clear button  (*by me)
+        $("#clrimg").hide();
+        $("#uplodimg").change(function () {
+            $("#clrimg").show(); //show clear button  (*by me)
+            if (typeof (FileReader) != "undefined") {
+                var dvPreview = $("#dvPreview");
+                dvPreview.html("");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    if (regex.test(file[0].name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = $("<img />");
+                            img.attr("style", "height:100px;width: 100px");
+                            img.attr("src", e.target.result);
+                            dvPreview.append(img);
+                        }
+                        reader.readAsDataURL(file[0]);
+                    } else {
+                        alert(file[0].name + " is not a valid image file.");
+                        dvPreview.html("");
+                        return false;
+                    }
+                });
+            } else {
+                alert("This browser does not support HTML5 FileReader.");
+            }
+        });
+    });
+
+
+
+    $("#Product_CategoryId").change(function() {
+        $("#Product_GroupId").empty();
+        $("#Product_SubGroupId").empty();
+        $.getJSON("/home/GetGroups/" + $("#Product_CategoryId :selected").val(),
+            function(data) {
+
+                $.each(data,
+                    function() {
+                        $("#Product_GroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+
+                    });
+
+            });
+
+
+    });
+
+    $("#Product_GroupId").change(function() {
+
+        $("#Product_SubGroupId").empty();
+
+        $.getJSON("/home/GetSubGroups/" + $("#Product_GroupId :selected").val(),
+            function(data) {
+
+                $.each(data,
+                    function() {
+                        $("#Product_SubGroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+
+                    });
+
+            });
+
+
+    });
+
+
+</script>
+@*&groupId=2&subGroupId=2005*@

@@ -1,0 +1,44 @@
+﻿@page "{userId}"
+@model JShope.Pages.Admin.Users.RemoveAvatarModel
+@{
+}
+<div class="wrapper">
+    <div class="content-wrapper" style="min-height: 474px;">
+        <section>
+
+            <form method="post">
+
+                <div style="margin-right: 35%;margin-top: 40px" class="col-12 col-lg-3">
+                    <div class="box">
+                        <div class="box-header no-border p-0 text-danger">
+                            <h4 class="box-title "><strong>از حذف آواتار مطمئن هستید؟</strong></h4>
+                        </div>
+
+                        <div style="margin-top: 5px" class="box-header no-border p-0">
+
+                            <a href="#">
+                                <img class="img-fluid" src="/images/avatar/@Model.Users.UserAvatar" alt="">
+                            </a>
+                        </div>
+                        <div class="box-body">
+                            <div class="text-center">
+
+                              
+                                <button style="width: 40%" type="submit" class="btn btn-danger">بله</button>
+                                <a href="/admin/users/EditUser/@Model.Users.UserId" style="width: 40%" class="btn btn-success">خیر</a>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+
+
+
+
+        </section>
+    </div>
+</div>

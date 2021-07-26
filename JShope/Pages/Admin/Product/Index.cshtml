@@ -1,0 +1,283 @@
+﻿@page "{subGroupId?}"
+
+@using JShope.Services.Interface
+@using System.Security.Principal
+@model JShope.Pages.Admin.Product.IndexModel
+@{
+    
+
+}
+
+
+
+@inject IProductService _productService
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<div class="wrapper">
+
+    <div class="content-wrapper">
+
+        <div class="box-body">
+
+            <form id="frm1" method="post">
+
+                <div style="display: flex">
+
+                    <div>
+
+
+                        <input id="input1" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+
+
+
+                    </div>
+
+                    <div>
+                        <a id="btn1" class="btn btn-outline-success my-2 my-sm-0">جستجو</a>
+                        <a @*href="/admin/product"*@ id="clearField1" class="btn btn-info-outline my-2 my-sm-0">پاک کردن</a>
+
+
+                    </div>
+                    <div style="margin-right: 10%;display: flex">
+                        <a class="btn btn-dribbble" href="/admin/product/categories/addcategory">مدیریت دسته بندی‌ها  </a>
+
+                       
+
+                    </div>
+                
+                </div>
+
+                <div>
+                    <div class="col-md-2">
+
+
+                        
+                           
+                                <div>
+                                    <label for="test">دسته بندی: </label>
+                                    <select  class="form-control" onchange="jm()" id="test" name="catId">
+                                      
+                                        
+                                        
+                                        <option   >همه</option>
+
+
+                                        @foreach (var item in _productService.GetCategory())
+                                        {
+
+
+
+
+                                            <!option @((Model.CategoryId==item.CategoryId)?"selected":"") value="@item.CategoryId">
+                                                @item.CategoryName 
+                                            </!option>
+
+
+                                        }
+
+                                    </select>
+                                   
+                                </div>
+                          
+                        @if (Model.CategoryId != 0)
+                        {
+                            
+                            <div>
+                                <label for="test">گروه ها: </label>
+                                <select  class="form-control" onchange="jm()" id="test" name="groupId">
+                                      
+                                        
+                                        
+                                    <option   >همه</option>
+
+
+                                    @foreach (var item in _productService.GetGroupsByCategoryId(Model.CategoryId))
+                                    {
+
+
+
+
+                                        <!option @((Model.GroupId==item.GroupId)?"selected":"") value="@item.GroupId">
+                                            @item.GroupName
+                                        </!option>
+
+
+                                    }
+
+                                </select>
+                                   
+                            </div>
+                            @if (Model.GroupId != 0)
+                            {
+                                <div>
+                                    <label for="test">زیرگروه ها: </label>
+                                    <select  class="form-control" onchange="jm()" id="test" name="subGroupId">
+                                      
+                                        
+                                        
+                                        <option   >همه</option>
+
+
+                                        @foreach (var item in _productService.GetSubGroupsByGroupId(Model.GroupId))
+                                        {
+
+
+
+
+                                            <!option @((Model.SubGroupId==item.SubGroupId)?"selected":"") value="@item.SubGroupId">
+                                                @item.SubGroupName
+                                            </!option>
+
+
+                                        }
+
+                                    </select>
+                                   
+                                </div>
+                            }
+                        }
+                    </div>
+
+
+                </div>
+                <div style="margin-top: 2%">
+
+                        <a href="/admin/product/addproduct" class="btn btn-outline btn-success"><i class="fa fa fa-plus"></i> افزودن محصول</a>
+
+
+                </div>
+                <div style="margin-top: 2%">
+                   
+                    <div id="t1" class="table-responsive">
+                        <table id="tbl1" class="table product-overview">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>نام</th>
+                                    <th></th>
+                                    <th>قیمت</th>
+                                    <th>تعداد</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.Product)
+                                {
+                                    <tr>
+
+                                        <td>
+
+                                            @if (_productService.GetProductImage(item.ProductId).Count != 0)
+                                            {
+                                                <img src="/images/product/@_productService.GetProductImage(item.ProductId).First().Names" alt="" width="80">
+                                            }
+                                        </td>
+                                        <td>@item.ProductName</td>
+                                        <td>
+                                            <h5>@item.Description</h5>
+
+
+                                        </td>
+
+                                        <td width="150">
+                                            <h5>@item.Price</h5>
+                                        </td>
+
+                                        <td width="150">
+                                            @item.Quantity
+                                        </td>
+
+                                        <td>
+                                            <a href="/admin/product/delete/@item.ProductId" class="btn btn-danger-outline ti-trash "></a>
+                                            <a href="/admin/product/editproduct/@item.ProductId" class="btn btn-primary-outline  ">ویرایش</a>
+                                        </td>
+
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    function jm() {
+       
+      
+        $("#frm1").submit();
+
+    }
+
+    $(document).ready(function () {
+     
+        $("#clearField1").hide();
+        $("#input1").keyup(function (e) {
+            console.log('1');
+           if ($(this).val() !== null) {
+              
+               $("#clearField1").show();
+               console.log('2');
+            }
+            if (e.keyCode == 8 && $("#input1").val()=="") {
+               
+                    $("#clearField1").hide();
+                
+               
+               
+            }
+        });
+
+        $("#clearField1").click(function () {
+            $("#input1").val("");
+            $("#clearField1").hide();
+        });
+
+
+    });
+   
+            //document.getElementById('group1').disable =true ;
+            //function dropdown(id) {
+
+
+
+            //    document.getElementById('group1').disable = false;
+
+            //    var as = document.createElement('<a>hi</a>');
+            //    document.getElementById('group2').innerHTML = as;
+
+            //}
+            //function showCustomer(str) {
+            //    var a = 2;
+            //    if (str == "") {
+            //        document.getElementById("txtHint").innerHTML = "";
+            //        return;
+            //    }
+            //    const xhttp = new XMLHttpRequest();
+            //    xhttp.onload = function () {
+            //        document.getElementById("txtHint").innerHTML = this.responseText;
+            //    }
+            //    xhttp.open("Get", "/admin/product/");
+            //    xhttp.send();
+            //}
+
+            //$("#input1").keyup(function () {
+            //    var search = $("#input1").val();
+
+            //    $.get("/admin/product"+search);
+            //});
+
+</script>
