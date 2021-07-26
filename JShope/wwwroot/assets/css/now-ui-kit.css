@@ -3686,7 +3686,11 @@ body {
     left: 0;
     padding-left: 0;
 }
-
+/*.navbar .navbar-toggler.navbar-toggler-right {
+    position: relative;
+    right: 0;
+    padding-right: 0;
+}*/
 .navbar .navbar-toggler:hover .navbar-toggler-bar.bar2 {
     width: 22px;
 }

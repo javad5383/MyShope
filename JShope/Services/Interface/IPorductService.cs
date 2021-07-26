@@ -67,5 +67,9 @@ namespace JShope.Services.Interface
        List<SelectListItem> GetSubGroupsForFilterItems(int groupId);
 
        void AddNewGroup(string name, int categoryId);
+
+
+
+       
     }
 }

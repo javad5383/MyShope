@@ -28,12 +28,13 @@ namespace JShope.Controllers
 
         public IActionResult Index()
         {
+          
+
+
             return View();
+           
         }
-        public IActionResult test()
-        {
-            return View();
-        }
+     
         public IActionResult Privacy()
         {
             return View();
@@ -45,13 +46,16 @@ namespace JShope.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        //public IActionResult Test(int id)
-        //{
-        //    var product = _productService.GetProductById(id);
+
+     
 
 
-        //    return Json(product);
-        //}
+
+
+
+
+        #region ReturnJson
+
         public IActionResult GetGroups(int id)
         {
             List<SelectListItem> list = new List<SelectListItem>()
@@ -76,6 +80,8 @@ namespace JShope.Controllers
             var product = _productService.GetProductBySubGroupId(id);
             return Json(product);
         }
+
+        #endregion
 
     }
 }

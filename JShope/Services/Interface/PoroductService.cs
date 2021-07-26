@@ -328,5 +328,7 @@ namespace JShope.Services.Interface
            var group= _context.SubGroups.FirstOrDefault(s => s.SubGroupId == subGroupId)?.Group;
            return group;
         }
+
+       
     }
 }

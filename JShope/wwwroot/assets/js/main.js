@@ -11,7 +11,7 @@ $(document).ready(function () {
         onTranslate: resetProgressBar,
         onTranslated: startProgressBar
     });
-    
+
     function startProgressBar() {
       // apply keyframe animation
       $(".slide-progress").css({
