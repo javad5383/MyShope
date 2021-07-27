@@ -2,7 +2,7 @@
 <!-- responsive-header -->
 @inject IProductService _productService
 
-
+<link href="~/assets/css/Navbar.css" rel="stylesheet" />
 
 <nav class="navbar direction-ltr fixed-top header-responsive">
     <div class="container">
@@ -36,6 +36,7 @@
                     <img src="/assets/img/logo.png" height="36px" alt="">
                 </a>
             </div>
+
             <ul class="navbar-nav default">
                 @foreach (var category in _productService.GetCategory())
                 {
@@ -83,7 +84,7 @@
 
 <div class="wrapper default">
 
-   
+
     <header class="main-header default">
         <div class="container">
             <div class="row">
@@ -180,6 +181,7 @@
                 </div>
             </div>
         </div>
+
         <nav class="main-menu">
             <div class="container">
 
@@ -212,7 +214,7 @@
                                     </li>
                                 }
 
-                                <img src="/assets/img/1636.png" alt="">
+                                @*<img src="/assets/img/1636.png" alt="">*@
                             </ul>
                         </li>
 
