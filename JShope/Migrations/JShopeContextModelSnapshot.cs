@@ -188,6 +188,9 @@ namespace JShope.Migrations
                     b.Property<string>("UserHomeAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserIp")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

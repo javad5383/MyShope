@@ -29,7 +29,7 @@ namespace JShope.Controllers
         public IActionResult Index()
         {
           
-
+            
 
             return View();
            
@@ -47,7 +47,7 @@ namespace JShope.Controllers
         }
 
 
-     
+        
 
 
 

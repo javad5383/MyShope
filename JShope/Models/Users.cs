@@ -27,10 +27,10 @@ namespace JShope.Models
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
+        [Required(ErrorMessage = "لطفا{0} را وارد کنید ")]
         public string Password { get; set; }
 
-
+        public  string UserIp { get; set; }
         public bool IsActive { get; set; }
 
         public string PhoneNumber { get; set; }

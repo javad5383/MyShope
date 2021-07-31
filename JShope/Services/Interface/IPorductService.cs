@@ -61,6 +61,9 @@ namespace JShope.Services.Interface
         void RemoveImage(int imgId, int productId);
         List<Product> SearchProducts(string filter);
 
+        List<Product> GetProductByCategoryId(int categoryId);
+
+        List<Product> GetProductByGroupId(int groupId); 
 
 
         #endregion

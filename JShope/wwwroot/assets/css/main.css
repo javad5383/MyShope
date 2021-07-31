@@ -35,7 +35,14 @@ ul {
 li {
     list-style: none;
 }
-
+/* Create the caret/arrow with a unicode, and style it */
+.caretjav::before {
+    content: "\2190";
+    color: black;
+    display: inline-block;
+    margin-right: 10px;
+    margin-left: 5px;
+}
 .direction-ltr {
     direction: ltr;
 }

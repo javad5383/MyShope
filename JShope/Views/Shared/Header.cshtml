@@ -42,7 +42,7 @@
                 {
 
                     <li class="sub-menu">
-                        <a href="#">@category.CategoryName</a>
+                        <a href="/ProductsMain/ShowByCategory/@category.CategoryId">@category.CategoryName</a>
                         <ul>
                             @foreach (var group in _productService.GetGroupsByCategoryId(category.CategoryId))
                             {
@@ -190,21 +190,21 @@
                     @foreach (var category in _productService.GetCategory())
                     {
                         <li class="list-item list-item-has-children mega-menu mega-menu-col-5">
-                            <a class="nav-link" href="#">@category.CategoryName</a>
+                            <a class="nav-link" href="/ShowByCategory/@category.CategoryId">@category.CategoryName</a>
 
                             <ul class="sub-menu nav">
                                 @foreach (var group in _productService.GetGroupsByCategoryId(category.CategoryId))
                                 {
                                     <li class="list-item list-item-has-children">
                                         <i class="now-ui-icons arrows-1_minimal-left"></i>
-                                        <a class="main-list-item nav-link" href="#">
+                                        <a class="main-list-item nav-link" href="/ShowByGroup/@group.GroupId">
                                             @group.GroupName
                                         </a>
                                         <ul class="sub-menu nav">
-                                            @foreach (var subGroups in _productService.GetSubGroupsByGroupId(group.GroupId))
+                                            @foreach (var subGroup in _productService.GetSubGroupsByGroupId(group.GroupId))
                                             {
                                                 <li class="list-item">
-                                                    <a class="nav-link" href="#">@subGroups.SubGroupName</a>
+                                                    <a class="nav-link" href="/ShowBySubGroup/@subGroup.SubGroupId">@subGroup.SubGroupName</a>
                                                 </li>
                                             }
 

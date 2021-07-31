@@ -36,7 +36,7 @@ namespace JShope
 
             services.AddDbContext<JShopeContext>(options =>
             {
-                options.UseSqlServer(/*"Data Source =.;Initial Catalog=JshopCore_DB;Integrated Security=true"*/ "Server =.; Initial Catalog = JShop_DB; User ID = javad; Password = 4Vmbw0@5; MultipleActiveResultSets = true");
+                options.UseSqlServer("Data Source =.;Initial Catalog=JshopCore_DB;Integrated Security=true" /*"Server =.; Initial Catalog = JShop_DB; User ID = javad; Password = 4Vmbw0@5; MultipleActiveResultSets = true"*/);
             });
 
 

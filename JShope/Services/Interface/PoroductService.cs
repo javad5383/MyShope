@@ -63,10 +63,10 @@ namespace JShope.Services.Interface
         }
         public int GetCategoryIdByGroupId(int groupId)
         {
-           var group=_context.Groups.FirstOrDefault(g => g.GroupId == groupId);
-           return @group?.CategoryId ?? 0;
-        } 
-          
+            var group = _context.Groups.FirstOrDefault(g => g.GroupId == groupId);
+            return @group?.CategoryId ?? 0;
+        }
+
         #endregion
         #region Group
         public List<Group> GetGroupsByCategoryId(int categoryId)
@@ -280,6 +280,17 @@ namespace JShope.Services.Interface
         {
             return _context.Products.Where(p => p.SubGroupId == subGroupId).ToList();
         }
+
+        public List<Product> GetProductByCategoryId(int categoryId)
+        {
+            return _context.Products.Where(p => p.CategoryId == categoryId).ToList();
+        }
+
+        public List<Product> GetProductByGroupId(int groupId)
+        {
+            return _context.Products.Where(p => p.GroupId == groupId).ToList();
+        }
+
         #endregion
 
 
@@ -335,6 +346,8 @@ namespace JShope.Services.Interface
                     Value = s.SubGroupId.ToString()
                 }).ToList();
         }
+
+
 
 
         #endregion
