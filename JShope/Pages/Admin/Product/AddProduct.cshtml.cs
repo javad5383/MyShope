@@ -70,7 +70,8 @@ namespace JShope.Pages.Admin.Product
                 Price = Product.Price,
                 Quantity = Product.Quantity,
                 CategoryId = Product.CategoryId,
-                GroupId = Product.GroupId
+                GroupId = Product.GroupId,
+                CreateDate = DateTime.Now
 
             };
             if (Product.SubGroupId != 0 )

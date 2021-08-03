@@ -50,8 +50,8 @@ namespace JShope.Models
         public int GroupId { get; set; }
         public int? SubGroupId { get; set; }
 
-
-
+        public int Visits { get; set; }
+        public DateTime CreateDate { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public SubGroup SubGroups { get; set; }
     }

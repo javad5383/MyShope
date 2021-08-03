@@ -311,6 +311,28 @@ namespace JShope.Services.Interface
             return _context.Products.Where(p => p.CategoryId == categoryId && p.GroupId == groupId && p.SubGroupId == subGroupId).ToList();
         }
 
+        public List<Product> SoreProducts(List<Product> products, string sortMethod)
+        {
+            switch (sortMethod)
+            {
+                    
+                case "Visits":
+                    
+                    return products.OrderByDescending(p => p.Visits).ToList();
+                case "Newest":
+                    return products.OrderByDescending(p => p.CreateDate).ToList();
+
+                case "Cheapest":
+                    return products.OrderBy(p => p.Price).ToList();
+                case "Expensive":
+                    return products.OrderByDescending(p => p.Price).ToList();
+
+
+                default:
+                    return products;
+            }
+        }
+
         #endregion
 
 

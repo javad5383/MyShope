@@ -78,6 +78,11 @@ namespace JShope.Services.Interface
 
         #endregion
 
+        #region SortProductForProductsMain
+
+        List<Product> SoreProducts(List<Product> products, string sortMethod);
+
+            #endregion
 
         #region DropDown Items
         List<SelectListItem> GetCategoryForFilterItems();

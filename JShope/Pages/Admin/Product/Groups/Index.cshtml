@@ -69,10 +69,12 @@
     $(document).ready(function() {
         $("#btn2").prop('disabled', true);
         
-        $("#inlineFormInput1").keyup(function() {
+        $("#inlineFormInput1").on("  keyup , change ",function() {
             if ($(this).val()!=="") {
                  $("#btn2").prop('disabled', false);
-               
+                 if ($(this).keyCode()===13) {
+                     $(this).submit();
+                 }
             }
         });
         $("#inlineFormInput1").keydown(function() {

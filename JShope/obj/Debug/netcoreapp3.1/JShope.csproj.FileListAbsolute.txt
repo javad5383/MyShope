@@ -193,5 +193,5 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.cspr
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.dll
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.genruntimeconfig.cache
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\ProductsMain\Index.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache

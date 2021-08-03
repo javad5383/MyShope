@@ -10,8 +10,8 @@ using MyEshop.Data;
 namespace JShope.Migrations
 {
     [DbContext(typeof(JShopeContext))]
-    [Migration("20210724182945_updtuser")]
-    partial class updtuser
+    [Migration("20210801174820_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,9 @@ namespace JShope.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -92,6 +95,9 @@ namespace JShope.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("SubGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Visits")
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
@@ -188,6 +194,9 @@ namespace JShope.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserHomeAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserIp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")

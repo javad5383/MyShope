@@ -71,6 +71,9 @@ namespace JShope.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -90,6 +93,9 @@ namespace JShope.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("SubGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Visits")
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
