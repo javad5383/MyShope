@@ -289,10 +289,26 @@ namespace JShope.Services.Interface
         public List<Product> GetProductByGroupId(int groupId)
         {
             return _context.Products.Where(p => p.GroupId == groupId).ToList();
+           
         }
 
         #endregion
 
+        #region Brand
+
+        public string GetBrandNameById(int brandId)
+        {
+            return _context.Brands.FirstOrDefault(b => b.BrandId == brandId)?.BrandName;
+        }
+
+        public List<int?> GetDistinctBrands(List<Product> products)
+        {
+           return (products.Select(p => p.BrandId ).Distinct().ToList());
+            
+        }
+
+
+        #endregion
 
         #region FilterItems
 
@@ -311,21 +327,21 @@ namespace JShope.Services.Interface
             return _context.Products.Where(p => p.CategoryId == categoryId && p.GroupId == groupId && p.SubGroupId == subGroupId).ToList();
         }
 
-        public List<Product> SoreProducts(List<Product> products, string sortMethod)
+        public IQueryable<Product> SortProducts(IQueryable<Product> products, string sortMethod)
         {
             switch (sortMethod)
             {
                     
                 case "Visits":
                     
-                    return products.OrderByDescending(p => p.Visits).ToList();
+                    return  products.OrderByDescending(p => p.Visits);
                 case "Newest":
-                    return products.OrderByDescending(p => p.CreateDate).ToList();
+                    return products.OrderByDescending(p => p.CreateDate);
 
                 case "Cheapest":
-                    return products.OrderBy(p => p.Price).ToList();
+                    return products.OrderBy(p => p.Price);
                 case "Expensive":
-                    return products.OrderByDescending(p => p.Price).ToList();
+                    return products.OrderByDescending(p => p.Price);
 
 
                 default:
@@ -372,8 +388,30 @@ namespace JShope.Services.Interface
 
 
 
+
+
         #endregion
 
+        #region Show Product Method For ProductMain 
+
+        public IQueryable<Product> ProductShowMethod(int id,string showMethod)
+        {
+            switch (showMethod)
+            {
+                case "ByCategory":
+                    return _context.Products.Where(p => p.CategoryId == id);
+                case "ByGroup":
+                    return _context.Products.Where(p => p.GroupId == id);
+                case "BySubGroup":
+                    return _context.Products.Where(p => p.SubGroupId == id);
+                default:
+                    return null;
+            }
+            
+        }
+
+
+        #endregion
 
 
     }

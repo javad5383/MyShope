@@ -1,12 +1,14 @@
 ﻿@using JShope.Services.Interface
 @model List<Product>
 @{
+
 }
+
 @inject IProductService _productService;
-@TempData["model"]=@Model;
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <main class="search-page default">
-    <form id="productForm22">
+    <form method="get" id="productForm22">
         <div class="container">
             <div class="row">
                 <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
@@ -91,48 +93,28 @@
                                     <span class="ui-input-cleaner"></span>
                                 </div>
                                 <div class="filter-option">
-                                    <div class="checkbox">
-                                        <input id="checkbox8" type="checkbox">
-                                        <label for="checkbox8">
-                                            ریمکس
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox9" type="checkbox">
-                                        <label for="checkbox9">
-                                            باسئوس
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox10" type="checkbox">
-                                        <label for="checkbox10">
-                                            اپل
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox11" type="checkbox">
-                                        <label for="checkbox11">
-                                            نیلکین
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox12" type="checkbox">
-                                        <label for="checkbox12">
-                                            راک
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox13" type="checkbox">
-                                        <label for="checkbox13">
-                                            توتو
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox14" type="checkbox">
-                                        <label for="checkbox14">
-                                            فراری
-                                        </label>
-                                    </div>
+                                   
+                                        @*@foreach (var item in _productService.GetDistinctBrands(Model))
+                                        {
+                                            if (item!=null)
+                                            {
+                                                <div class="checkbox">
+                                                    <input id="checkbox8" type="checkbox">
+                                                    <label for="checkbox8">
+                                                       
+                                                        @_productService.GetBrandNameById((int) item)
+                                                        
+                                                    </label>
+                                                </div>
+                                            }
+                                              
+                                            
+                                           
+                                        }*@
+                                        
+                                    
+                                   
+
                                 </div>
                             </div>
                         </div>
@@ -167,22 +149,26 @@
                             <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
                                 data-label="مرتب‌سازی بر اساس :">
                                 <li>
-                                    <a asp-route-sortMethod="" class="@((ViewBag.sortMethod==null)?"active":"")" >مرتبط‌ترین</a>
+                                    
+                                        <a asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"  class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین</a>
+
+                                    
+                                   
                                 </li>
                                 <li>
-                                    <a  asp-route-sortMethod="Visits"  class="@((ViewBag.sortMethod=="Visits")?"active":"")" >پربازدیدترین</a>
+                                    <a   asp-route-sortMethod="Visits" asp-route-show="@ViewBag.curentShowMethod"  class="@((ViewBag.sortMethod=="Visits")?"active":"")" >پربازدیدترین</a>
                                 </li>
                                 <li>
-                                    <a asp-route-sortMethod="Newest" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
+                                    <a  asp-route-sortMethod="Newest" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
                                 </li>
                                 <li>
                                     <a @*asp-route-sortMethod=""*@ >پرفروش‌ ترین‌</a>
                                 </li>
                                 <li>
-                                    <a asp-route-sortMethod="Cheapest" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")" >ارزان‌ترین</a>
+                                    <a asp-route-sortMethod="Cheapest" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")" >ارزان‌ترین</a>
                                 </li>
                                 <li>
-                                    <a asp-route-sortMethod="Expensive" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
+                                    <a asp-route-sortMethod="Expensive" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
                                 </li>
                             </ul>
                         </div>

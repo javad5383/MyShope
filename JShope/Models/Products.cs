@@ -49,10 +49,16 @@ namespace JShope.Models
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
         public int GroupId { get; set; }
         public int? SubGroupId { get; set; }
-
+        public int? BrandId { get; set; }
         public int Visits { get; set; }
         public DateTime CreateDate { get; set; }
+      
+        
+        
+        
         public List<ProductImage> ProductImages { get; set; }
         public SubGroup SubGroups { get; set; }
+
+        public Brands Brand { get; set; }
     }
 }

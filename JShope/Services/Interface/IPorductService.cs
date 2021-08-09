@@ -63,11 +63,16 @@ namespace JShope.Services.Interface
 
         List<Product> GetProductByCategoryId(int categoryId);
 
-        List<Product> GetProductByGroupId(int groupId); 
+        List<Product> GetProductByGroupId(int groupId);
 
 
         #endregion
 
+        #region Brand
+
+        string GetBrandNameById(int brandId);
+        List<int?> GetDistinctBrands(List<Product> products);
+            #endregion
 
         #region Filter 
 
@@ -78,9 +83,13 @@ namespace JShope.Services.Interface
 
         #endregion
 
-        #region SortProductForProductsMain
 
-        List<Product> SoreProducts(List<Product> products, string sortMethod);
+
+
+        #region ShowProductForProductsMain
+
+        IQueryable<Product> ProductShowMethod(int id,string showMethod);
+        IQueryable<Product> SortProducts(IQueryable<Product> products, string sortMethod);
 
             #endregion
 

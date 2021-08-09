@@ -5,11 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Newtonsoft.Json;
 
 namespace JShope.Controllers
 {
 
-  
+
 
     public class ProductsMain : Controller
     {
@@ -20,57 +22,33 @@ namespace JShope.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
+       
+        public IActionResult Index(int id, string show,string sortMethod)
         {
+            if (show!=null)
+            {
+                var product = _productService.ProductShowMethod(id, show);
+                if (!string.IsNullOrEmpty(sortMethod))
+                {
+                    product = _productService.SortProducts(product, sortMethod);
+                    
+                }
 
+                ViewBag.sortMethod = sortMethod;
+                ViewBag.curentShowMethod = show;
+                return View(product.ToList());
+            }
 
+            
             return View();
         }
+
+
+     
+       
        
 
-        [Route("ShowByCategory/{categoryId}/{value?}")]
-        public IActionResult ShowByCategory(int categoryId,string sortMethod)
-        {
-            
-            var product = _productService.GetProductByCategoryId(categoryId);
-            if (sortMethod != null)
-            {
-                product = _productService.SoreProducts(product, sortMethod);
-            }
-            ViewBag.sortMethod = sortMethod;
-            return View("Index", product);
-        }
 
-        [Route("ShowByGroup/{groupId}")]
-        public IActionResult ShowByGroup(int groupId, string sortMethod)
-        {
-
-            var product = _productService.GetProductByGroupId(groupId);
-            if (sortMethod != null)
-            {
-                product = _productService.SoreProducts(product, sortMethod);
-
-            }
-            ViewBag.sortMethod = sortMethod;
-            return View("Index", product);
-        }
-
-        [Route("ShowBySubGroup/{subGroupId}")]
-        public IActionResult ShowBySubGroup(int subGroupId, string sortMethod)
-        {
-
-            var product = _productService.GetProductBySubGroupId(subGroupId);
-            if (sortMethod != null)
-            {
-                product = _productService.SoreProducts(product, sortMethod);
-               
-            }
-            ViewBag.sortMethod = sortMethod;
-            return View("Index", product);
-        }
-
-      
-       
 
     }
 }

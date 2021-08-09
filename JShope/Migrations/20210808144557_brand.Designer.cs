@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshop.Data;
 
 namespace JShope.Migrations
 {
     [DbContext(typeof(JShopeContext))]
-    partial class JShopeContextModelSnapshot : ModelSnapshot
+    [Migration("20210808144557_brand")]
+    partial class brand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +98,6 @@ namespace JShope.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -133,8 +132,6 @@ namespace JShope.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("BrandId");
 
                     b.HasIndex("SubGroupId");
 
@@ -270,15 +267,9 @@ namespace JShope.Migrations
 
             modelBuilder.Entity("JShope.Models.Product", b =>
                 {
-                    b.HasOne("JShope.Models.Brands", "Brand")
-                        .WithMany("Products")
-                        .HasForeignKey("BrandId");
-
                     b.HasOne("JShope.Models.SubGroup", "SubGroups")
                         .WithMany("Products")
                         .HasForeignKey("SubGroupId");
-
-                    b.Navigation("Brand");
 
                     b.Navigation("SubGroups");
                 });
@@ -303,11 +294,6 @@ namespace JShope.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
-                });
-
-            modelBuilder.Entity("JShope.Models.Brands", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("JShope.Models.Category", b =>

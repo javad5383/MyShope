@@ -22,6 +22,7 @@ namespace MyEshop.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
+        public DbSet<Brands> Brands { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
