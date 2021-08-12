@@ -23,10 +23,22 @@ namespace JShope.Controllers
         }
 
        
-        public IActionResult Index(int id, string show,string sortMethod)
+        public IActionResult Index(int id, string show,string sortMethod,List<int> brands)
         {
             if (show!=null)
             {
+                switch (show)
+                {
+                    case "ByGroup":
+                        ViewData["brand"] = _productService.GetDistinctBrandsByGroupId(id).ToList();
+                        break;
+                    case "BySubGroup":
+                        ViewData["brand"] = _productService.GetDistinctBrandsBySubGroupId(id).ToList();
+                        break;
+                }
+
+               
+
                 var product = _productService.ProductShowMethod(id, show);
                 if (!string.IsNullOrEmpty(sortMethod))
                 {
@@ -34,19 +46,31 @@ namespace JShope.Controllers
                     
                 }
 
+                if (brands.Count!=0)
+                {
+                    product = _productService.GetProductByBrand(product, brands);
+                  
+
+                }
+
+                ViewData["selectedBrands"] = brands;
                 ViewBag.sortMethod = sortMethod;
                 ViewBag.curentShowMethod = show;
-                return View(product.ToList());
+                
+                return View( product.ToList());
             }
 
-            
+          
+
+
             return View();
         }
 
+      
 
-     
-       
-       
+
+
+
 
 
 

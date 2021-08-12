@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using JShope.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using MyEshop.Data;
 
@@ -298,15 +300,29 @@ namespace JShope.Services.Interface
 
         public string GetBrandNameById(int brandId)
         {
+           
             return _context.Brands.FirstOrDefault(b => b.BrandId == brandId)?.BrandName;
         }
 
-        public List<int?> GetDistinctBrands(List<Product> products)
+        public IEnumerable<int?> GetDistinctBrands(List<Product> products)
         {
-           return (products.Select(p => p.BrandId ).Distinct().ToList());
+           return  products.Select(p => p.BrandId ).Distinct();
             
         }
-
+        
+        public IQueryable<Brands> GetDistinctBrandsByGroupId(int groupId)
+        {
+            return _context.Groups.Where(g => g.GroupId == groupId)
+                .SelectMany(g => g.Brands)
+                .Distinct();
+        }
+        public IQueryable<Brands> GetDistinctBrandsBySubGroupId(int subGroupId)
+        {
+            return _context.SubGroups.Where(g => g.SubGroupId == subGroupId)
+                .Select(g => g.Group)
+                .SelectMany(g=>g.Brands)
+                .Distinct();
+        }
 
         #endregion
 
@@ -396,10 +412,14 @@ namespace JShope.Services.Interface
 
         public IQueryable<Product> ProductShowMethod(int id,string showMethod)
         {
+          var pro=  _context.Products.Where(p => p.CategoryId == id);
             switch (showMethod)
             {
+                    
                 case "ByCategory":
                     return _context.Products.Where(p => p.CategoryId == id);
+
+
                 case "ByGroup":
                     return _context.Products.Where(p => p.GroupId == id);
                 case "BySubGroup":
@@ -409,6 +429,18 @@ namespace JShope.Services.Interface
             }
             
         }
+
+        public IQueryable<Product> GetProductByBrand(IQueryable<Product> products,List<int> brandIds)  //***********************
+        {
+
+            IQueryable<Product> pro =products.Where(b=> brandIds.Contains((int) b.BrandId));
+              
+            
+
+            return pro ;
+        }
+
+      
 
 
         #endregion

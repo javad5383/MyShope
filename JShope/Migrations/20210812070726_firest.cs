@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JShope.Migrations
 {
-    public partial class initial : Migration
+    public partial class firest : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Brands",
+                columns: table => new
+                {
+                    BrandId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brands", x => x.BrandId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -69,6 +82,30 @@ namespace JShope.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BrandsGroup",
+                columns: table => new
+                {
+                    BrandsBrandId = table.Column<int>(type: "int", nullable: false),
+                    GroupsGroupId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BrandsGroup", x => new { x.BrandsBrandId, x.GroupsGroupId });
+                    table.ForeignKey(
+                        name: "FK_BrandsGroup_Brands_BrandsBrandId",
+                        column: x => x.BrandsBrandId,
+                        principalTable: "Brands",
+                        principalColumn: "BrandId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BrandsGroup_Groups_GroupsGroupId",
+                        column: x => x.GroupsGroupId,
+                        principalTable: "Groups",
+                        principalColumn: "GroupId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubGroups",
                 columns: table => new
                 {
@@ -102,12 +139,19 @@ namespace JShope.Migrations
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     SubGroupId = table.Column<int>(type: "int", nullable: true),
+                    BrandId = table.Column<int>(type: "int", nullable: true),
                     Visits = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Products_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "BrandId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_SubGroups_SubGroupId",
                         column: x => x.SubGroupId,
@@ -137,6 +181,11 @@ namespace JShope.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BrandsGroup_GroupsGroupId",
+                table: "BrandsGroup",
+                column: "GroupsGroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Groups_CategoryId",
                 table: "Groups",
                 column: "CategoryId");
@@ -145,6 +194,11 @@ namespace JShope.Migrations
                 name: "IX_ProductImages_ProductId",
                 table: "ProductImages",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_BrandId",
+                table: "Products",
+                column: "BrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_SubGroupId",
@@ -160,6 +214,9 @@ namespace JShope.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BrandsGroup");
+
+            migrationBuilder.DropTable(
                 name: "ProductImages");
 
             migrationBuilder.DropTable(
@@ -167,6 +224,9 @@ namespace JShope.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "SubGroups");

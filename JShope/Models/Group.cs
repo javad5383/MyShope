@@ -13,13 +13,13 @@ namespace JShope.Models
 
         public int CategoryId { get; set; }
 
-       
+  
 
         public List<SubGroup> SubGroups { get; set; }
 
         public Category Category { get; set; }
 
-        public List<Brands> Brands { get; set; }
-      
+        public virtual ICollection<Brands> Brands { get; set; }
+
     }
 }

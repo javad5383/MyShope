@@ -1,255 +1,276 @@
 ﻿@using JShope.Services.Interface
+@using System.Collections
 @model List<Product>
 @{
 
+    var selectedBrands =  ViewData["selectedBrands"];
 }
 
 @inject IProductService _productService;
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<main class="search-page default">
-    <form method="get" id="productForm22">
-        <div class="container">
-            <div class="row">
-                <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
-                    <div class="box">
-                        <div class="box-header">جستجو در نتایج:</div>
-                        <div class="box-content">
-                            <div class="ui-input ui-input--quick-search">
-                                <input type="text" class="ui-input-field ui-input-field--cleanable"
-                                       placeholder="نام محصول یا برند مورد نظر را بنویسید…">
-                                <span class="ui-input-cleaner"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="box-header">
-                            <div class="box-toggle" data-toggle="collapse" href="#collapseExample1" role="button"
-                                 aria-expanded="true" aria-controls="collapseExample1">
-                                دسته بندی نتایج
-                                <i class="now-ui-icons arrows-1_minimal-down"></i>
-                            </div>
-                        </div>
-                        <div class="box-content">
-                            <div class="collapse show" id="collapseExample1">
-
-
-                                <div>
-                                    @*<div class="checkbox">
-                                            <input id="checkbox1" type="checkbox">
-                                            <label for="checkbox1">
-                                                ریمکس
-                                            </label>
-                                        </div>*@
-
-                                    <ul>
-                                        <li>
-                                            <span class="caretjav">
-                                                <a href="#" style="color: blue">toDo</a>
-                                            </span>
-                                            <ul style="margin-right: 15px">
-
-                                                <li>
-                                                    <span class="caretjav">
-                                                        <a href="#" style="color: blue">toDo</a>
-                                                    </span>
-                                                    <ul style="margin-right: 45px">
-
-
-                                                        <li>
-                                                            <a href="#" style="color: blue">toDo</a>
-                                                        </li>
-
-
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-
-
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="box-header">
-                            <div class="box-toggle" data-toggle="collapse" href="#collapseExample2" role="button"
-                                 aria-expanded="true" aria-controls="collapseExample2">
-                                برند
-                                <i class="now-ui-icons arrows-1_minimal-down"></i>
-                            </div>
-                        </div>
-                        <div class="box-content">
-                            <div class="collapse show" id="collapseExample2">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <main class="search-page default">
+        <form method="post" id="productForm22">
+            <div class="container">
+                <div class="row">
+                    <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 order-1">
+                        <div class="box">
+                            <div class="box-header">جستجو در نتایج:</div>
+                            <div class="box-content">
                                 <div class="ui-input ui-input--quick-search">
                                     <input type="text" class="ui-input-field ui-input-field--cleanable"
-                                           placeholder="نام برند مورد نظر را بنویسید…">
+                                           placeholder="نام محصول یا برند مورد نظر را بنویسید…">
                                     <span class="ui-input-cleaner"></span>
-                                </div>
-                                <div class="filter-option">
-                                   
-                                        @*@foreach (var item in _productService.GetDistinctBrands(Model))
-                                        {
-                                            if (item!=null)
-                                            {
-                                                <div class="checkbox">
-                                                    <input id="checkbox8" type="checkbox">
-                                                    <label for="checkbox8">
-                                                       
-                                                        @_productService.GetBrandNameById((int) item)
-                                                        
-                                                    </label>
-                                                </div>
-                                            }
-                                              
-                                            
-                                           
-                                        }*@
-                                        
-                                    
-                                   
-
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="box">
-                        <div class="box-content">
-                            <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
-                            <label for="">فقط کالاهای موجود</label>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="box-content">
-                            <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
-                            <label for="">فقط کالاهای آماده ارسال</label>
-                        </div>
-                    </div>
-                </aside>
-                <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-2">
-                    <div class="breadcrumb-section default">
-                        <ul class="breadcrumb-list">
-                            <li>
-                                <a href="#">
-                                    <span>فروشگاه اینترنتی دیجی کالا</span>
-                                </a>
-                            </li>
-                            <li><span>جستجوی موبایل</span></li>
-                        </ul>
-                    </div>
-                    <div class="listing default">
-                        <div class="listing-counter">۶,۱۸۸ کالا</div>
-                        <div class="listing-header default">
-                            <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
-                                data-label="مرتب‌سازی بر اساس :">
-                                <li>
-                                    
-                                        <a asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"  class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین</a>
+                        <div class="box">
+                            <div class="box-header">
+                                <div class="box-toggle" data-toggle="collapse" href="#collapseExample1" role="button"
+                                     aria-expanded="true" aria-controls="collapseExample1">
+                                    دسته بندی نتایج
+                                    <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                </div>
+                            </div>
+                            <div class="box-content">
+                                <div class="collapse show" id="collapseExample1">
 
-                                    
-                                   
-                                </li>
+
+                                    <div>
+                                        @*<div class="checkbox">
+                                                <input id="checkbox1" type="checkbox">
+                                                <label for="checkbox1">
+                                                    ریمکس
+                                                </label>
+                                            </div>*@
+
+                                        <ul>
+                                            <li>
+                                                <span class="caretjav">
+                                                    <a href="#" style="color: blue">toDo</a>
+                                                </span>
+                                                <ul style="margin-right: 15px">
+
+                                                    <li>
+                                                        <span class="caretjav">
+                                                            <a href="#" style="color: blue">toDo</a>
+                                                        </span>
+                                                        <ul style="margin-right: 45px">
+
+
+                                                            <li>
+                                                                <a href="#" style="color: blue">toDo</a>
+                                                            </li>
+
+
+
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-header">
+                                <div class="box-toggle" data-toggle="collapse" href="#collapseExample2" role="button"
+                                     aria-expanded="true" aria-controls="collapseExample2">
+                                    برند
+                                    <i class="now-ui-icons arrows-1_minimal-down"></i>
+                                </div>
+                            </div>
+                            <div class="box-content">
+                                <div class="collapse show" id="collapseExample2">
+                                    <div class="ui-input ui-input--quick-search">
+                                        <input type="text" class="ui-input-field ui-input-field--cleanable"
+                                               placeholder="نام برند مورد نظر را بنویسید…">
+                                        <span class="ui-input-cleaner"></span>
+                                    </div>
+                                    @if ((IEnumerable<Brands>) ViewData["brand"] != null)
+                                    {
+                                        <div class="filter-option">
+
+                                            @foreach (var item in (IEnumerable<Brands>) ViewData["brand"])
+                                            {
+                                                if (item != null)
+                                                {
+                                                    <div class="checkbox">
+                                                        <input   name="brands" onchange="checkPost()" id="@item.BrandId" value="@(item.BrandId)"   type="checkbox"
+                                                       @if (selectedBrands != null)
+                                                       {
+                                                           foreach (var selected in (List<int>)selectedBrands)
+                                                           {
+                                                               @((selected==item.BrandId)?"checked":"")
+                                                           }
+                                                        
+
+                                                       }
+                                                                 >
+                                                        <label for="@item.BrandId">
+
+                                                            @item.BrandName
+
+                                                        </label>
+                                                    </div>
+                                                }
+
+
+
+                                            }
+
+
+
+
+                                        </div>
+                                    }
+                                 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-content">
+                                <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
+                                <label for="">فقط کالاهای موجود</label>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-content">
+                                <input type="checkbox" name="checkbox" class="bootstrap-switch" checked />
+                                <label for="">فقط کالاهای آماده ارسال</label>
+                            </div>
+                        </div>
+                    </aside>
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-9 order-2">
+                        <div class="breadcrumb-section default">
+                            <ul class="breadcrumb-list">
                                 <li>
-                                    <a   asp-route-sortMethod="Visits" asp-route-show="@ViewBag.curentShowMethod"  class="@((ViewBag.sortMethod=="Visits")?"active":"")" >پربازدیدترین</a>
+                                    <a href="#">
+                                        <span>فروشگاه اینترنتی دیجی کالا</span>
+                                    </a>
                                 </li>
-                                <li>
-                                    <a  asp-route-sortMethod="Newest" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
-                                </li>
-                                <li>
-                                    <a @*asp-route-sortMethod=""*@ >پرفروش‌ ترین‌</a>
-                                </li>
-                                <li>
-                                    <a asp-route-sortMethod="Cheapest" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")" >ارزان‌ترین</a>
-                                </li>
-                                <li>
-                                    <a asp-route-sortMethod="Expensive" asp-route-show="@ViewBag.curentShowMethod" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
-                                </li>
+                                <li><span>جستجوی موبایل</span></li>
                             </ul>
                         </div>
-                        <div class="tab-content default text-center">
-                            <div class="tab-pane active" id="related" role="tabpanel" aria-expanded="true">
-                                <div class="container no-padding-right">
-                                    <ul class="row listing-items">
-                                        @foreach (var item in Model)
-                                        {
-                                            <li class="col-xl-3 col-lg-4 col-md-6 col-12 no-padding">
-                                                <div class="product-box">
-                                                    <div class="product-seller-details product-seller-details-item-grid">
-                                                        <span class="product-main-seller">
-                                                            <span class="product-seller-details-label">
-                                                                فروشنده:
-                                                            </span>دیجی کالا
-                                                        </span>
-                                                        <span class="product-seller-details-badge-container"></span>
-                                                    </div>
-                                                    <a class="product-box-img" href="#">
-                                                        <img src="/images/product/@_productService.GetProductImage(item.ProductId).FirstOrDefault()?.Names" alt="">
-                                                    </a>
-                                                    <div class="product-box-content">
-                                                        <div class="product-box-content-row">
-                                                            <div class="product-box-title">
-                                                                <a href="#">
-                                                                    @item.ProductName
-                                                                </a>
-                                                            </div>
+                        <div class="listing default">
+                            <div class="listing-counter">۶,۱۸۸ کالا</div>
+                            <div class="listing-header default">
+                                <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
+                                    data-label="مرتب‌سازی بر اساس :">
+                                    <li>
+
+                                        <a asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"  asp-route-brands="@((List<int>)selectedBrands)" class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین</a>
+
+
+
+                                    </li>
+                                    <li>
+                                        <a asp-route-sortMethod="Visits" asp-route-show="@ViewBag.curentShowMethod"  class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
+                                    </li>
+                                    <li>
+                                        <a asp-route-sortMethod="Newest" asp-route-show="@ViewBag.curentShowMethod" asp-route-brands="@((List<int>)selectedBrands)" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
+                                    </li>
+                                    <li>
+                                        <a @*asp-route-sortMethod=""*@>پرفروش‌ ترین‌</a>
+                                    </li>
+                                    <li>
+                                        <a asp-route-sortMethod="Cheapest" asp-route-show="@ViewBag.curentShowMethod" asp-route-brands="@((List<int>)selectedBrands)" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
+                                    </li>
+                                    <li>
+                                        <a asp-route-sortMethod="Expensive" asp-route-show="@ViewBag.curentShowMethod" asp-route-brands="@((List<int>)selectedBrands)" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content default text-center">
+                                <div class="tab-pane active" id="related" role="tabpanel" aria-expanded="true">
+                                    <div class="container no-padding-right">
+                                        <ul class="row listing-items">
+                                            @foreach (var item in Model)
+                                            {
+                                                <li class="col-xl-3 col-lg-4 col-md-6 col-12 no-padding">
+                                                    <div class="product-box">
+                                                        <div class="product-seller-details product-seller-details-item-grid">
+                                                            <span class="product-main-seller">
+                                                                <span class="product-seller-details-label">
+                                                                    فروشنده:
+                                                                </span>دیجی کالا
+                                                            </span>
+                                                            <span class="product-seller-details-badge-container"></span>
                                                         </div>
-                                                        <div class="product-box-row product-box-row-price">
-                                                            <div class="price">
-                                                                <div class="price-value">
-                                                                    <div class="price-value-wrapper">
-                                                                        @item.Price.ToString("##,###") <span class="price-currency">تومان</span>
+                                                        <a class="product-box-img" href="#">
+                                                            <img src="/images/product/@_productService.GetProductImage(item.ProductId).FirstOrDefault()?.Names" alt="">
+                                                        </a>
+                                                        <div class="product-box-content">
+                                                            <div class="product-box-content-row">
+                                                                <div class="product-box-title">
+                                                                    <a href="#">
+                                                                        @item.ProductName
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-box-row product-box-row-price">
+                                                                <div class="price">
+                                                                    <div class="price-value">
+                                                                        <div class="price-value-wrapper">
+                                                                            @item.Price.ToString("##,###") <span class="price-currency">تومان</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
+                                                </li>
 
 
-                                        }
+                                            }
 
 
-                                    </ul>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
-                        <div class="pager default text-center">
-                            <ul class="pager-items">
-                                <li>
-                                    <a class="pager-item is-active" href="#">۱</a>
-                                </li>
-                                <li>
-                                    <a class="pager-item" href="#">۲</a>
-                                </li>
-                                <li>
-                                    <a class="pager-item" href="#">۳</a>
-                                </li>
-                                <li>
-                                    <a class="pager-item" href="#">۴</a>
-                                </li>
-                                <li>
-                                    <a class="pager-item" href="#">۵</a>
-                                </li>
-                                <line class="pager-items--partition"></line>
-                                <li>
-                                    <a class="pager-next"></a>
-                                </li>
-                            </ul>
+                            </div>
+                            <div class="pager default text-center">
+                                <ul class="pager-items">
+                                    <li>
+                                        <a class="pager-item is-active" href="#">۱</a>
+                                    </li>
+                                    <li>
+                                        <a class="pager-item" href="#">۲</a>
+                                    </li>
+                                    <li>
+                                        <a class="pager-item" href="#">۳</a>
+                                    </li>
+                                    <li>
+                                        <a class="pager-item" href="#">۴</a>
+                                    </li>
+                                    <li>
+                                        <a class="pager-item" href="#">۵</a>
+                                    </li>
+                                    <line class="pager-items--partition"></line>
+                                    <li>
+                                        <a class="pager-next"></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
 
 
-</main>
+    </main>
+    <script>
+        function checkPost() {
+            $("#productForm22").submit();
+        }
+    </script>

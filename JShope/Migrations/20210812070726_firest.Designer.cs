@@ -10,8 +10,8 @@ using MyEshop.Data;
 namespace JShope.Migrations
 {
     [DbContext(typeof(JShopeContext))]
-    [Migration("20210808144557_brand")]
-    partial class brand
+    [Migration("20210812070726_firest")]
+    partial class firest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -98,6 +98,9 @@ namespace JShope.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -132,6 +135,8 @@ namespace JShope.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("BrandId");
 
                     b.HasIndex("SubGroupId");
 
@@ -267,9 +272,15 @@ namespace JShope.Migrations
 
             modelBuilder.Entity("JShope.Models.Product", b =>
                 {
+                    b.HasOne("JShope.Models.Brands", "Brand")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId");
+
                     b.HasOne("JShope.Models.SubGroup", "SubGroups")
                         .WithMany("Products")
                         .HasForeignKey("SubGroupId");
+
+                    b.Navigation("Brand");
 
                     b.Navigation("SubGroups");
                 });
@@ -294,6 +305,11 @@ namespace JShope.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("JShope.Models.Brands", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("JShope.Models.Category", b =>
