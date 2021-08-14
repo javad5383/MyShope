@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 
 namespace JShope.Controllers
@@ -22,11 +23,15 @@ namespace JShope.Controllers
             _productService = productService;
         }
 
+        [BindProperty]
+        public List<Brands> Brands { get; set; }
        
         public IActionResult Index(int id, string show,string sortMethod,List<int> brands)
         {
+           
             if (show!=null)
             {
+               
                 switch (show)
                 {
                     case "ByGroup":
@@ -37,23 +42,29 @@ namespace JShope.Controllers
                         break;
                 }
 
-               
 
+                //ShowMethod:show product by category or group or sub group
                 var product = _productService.ProductShowMethod(id, show);
+               
+                
                 if (!string.IsNullOrEmpty(sortMethod))
                 {
                     product = _productService.SortProducts(product, sortMethod);
                     
                 }
-
+               
+                
                 if (brands.Count!=0)
                 {
+                    var selected = ( TempData["selectedBrands"]);
                     product = _productService.GetProductByBrand(product, brands);
-                  
+                    
 
                 }
+               
 
-                ViewData["selectedBrands"] = brands;
+
+                TempData["selectedBrands"] = brands.ToList();
                 ViewBag.sortMethod = sortMethod;
                 ViewBag.curentShowMethod = show;
                 
