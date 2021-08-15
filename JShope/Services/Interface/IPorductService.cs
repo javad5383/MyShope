@@ -61,6 +61,8 @@ namespace JShope.Services.Interface
         void RemoveImage(int imgId, int productId);
         List<Product> SearchProducts(string filter);
 
+        
+
         List<Product> GetProductByCategoryId(int categoryId);
 
         List<Product> GetProductByGroupId(int groupId);
@@ -98,8 +100,9 @@ namespace JShope.Services.Interface
 
         IQueryable<Product> GetProductByBrand(IQueryable<Product> products,List<int> brandId);
 
+        List<string> GetProductNames(string words);
 
-            #endregion
+        #endregion
 
         #region DropDown Items
         List<SelectListItem> GetCategoryForFilterItems();

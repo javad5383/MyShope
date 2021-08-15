@@ -77,9 +77,13 @@ namespace JShope.Controllers
             return View();
         }
 
-      
 
-
+        
+        public IActionResult SearchBox(string search)
+        {
+            var result = _productService.GetProductNames(search).ToArray();
+            return Json(result);
+        }
 
 
 

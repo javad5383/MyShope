@@ -440,7 +440,13 @@ namespace JShope.Services.Interface
             return pro ;
         }
 
-      
+        public List<string> GetProductNames(string words)
+        {
+            return _context.Products.Where(p => p.ProductName.Contains(words)).Select(s => s.ProductName).ToList();
+
+        }
+
+
 
 
         #endregion

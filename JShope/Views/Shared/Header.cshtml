@@ -3,6 +3,11 @@
 @inject IProductService _productService
 
 <link href="~/assets/css/Navbar.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <nav class="navbar direction-ltr fixed-top header-responsive">
     <div class="container">
@@ -98,7 +103,8 @@
                 <div class="col-lg-6 col-md-5 col-sm-8 col-7">
                     <div class="search-area default">
                         <form action="" class="search">
-                            <input type="text" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                            
+                            <input id="srchbox" type="text" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
                             <button type="submit"><img src="/assets/img/search.png" alt=""></button>
                         </form>
                     </div>
@@ -233,7 +239,24 @@
     </header>
 </div>
 
+<script>
+    $(function () {
+        console.log("hi");
+        $("#srchbox").autocomplete({
+            
+            minLength: 3,
+            source: function (request, response) {
+                var search = $("#srchbox").val();
+                $.getJSON("/productsMain/SearchBox/?search=" + search, function (data) {
+                    response(data);
+                });
 
+            },
+            select: function () {
+                
+            }
 
-
+        });
+    });
+</script>
 
