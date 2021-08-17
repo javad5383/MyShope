@@ -240,23 +240,44 @@
 </div>
 
 <script>
-    $(function () {
-        console.log("hi");
+   
+  
+    $(document).ready(function() {
+        
+      
         $("#srchbox").autocomplete({
-            
-            minLength: 3,
+        
+            minLength: 0,
             source: function (request, response) {
                 var search = $("#srchbox").val();
                 $.getJSON("/productsMain/SearchBox/?search=" + search, function (data) {
+                    
+                    
+                    //var d = data.map(function(item) {
+                    //    return item.label;
+                    //});
+                       
+                    /* console.log(d);*/
                     response(data);
+                 
+
                 });
 
             },
-            select: function () {
-                
+            select: function (a, b) {
+               /* $("#srchbox").val("ijuygf");*/
+                console.log(b.item.data);
+               $.get("/productsmain/?productId="+ b.item.data);
+
             }
 
         });
+
+
+
     });
+       
+       
+       
 </script>
 

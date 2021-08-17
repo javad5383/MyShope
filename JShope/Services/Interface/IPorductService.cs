@@ -100,7 +100,7 @@ namespace JShope.Services.Interface
 
         IQueryable<Product> GetProductByBrand(IQueryable<Product> products,List<int> brandId);
 
-        List<string> GetProductNames(string words);
+        IQueryable<Product> GetProductNames(string words);
 
         #endregion
 

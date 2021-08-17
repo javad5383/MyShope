@@ -23,10 +23,9 @@ namespace JShope.Controllers
             _productService = productService;
         }
 
-        [BindProperty]
-        public List<Brands> Brands { get; set; }
+    
        
-        public IActionResult Index(int id, string show,string sortMethod,List<int> brands)
+        public IActionResult Index(int id, string show,string sortMethod,List<int> brands,int productId)
         {
            
             if (show!=null)
@@ -81,8 +80,10 @@ namespace JShope.Controllers
         
         public IActionResult SearchBox(string search)
         {
-            var result = _productService.GetProductNames(search).ToArray();
-            return Json(result);
+            
+            var result = _productService.GetProductNames(search);
+            
+            return Json(result.Select(s=>new {label=s.ProductName,data=s.ProductId}).ToArray());
         }
 
 
