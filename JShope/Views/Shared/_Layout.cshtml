@@ -4,28 +4,27 @@
 
     <partial name="MetaTag" />
     <partial name="Stylesheet" />
-   
+
 </head>
 
 
 <body class="index-page sidebar-collapse">
-<partial name="Header"/>
+    <partial name="Header" />
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
 <footer class="border-top footer text-muted">
+    <partial name="Footer" />
     <div class="container">
         &copy; 2021 - JShope - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<partial name="Footer" />
+
+   
 
 
 

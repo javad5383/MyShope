@@ -128,6 +128,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\un
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.AssemblyInfoInputs.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.AssemblyInfo.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.CoreCompileInputs.cache
@@ -169,8 +170,8 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\test.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\ProductsMain\Index.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\ProductsMain\SingleProduct.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Footer.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Header.cshtml.g.cs
@@ -195,4 +196,3 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.dll
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.genruntimeconfig.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.GeneratedMSBuildEditorConfig.editorconfig

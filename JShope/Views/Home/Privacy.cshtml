@@ -2,35 +2,3 @@
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<div>
-    <a class="btn btn-info" id="test1111">
-        test
-    </a>
-    <div id="p21">
-        
-    </div>
-</div>
-
-
-    
-
-
-<script>
-    $("#test1111").click(function() {
-        $.getJSON('/Home/Test/'+2010,
-            function (data) {
-                
-               
-                    
-                        $("#p21").append(data.productName + '<br/>' + data.color + '<br/>' + data.price + '<br/>' + data.quantity);
-                    
-                
-
-
-                /* console.log(data);*/
-
-            });
-    });
-</script>

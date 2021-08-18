@@ -23,6 +23,7 @@ if (typeof Object.create !== 'function') {
 }
 
 (function ($, window, document) {
+   
     var EZP = {
         init: function (options, elem) {
             var self = this;
@@ -302,8 +303,8 @@ if (typeof Object.create !== 'function') {
                 };
             }
 
-            //create the div's                                                + ""
-            //self.zoomContainer = $('<div/>').addClass('zoomContainer').css({"position":"relative", "height":self.nzHeight, "width":self.nzWidth});
+            //create the div's                                                
+            self.zoomContainer = $('<div/>').addClass('zoomContainer').css({"position":"relative", "height":self.nzHeight, "width":self.nzWidth});
 
             self.zoomContainer = $('<div class="' + self.options.container + '" ' + 'uuid="' + self.options.zoomId + '"/>');
             self.zoomContainer.css({

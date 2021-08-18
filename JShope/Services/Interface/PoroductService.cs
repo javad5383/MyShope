@@ -440,9 +440,9 @@ namespace JShope.Services.Interface
             return pro ;
         }
 
-       public IQueryable<Product> GetProductNames(string words)
+       public IQueryable<Product> GetProductsByName(string searchWord)
         {
-            return _context.Products.Where(p => p.ProductName.Contains(words));
+            return _context.Products.Where(p => p.ProductName.Contains(searchWord));
 
         }
 

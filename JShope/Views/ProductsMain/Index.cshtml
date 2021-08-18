@@ -12,7 +12,7 @@
 
 @inject IProductService _productService;
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <main class="search-page default">
     <form method="post" id="productForm22">
         <div class="container">
@@ -179,19 +179,19 @@
                                     
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Visits"})"   class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Visits",search=ViewData["search"]})"   class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Newest"})"   class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Newest",search=ViewData["search"]})"   class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
                                 </li>
                                 <li>
                                     <a @*asp-route-sortMethod=""*@>پرفروش‌ ترین‌</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Cheapest"})"  class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Cheapest",search=ViewData["search"]})"  class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Expensive"})"  class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Expensive",search=ViewData["search"]})"  class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
                                 </li>
                             </ul>
                         </div>
