@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+
     
     $("#srchbox").autocomplete({
         minLength: 3,
@@ -17,4 +18,5 @@
         }
 
     });
-});
+   
+

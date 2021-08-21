@@ -21,7 +21,7 @@ namespace JShope.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return null;
         }
 
         #region Login
@@ -133,7 +133,7 @@ namespace JShope.Controllers
 
         }
 
-
+       
       
 
 

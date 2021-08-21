@@ -14,7 +14,7 @@ namespace JShope.Models
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
+       
         public string Name { get; set; }
 
         public bool IsAdmin { get; set; }
@@ -43,7 +43,7 @@ namespace JShope.Models
 
         public long BankCardNumber { get; set; }
 
-
+        public List<Cart> Carts { get; set; }
 
         
 

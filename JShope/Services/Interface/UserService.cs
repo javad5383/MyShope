@@ -13,6 +13,7 @@ using JShope.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using MyEshop.Data;
 
 namespace JShope.Services.Interface
@@ -127,7 +128,7 @@ namespace JShope.Services.Interface
         public void RemoveUser(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
-            if (user!=null)
+            if (user != null)
             {
                 var deleteImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", user.UserAvatar);
 
@@ -138,13 +139,13 @@ namespace JShope.Services.Interface
                 _context.Remove(user);
                 _context.SaveChanges();
             }
-           
+
         }
 
         public void RemoveUserAvatar(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
-            if (user!=null)
+            if (user != null)
             {
                 var deleteImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", user.UserAvatar);
 
@@ -156,6 +157,76 @@ namespace JShope.Services.Interface
                 user.UserAvatar = null;
                 _context.SaveChanges();
             }
+        }
+
+        public void AddToCart(int productId, int userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+            var cart = _context.Carts.FirstOrDefault(c => c.UserId == user.UserId && !c.IsFinish);
+            if (product != null)
+            {
+                if (cart == null)
+                {
+                    Cart crt = new Cart()
+                    {
+                        UserId = user.UserId,
+                        CreateDate = DateTime.Now,
+                        IsFinish = false,
+                        IsSuccess = false
+                    };
+                    _context.Carts.Add(crt);
+                    _context.SaveChanges();
+                    CartDetail cartDetail = new CartDetail()
+                    {
+                        ProductId = product.ProductId,
+                        CartId = crt.CartId,
+                        Price = product.Price,
+                        Quantity = 1
+                    };
+                    _context.CartDetails.Add(cartDetail);
+                    _context.SaveChanges();
+
+                }
+                else
+                {
+                    var cartDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.ProductId == product.ProductId);
+                    if (cartDetail == null)
+                    {
+                        CartDetail crtDetail = new CartDetail()
+                        {
+                            ProductId = product.ProductId,
+                            CartId = cart.CartId,
+                            Price = product.Price,
+                            Quantity = 1
+                        };
+                        _context.CartDetails.Add(crtDetail);
+
+                    }
+                    else
+                    {
+                        cartDetail.Quantity++;
+                        cartDetail.Price = cartDetail.Quantity * product.Price;
+                    }
+                    _context.SaveChanges();
+                }
+            }
+
+
+
+
+
+
+
+        }
+
+        public Cart GetUserCart(int userId)
+        {
+            return _context.Carts
+                .Include(d=>d.CartDetails)
+                .ThenInclude(p=>p.Product)
+                .ThenInclude(i=>i.ProductImages)
+                .FirstOrDefault(c => c.UserId == userId && !c.IsFinish);
         }
     }
 }

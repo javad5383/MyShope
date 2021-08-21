@@ -8,6 +8,7 @@ using JShope.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using MyEshop.Data;
 
 namespace JShope.Services.Interface
@@ -218,7 +219,13 @@ namespace JShope.Services.Interface
 
         public Product GetProductById(int productId)
         {
-            return _context.Products.SingleOrDefault(p => p.ProductId == productId);
+            return _context.Products
+                .Include(i=>i.ProductImages)
+                .Include(b=>b.Brand)
+                .Include(c=>c.SubGroups)
+                .ThenInclude(g=>g.Group)
+                .ThenInclude(c=>c.Category)
+                .SingleOrDefault(p => p.ProductId == productId);
         }
 
         public void RemoveProduct(Product product)
@@ -400,7 +407,7 @@ namespace JShope.Services.Interface
                     Value = s.SubGroupId.ToString()
                 }).ToList();
         }
-
+        
 
 
 

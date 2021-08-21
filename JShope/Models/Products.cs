@@ -60,5 +60,7 @@ namespace JShope.Models
         public SubGroup SubGroups { get; set; }
 
         public Brands Brand { get; set; }
+
+        public List<CartDetail> CartDetails { get; set; }
     }
 }

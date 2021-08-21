@@ -35,6 +35,9 @@ namespace JShope.Services.Interface
        void RemoveUser(int userId);
        void RemoveUserAvatar(int userId);
 
+       void AddToCart(int producId,int userId);
+       Cart GetUserCart(int userId);
+
 
 
    }

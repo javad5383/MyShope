@@ -2,11 +2,11 @@
 @using System.Collections
 @model List<Product>
 @{
-    
+
     TempData.Keep("selectedBrands");
-    var selectedBrands = TempData["selectedBrands"] ;
-   
-   
+    var selectedBrands = TempData["selectedBrands"];
+
+
 
 }
 
@@ -22,7 +22,7 @@
                         <div class="box-header">جستجو در نتایج:</div>
                         <div class="box-content">
                             <div class="ui-input ui-input--quick-search">
-                                <input  type="text" class="ui-input-field ui-input-field--cleanable"
+                                <input type="text" class="ui-input-field ui-input-field--cleanable"
                                        placeholder="نام محصول یا برند مورد نظر را بنویسید…">
                                 <span class="ui-input-cleaner"></span>
                             </div>
@@ -73,12 +73,6 @@
                                             </ul>
                                         </li>
                                     </ul>
-
-
-
-
-
-
                                 </div>
                             </div>
                         </div>
@@ -107,14 +101,8 @@
                                             if (item != null)
                                             {
                                                 <div class="checkbox">
-                                                    <input  name="brands" onchange="checkPost()" id="@item.BrandId" value="@(item.BrandId)" type="checkbox"
-                                                           @if (selectedBrands != null)
-                                                           {
-                                                               foreach (var selected in (List<int>)selectedBrands)
-                                                               {
-                                                                   @((selected == item.BrandId) ? "checked" : "")
-                                                               }
-                                                           }>
+                                                    <input name="brands" onchange="checkPost()" id="@item.BrandId" value="@(item.BrandId)" type="checkbox"
+                                                           @if (selectedBrands != null) { foreach (var selected in (List<int>)selectedBrands) { @((selected == item.BrandId) ? "checked" : "") } }>
                                                     <label for="@item.BrandId">
 
                                                         @item.BrandName
@@ -122,14 +110,7 @@
                                                     </label>
                                                 </div>
                                             }
-
-
-
                                         }
-
-
-
-
                                     </div>
                                 }
 
@@ -166,32 +147,22 @@
                             <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
                                 data-label="مرتب‌سازی بر اساس :">
                                 <li>
-                                    
-                                    <a  id="default1" href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod})" @*asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"*@ as class="@((ViewBag.sortMethod == null) ? "active" : "")">
-
-                                    
-                                        
-                                        
-                                        مرتبط‌ترین
-                                    </a>
-
-
-                                    
+                                    <a id="default1" href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod})" @*asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"*@ as class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Visits",search=ViewData["search"]})"   class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Visits",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Newest",search=ViewData["search"]})"   class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Newest",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
                                 </li>
                                 <li>
                                     <a @*asp-route-sortMethod=""*@>پرفروش‌ ترین‌</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Cheapest",search=ViewData["search"]})"  class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Cheapest",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Expensive",search=ViewData["search"]})"  class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Expensive",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
                                 </li>
                             </ul>
                         </div>
@@ -201,7 +172,9 @@
                                     <ul class="row listing-items">
                                         @foreach (var item in Model)
                                         {
+                                           
                                             <li class="col-xl-3 col-lg-4 col-md-6 col-12 no-padding">
+                                                <a asp-controller="ProductsMain" asp-action="SingleProduct" asp-route-productId="@item.ProductId">
                                                 <div class="product-box">
                                                     <div class="product-seller-details product-seller-details-item-grid">
                                                         <span class="product-main-seller">
@@ -211,15 +184,15 @@
                                                         </span>
                                                         <span class="product-seller-details-badge-container"></span>
                                                     </div>
-                                                    <a class="product-box-img" href="#">
+                                                    <p class="product-box-img" href="#">
                                                         <img src="/images/product/@_productService.GetProductImage(item.ProductId).FirstOrDefault()?.Names" alt="">
-                                                    </a>
+                                                    </p>
                                                     <div class="product-box-content">
                                                         <div class="product-box-content-row">
                                                             <div class="product-box-title">
-                                                                <a href="#">
+                                                                <p >
                                                                     @item.ProductName
-                                                                </a>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="product-box-row product-box-row-price">
@@ -233,12 +206,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                </a>
                                             </li>
+
+                                           
 
 
                                         }
-
-
                                     </ul>
                                 </div>
                             </div>
@@ -281,5 +255,5 @@
         $("#productForm22").submit();
     }
 
-    
+
 </script>

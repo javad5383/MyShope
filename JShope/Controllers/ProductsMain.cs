@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
@@ -67,7 +68,7 @@ namespace JShope.Controllers
                 var selected = ( TempData["selectedBrands"]);
                 _products = _productService.GetProductByBrand(_products, brands);
                     
-
+               
             }
          
             TempData["selectedBrands"] = brands.ToList();
@@ -97,9 +98,10 @@ namespace JShope.Controllers
         }
 
 
-        public IActionResult SingleProduct()
+        public IActionResult SingleProduct(int productId)
         {
-            return View();
+            var product = _productService.GetProductById(productId);
+            return View(product);
         }
 
 

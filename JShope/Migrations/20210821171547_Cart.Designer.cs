@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshop.Data;
 
 namespace JShope.Migrations
 {
     [DbContext(typeof(JShopeContext))]
-    partial class JShopeContextModelSnapshot : ModelSnapshot
+    [Migration("20210821171547_Cart")]
+    partial class Cart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,14 +59,14 @@ namespace JShope.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsFinish")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -74,34 +76,6 @@ namespace JShope.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("JShope.Models.CartDetail", b =>
-                {
-                    b.Property<int>("DetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("DetailId");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("JShope.Models.Category", b =>
@@ -153,6 +127,9 @@ namespace JShope.Migrations
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -189,6 +166,8 @@ namespace JShope.Migrations
                     b.HasKey("ProductId");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("SubGroupId");
 
@@ -265,6 +244,7 @@ namespace JShope.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NationalCode")
@@ -321,25 +301,6 @@ namespace JShope.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("JShope.Models.CartDetail", b =>
-                {
-                    b.HasOne("JShope.Models.Cart", "Cart")
-                        .WithMany("CartDetails")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JShope.Models.Product", "Product")
-                        .WithMany("CartDetails")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("JShope.Models.Group", b =>
                 {
                     b.HasOne("JShope.Models.Category", "Category")
@@ -357,11 +318,17 @@ namespace JShope.Migrations
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
+                    b.HasOne("JShope.Models.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
+
                     b.HasOne("JShope.Models.SubGroup", "SubGroups")
                         .WithMany("Products")
                         .HasForeignKey("SubGroupId");
 
                     b.Navigation("Brand");
+
+                    b.Navigation("Cart");
 
                     b.Navigation("SubGroups");
                 });
@@ -395,7 +362,7 @@ namespace JShope.Migrations
 
             modelBuilder.Entity("JShope.Models.Cart", b =>
                 {
-                    b.Navigation("CartDetails");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("JShope.Models.Category", b =>
@@ -410,8 +377,6 @@ namespace JShope.Migrations
 
             modelBuilder.Entity("JShope.Models.Product", b =>
                 {
-                    b.Navigation("CartDetails");
-
                     b.Navigation("ProductImages");
                 });
 
