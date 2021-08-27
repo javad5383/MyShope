@@ -26,7 +26,7 @@ namespace JShope.Pages.Admin.Product.Categories
 
         public IActionResult OnPost(int id)
         {
-            if (id!=null)
+            if (id!=0)
             {
                 var group = _productService.GetGroupsByCategoryId(id);
 

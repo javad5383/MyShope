@@ -56,7 +56,7 @@ perfect for store products and galleries
     let settings = $.extend({
       zoom: 150
     }, options); // Main html template for the zoom in plugin
-    console.log($("#imageZoom").attr("src"));
+   /* console.log($("#imageZoom").attr("src"));*/
     imageObj.template = `
 			<figure class="containerZoom" style="background-image:url('${$(this).attr("src")}'); background-size: ${settings.zoom}%;">
 				<img id="imageZoom" src="${$(this).attr("src")}" alt="${$(this).attr("alt")}" />
@@ -106,7 +106,7 @@ perfect for store products and galleries
     }
 
     let newElm;
-    console.log(this[0].nodeName);
+   /* console.log(this[0].nodeName);*/
 
     if (this[0].nodeName === "IMG") {
       newElm = $(this).replaceWith(String(imageObj.template));

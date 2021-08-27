@@ -23,8 +23,10 @@
                     <button type="submit"><img src="/assets/img/search.png" alt=""></button>
                 </form>
                 <ul>
-
-                    <li><a href="/"><i class="now-ui-icons users_single-02"></i></a></li>
+                    
+                        <li><a href="/"><i class="now-ui-icons users_single-02"></i></a></li>
+                    
+                   
                     <li><a href="#"><i class="now-ui-icons shopping_basket"></i></a></li>
                 </ul>
             </div>
@@ -127,58 +129,21 @@
                             </ul>
 
                         }
-                        else
-                        {
-                            <a href="/userprofile/profile">
-
-                                <img style="width: 30px; margin-top: 10px;margin-right: 90%" src="/assets/img/svg/user-svgrepo-com.svg" />
-                            </a>
-
-                        }
 
                     </div>
-                    <div class="cart dropdown">
-                        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink1">
-                            <i class="now-ui-icons shopping_cart-simple"></i>
-                            سبد خرید
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                            <div class="basket-header">
-                                <div class="basket-total">
-                                    <span>مبلغ کل خرید:</span>
-                                    <span> ۲۳,۵۰۰</span>
-                                    <span> تومان</span>
-                                </div>
-                                <a href="#" class="basket-link">
-                                    <span>مشاهده سبد خرید</span>
-                                    <div class="basket-arrow"></div>
+                    <div style="display: flex">
+                        <div style="margin-right: 77%" class="row">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a data-toggle="tooltip" data-placement="top" title="نمایش پروفایل" class="show-onhover" href="/userprofile/profile">
+                                    <img style="width: 30px" src="/assets/img/svg/user(1).png" />
                                 </a>
-                            </div>
-                            <ul class="basket-list">
-                                <li>
-                                    <a href="#" class="basket-item">
-                                        <button class="basket-item-remove"></button>
-                                        <div class="basket-item-content">
-                                            <div class="basket-item-image">
-                                                <img alt="" src="/assets/img/cart/2324935.jpg">
-                                            </div>
-                                            <div class="basket-item-details">
-                                                <div class="basket-item-title">
-                                                    هندزفری بلوتوث مدل S530
-                                                </div>
-                                                <div class="basket-item-params">
-                                                    <div class="basket-item-props">
-                                                        <span> ۱ عدد</span>
-                                                        <span>رنگ مشکی</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                            <a href="#" class="basket-submit">ورود و ثبت سفارش</a>
-                        </ul>
+                            }
+                            <a data-toggle="tooltip" data-placement="top" title="سبد خرید" href="/cart">
+                                <img style="width: 30px;margin-right: 10%" src="/assets/img/svg/shopping-cart.png" />
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

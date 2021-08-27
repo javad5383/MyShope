@@ -34,9 +34,12 @@ namespace JShope.Services.Interface
 
        void RemoveUser(int userId);
        void RemoveUserAvatar(int userId);
-
-       void AddToCart(int producId,int userId);
+        //cart
+       void AddToCart(int productId,int userId);
+       void DeleteFromCart(int cartId,int cartDetailId,int userId);
        Cart GetUserCart(int userId);
+
+      List<CartDetail> GetCartDetailForGhostUser(List<int> productId);
 
 
 

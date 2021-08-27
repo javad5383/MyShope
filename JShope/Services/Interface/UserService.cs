@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Numerics;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using JShope.JShopeSecurity;
+﻿using JShope.JShopeSecurity;
 using JShope.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using MyEshop.Data;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace JShope.Services.Interface
 {
@@ -184,6 +175,8 @@ namespace JShope.Services.Interface
                         Price = product.Price,
                         Quantity = 1
                     };
+                    crt.TotalPrice = cartDetail.Price;
+                    crt.Count = cartDetail.Quantity;
                     _context.CartDetails.Add(cartDetail);
                     _context.SaveChanges();
 
@@ -207,7 +200,14 @@ namespace JShope.Services.Interface
                     {
                         cartDetail.Quantity++;
                         cartDetail.Price = cartDetail.Quantity * product.Price;
+
                     }
+                    _context.SaveChanges();
+                    //calculate total price and count
+                    var cartDetailTotalPrice = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Price).Sum();
+                    var cartDetailTotalCount = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Quantity).Sum();
+                    cart.TotalPrice = cartDetailTotalPrice;
+                    cart.Count = cartDetailTotalCount;
                     _context.SaveChanges();
                 }
             }
@@ -223,10 +223,74 @@ namespace JShope.Services.Interface
         public Cart GetUserCart(int userId)
         {
             return _context.Carts
-                .Include(d=>d.CartDetails)
-                .ThenInclude(p=>p.Product)
-                .ThenInclude(i=>i.ProductImages)
+                .Include(d => d.CartDetails)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(i => i.ProductImages)
                 .FirstOrDefault(c => c.UserId == userId && !c.IsFinish);
         }
+
+        public List<CartDetail> GetCartDetailForGhostUser(List<int> productId)
+        {
+            var product = new List<Product>();
+            var cartDetail = new List<CartDetail>();
+
+            foreach (var item in productId)
+            {
+                var p = _context.Products.Include(p=>p.ProductImages).FirstOrDefault(a => a.ProductId == item);
+                product.Add(p);
+
+            }
+
+            foreach (var item in product)
+            {
+                //var a = product.Count(d => d.ProductId == item.ProductId);
+                var crtDetail = cartDetail.FirstOrDefault(p => p.ProductId == item.ProductId);
+                if (crtDetail==null)
+                {
+                    var c = new CartDetail()
+                    {
+                        ProductId = item.ProductId,
+                        Price = item.Price,
+                        Quantity = 1,
+                        Product = item,
+                        
+
+                    };
+
+                    cartDetail.Add(c);
+                }
+                else
+                {
+                    crtDetail.Quantity += 1;
+                    crtDetail.Price = item.Price* crtDetail.Quantity;
+                }
+
+                
+            }
+
+            return  cartDetail;
+
+        }
+
+    public void DeleteFromCart(int cartId, int cartDetailId, int userId)
+    {
+        var cart = _context.Carts.FirstOrDefault(c => c.UserId == userId && c.CartId == cartId);
+        var crtDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.DetailId == cartDetailId);
+
+
+        if (crtDetail != null)
+        {
+            _context.CartDetails.Remove(crtDetail);
+            _context.SaveChanges();
+            //calculate total price and count
+            var cartDetailTotalPrice = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Price).Sum();
+            var cartDetailTotalCount = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Quantity).Sum();
+            cart.TotalPrice = cartDetailTotalPrice;
+            cart.Count = cartDetailTotalCount;
+            _context.SaveChanges();
+
+        }
+
     }
+}
 }

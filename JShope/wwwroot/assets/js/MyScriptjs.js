@@ -1,6 +1,4 @@
 ﻿
-
-    
     $("#srchbox").autocomplete({
         minLength: 3,
         source: function (request, response) {
@@ -18,5 +16,11 @@
         }
 
     });
+$("#imageZoom").imageZoom({ zoom: 200 });
+function changeImg(src) {
+    $("#imageZoom").attr('src', src);
+    $("#imageZoom").imageZoom({ zoom: 200 });
+
+}
    
 

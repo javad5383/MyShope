@@ -168,6 +168,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Layout.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Cart\Index.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\ProductsMain\Index.cshtml.g.cs
@@ -196,4 +197,3 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.dll
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.genruntimeconfig.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Cart.cshtml.g.cs

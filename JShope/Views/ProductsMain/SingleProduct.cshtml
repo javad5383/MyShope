@@ -179,7 +179,8 @@
                             </div>
                             <div class="product-add default">
                                 <div class="parent-btn">
-                                    <a asp-controller="Home" asp-action="AddToCart" asp-route-productId="@Model.ProductId" class="dk-btn dk-btn-info">
+                                    
+                                    <a id="AddTocrt" proId="@Model.ProductId" pName="@Model.ProductName" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId" class="dk-btn dk-btn-info">
                                         افزودن به سبد خرید
                                         <i class="now-ui-icons shopping_cart-simple"></i>
                                     </a>
@@ -237,7 +238,7 @@
                                     </a>
                                 </li>
                                 <li class="box-tabs-tab">
-                                    <a data-toggle="tab" href="#params" role="tab" aria-expanded="false">
+                                    <a id="localstorage" data-toggle="tab" href="#params" role="tab" aria-expanded="false"> 
                                         <i class="now-ui-icons shopping_cart-simple"></i> مشخصات
                                     </a>
                                 </li>
@@ -790,18 +791,45 @@
 </main>
 
 <script src="~/js/image-zoom.js"></script>
-<script>
+@*<script>
    
-   
-    $("#imageZoom").imageZoom({ zoom: 200 });
-    function changeImg(src) {
-        $("#imageZoom").attr('src', src);
-        $("#imageZoom").imageZoom({ zoom: 200 });
+    $(document).ready(function () {
+        var db = openDatabase('JShopDB', '1.0', 'Shop', 2 * 1024 * 1024); 
+ 
+        var pro = [];
+        $("#AddTocrt").click(function () {
 
-    }
+           var  pId = $(this).attr("proId");
+           var pName = $(this).attr("pName");
+          
+            db.transaction(function (tx) { 
+                tx.executeSql('CREATE TABLE IF NOT EXISTS Products (ProductId unique, ProductName)');
+                tx.executeSql('INSERT INTO Products (ProductId, ProductName) VALUES (?, ?)', [pId, pName]);
+            
+            }); 
+            db.transaction(function (tx) { 
+                tx.executeSql('SELECT * FROM LOGS', [], function (tx, results) {
+                    var res = $.map(results.rows, function (data) {
+                        return data.id ;
+                    });
+                    for (var i = 0; i < res.length; i++) {
+                        console.log(res[i]);
+                    }
+                    
+                    
+                }, null); 
+            });
+            
+        
+            
+        });
+            
+            
+    });
+  
 
 
-</script>
+</script>*@
 
 
 
