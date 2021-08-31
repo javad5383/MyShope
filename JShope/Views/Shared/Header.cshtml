@@ -1,4 +1,5 @@
 ﻿@using JShope.Services.Interface
+
 <!-- responsive-header -->
 @inject IProductService _productService
 
@@ -64,15 +65,8 @@
 
                                     </ul>
 
-
-
-
-
                                 </li>
-
                             }
-
-
                         </ul>
                     </li>
                 }
@@ -141,7 +135,9 @@
                             }
                             <a data-toggle="tooltip" data-placement="top" title="سبد خرید" href="/cart">
                                 <img style="width: 30px;margin-right: 10%" src="/assets/img/svg/shopping-cart.png" />
+
                             </a>
+                            <span id="cartBadge" style="background-color: #a1150b; color: white; font-size: 12pt " class="badge badge-bold">5</span>
                         </div>
 
                     </div>

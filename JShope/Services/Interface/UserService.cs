@@ -236,7 +236,9 @@ namespace JShope.Services.Interface
 
             foreach (var item in productId)
             {
-                var p = _context.Products.Include(p=>p.ProductImages).FirstOrDefault(a => a.ProductId == item);
+                var p = _context.Products
+                    .Include(p=>p.ProductImages)
+                    .FirstOrDefault(a => a.ProductId == item);
                 product.Add(p);
 
             }
