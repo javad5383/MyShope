@@ -54,7 +54,7 @@ namespace JShope
 
             }).AddCookie(options =>
             {
-                options.LoginPath = "/Login";
+                options.LoginPath = "/user/Login";
                 options.LogoutPath = "/Logout";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
 

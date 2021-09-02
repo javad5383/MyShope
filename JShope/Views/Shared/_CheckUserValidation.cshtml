@@ -1,0 +1,52 @@
+﻿@model Tuple<bool, bool>
+<link href="~/css/master_style_rtl.css" rel="stylesheet" />
+<link href="~/css/master_style.css" rel="stylesheet" />
+<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+<body class="skin-info-light fixed sidebar-mini rtl sidebar-mini-expand-feature" style="overflow: auto; height: auto; min-height: 100%;">
+    <!-- Site wrapper -->
+    <div class="wrapper" style="height: auto; min-height: 100%; width: auto;">
+        <!-- Content Wrapper. Contains page content -->
+        <div style="min-height: 90%; margin: 5%; ">
+            <section class="content">
+
+                @if (!Model.Item1)
+                {
+                    <div style="margin-top: 5%" class="box border border-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">عدم تکمیل پروفایل!</h3>
+                        </div>
+                        <div class="box-body">
+                            <h5>.مشخصات کاربری شما کامل نشده لطفا پس از تکمیل پروفایل، خرید خود را نهایی کنید</h5>
+                            <div style="margin-top: 4%" class="gap-items gap-y">
+                                <a href="/userProfile/EditProfile" class="btn btn-success ml-1">ویرایش پروفایل</a>
+                                <a href="/" class="btn btn-primary ml-1">صفحه اصلی</a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+
+                @if (!Model.Item2)
+                {
+                    <div style="margin-top: 5%" class="box border border-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">فعال سازی حساب کاربری</h3>
+                        </div>
+                        <div class="box-body">
+                            <h5>حساب کاربری شما فعال نشده برای ادامه لازم است آن را فعال کنید</h5>
+                            <div style="margin-top: 4%" class="gap-items gap-y">
+                                <a class="btn btn-success ml-1">ارسال ایمیل فعال سازی</a>  @*ToDo*@
+                                <a href="/" class="btn btn-primary ml-1">صفحه اصلی</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+               
+
+            </section>
+        </div>
+    </div>
+</body>

@@ -23,6 +23,7 @@ namespace JShope.Services.Interface
        List<Users> GetUsers();
        List<Users> GetUsersForPaging(int take=8,int pageNumber=1);
 
+        void UpdateUser(EditProfileViewModel user,int userId);
         void UpdateUser(Users user);
 
         EditProfileViewModel GetUserViewModel(int userId);
@@ -36,11 +37,13 @@ namespace JShope.Services.Interface
        void RemoveUserAvatar(int userId);
         //cart
        void AddToCart(int productId,int userId);
+      
        void DeleteFromCart(int cartId,int cartDetailId,int userId);
        Cart GetUserCart(int userId);
 
       List<CartDetail> GetCartDetailForGhostUser(List<int> productId);
 
+      Tuple<bool, bool> CheckUserValidation(int userId);
 
 
    }

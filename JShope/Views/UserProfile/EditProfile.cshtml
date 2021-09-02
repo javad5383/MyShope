@@ -1,23 +1,4 @@
 ﻿@model EditProfileViewModel
-@{
-}
-<!DOCTYPE html>
-<html lang="fa">
-
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <title>Digikala</title>
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" href="assets/fonts/font-awesome/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-  <partial name="Stylesheet"/>
-</head>
-
-<body class="index-page sidebar-collapse">
 
     <!-- responsive-header -->
     <nav class="navbar direction-ltr fixed-top header-responsive">
@@ -77,7 +58,7 @@
                                         </div>
                                     </div>
                                     <form asp-action="EditProfile" asp-controller="UserProfile" method="post" class="form-account">
-                                        <input asp-for="UserId"  type="hidden"/>
+                                        <input asp-for="UserId" type="hidden" />
                                         <div class="row">
                                             <div class="col-sm-12 col-md-6">
                                                 <div class="form-account-title">نام</div>
@@ -101,7 +82,7 @@
                                             <div class="col-sm-12 col-md-6">
                                                 <div class="form-account-title">شماره موبایل</div>
                                                 <div class="form-account-row">
-                                                    <input asp-for="PhoneNumber"class="input-field" type="number" placeholder="شماره موبایل خود را وارد نمایید">
+                                                    <input asp-for="PhoneNumber" class="input-field" type="number" placeholder="شماره موبایل خود را وارد نمایید">
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 col-md-6">
@@ -114,18 +95,29 @@
                                                 <div class="form-account-title">آدرس ایمیل</div>
                                                 <div class="form-account-row">
                                                     <input asp-for="Email" class="input-field" type="email" placeholder=" آدرس ایمیل خود را وارد نمایید">
+
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-12 text-center">
-                                            <button type="submit"class="btn btn-success btn-lg">ذخیره</button>
                                            
                                         </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="form-account-title">آدرس </div>
+                                            <div class="form-account-row">
+                                                <input asp-for="UserHomeAddress" class="input-field"   placeholder=" آدرس ایمیل خود را وارد نمایید">
+
+                                            </div>
+                                        </div>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div style="display: flex" class="col-12 text-center">
+                                            <div class="row">
+                                                <button type="submit" class="btn btn-success btn-lg">ذخیره</button>
+                                                <a class="btn btn-danger btn-lg" href="/"> انصراف</a>
+                                            </div>
+
+
+                                        </div>
                                     </form>
-                                    <a href="/">
-                                        <button class="btn btn-danger btn-lg">انصراف</button>
-                                    </a>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -266,6 +258,4 @@
         <!-- footer -->
 
     </div>
-</body>
-<partial name="Script"/>
-</html>
+

@@ -791,45 +791,7 @@
 </main>
 
 <script src="~/js/image-zoom.js"></script>
-@*<script>
-   
-    $(document).ready(function () {
-        var db = openDatabase('JShopDB', '1.0', 'Shop', 2 * 1024 * 1024); 
- 
-        var pro = [];
-        $("#AddTocrt").click(function () {
 
-           var  pId = $(this).attr("proId");
-           var pName = $(this).attr("pName");
-          
-            db.transaction(function (tx) { 
-                tx.executeSql('CREATE TABLE IF NOT EXISTS Products (ProductId unique, ProductName)');
-                tx.executeSql('INSERT INTO Products (ProductId, ProductName) VALUES (?, ?)', [pId, pName]);
-            
-            }); 
-            db.transaction(function (tx) { 
-                tx.executeSql('SELECT * FROM LOGS', [], function (tx, results) {
-                    var res = $.map(results.rows, function (data) {
-                        return data.id ;
-                    });
-                    for (var i = 0; i < res.length; i++) {
-                        console.log(res[i]);
-                    }
-                    
-                    
-                }, null); 
-            });
-            
-        
-            
-        });
-            
-            
-    });
-  
-
-
-</script>*@
 
 
 

@@ -9,6 +9,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\JShope.Views.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\JShope.Views.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\Humanizer.dll
+C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\LocalStorage.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
@@ -169,6 +170,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Cart\Index.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Cart\Shopping.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\ProductsMain\Index.cshtml.g.cs
@@ -179,6 +181,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\MetaTag.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Script.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Stylesheet.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_CheckUserValidation.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ProfileSideBar.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -196,5 +199,5 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.cspr
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.dll
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.genruntimeconfig.cache
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Cart\ShoppingPayment.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
-C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\LocalStorage.dll

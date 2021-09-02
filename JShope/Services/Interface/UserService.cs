@@ -76,10 +76,24 @@ namespace JShope.Services.Interface
             return userTake;
         }
 
+        public void UpdateUser(EditProfileViewModel user,int userId)
+        {
+            var usr = GetUserByUserId(userId);
+            usr.Email = user.Email;
+            usr.BankCardNumber = user.BankCardNumber;
+            usr.Family = user.Family;
+            usr.Name = user.Name;
+            usr.NationalCode = user.NationalCode;
+            usr.PhoneNumber = user.PhoneNumber;
+            usr.UserHomeAddress = user.UserHomeAddress;
+            usr.IsComplete = true;
+
+            _context.SaveChanges();
+        }
         public void UpdateUser(Users user)
         {
+         
 
-            //_context.Update(user);
             _context.SaveChanges();
         }
 
@@ -220,9 +234,12 @@ namespace JShope.Services.Interface
 
         }
 
+      
+
         public Cart GetUserCart(int userId)
         {
             return _context.Carts
+                .Include(u=>u.User)
                 .Include(d => d.CartDetails)
                 .ThenInclude(p => p.Product)
                 .ThenInclude(i => i.ProductImages)
@@ -274,7 +291,14 @@ namespace JShope.Services.Interface
 
         }
 
-    public void DeleteFromCart(int cartId, int cartDetailId, int userId)
+        public Tuple<bool, bool> CheckUserValidation(int userId)
+        {
+            var isComplete = _context.Users.FirstOrDefault(u => u.UserId == userId).IsComplete;
+            var isActive = _context.Users.FirstOrDefault(u => u.UserId == userId).IsActive;
+            return new Tuple<bool, bool>(isComplete, isActive);
+        }
+
+        public void DeleteFromCart(int cartId, int cartDetailId, int userId)
     {
         var cart = _context.Carts.FirstOrDefault(c => c.UserId == userId && c.CartId == cartId);
         var crtDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.DetailId == cartDetailId);

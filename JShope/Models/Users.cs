@@ -26,6 +26,7 @@ namespace JShope.Models
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
         public string Email { get; set; }
 
+        public bool IsComplete { get; set; }
 
         [Required(ErrorMessage = "لطفا{0} را وارد کنید ")]
         public string Password { get; set; }

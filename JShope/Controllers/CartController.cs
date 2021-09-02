@@ -7,10 +7,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Hanssens.Net;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace JShope.Controllers
 {
+   
     public class CartController : Controller
     {
         private IUserService _userService;
@@ -19,12 +21,14 @@ namespace JShope.Controllers
         {
             _userService = userService;
         }
+         
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 var cart = _userService.GetUserCart(userId);
+                //Response.Cookies.Append("CartLength", cart.CartDetails.Select(q=>q.Quantity).Sum().ToString());ToDo
                 return View(cart);
             }
 
@@ -38,6 +42,7 @@ namespace JShope.Controllers
             }
             return View();
         }
+     
         public IActionResult AddToCart(int productId)
         {
             if (User.Identity.IsAuthenticated)
@@ -50,28 +55,28 @@ namespace JShope.Controllers
                 }
 
             }
-            //Add to cart for not logged in user's
-            CookieOptions option = new CookieOptions { Expires = DateTime.Now.AddDays(5), Secure = true };
-            var cartCookie = Request.Cookies["Cart"];
-            if (cartCookie != null)
-            {
-                var newCookie = cartCookie + "," + productId;
-                Response.Cookies.Append("Cart", newCookie, option);
-
-            }
             else
             {
-                Response.Cookies.Append("Cart", productId.ToString(), option);
+                //Add to cart for not logged in user's
+                CookieOptions option = new CookieOptions { Expires = DateTime.Now.AddDays(5), Secure = true };
+                var cartCookie = Request.Cookies["Cart"];
+                if (cartCookie != null)
+                {
+                    var newCookie = cartCookie + "," + productId;
+                    Response.Cookies.Append("Cart", newCookie, option);
+                }
+                else
+                {
+                    Response.Cookies.Append("Cart", productId.ToString(), option);
+                }
             }
+
             return RedirectToAction("Index");
-
-
-
-
         }
-
+      
         public IActionResult Delete(int cartId, int cartDetailId, int productId)
         {
+            //DeleteFrom Cart For  Logged In Users
             if (User.Identity.IsAuthenticated)
             {
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -84,33 +89,56 @@ namespace JShope.Controllers
             {
                 CookieOptions option = new CookieOptions { Expires = DateTime.Now.AddDays(5), Secure = true };
                 var cartCookie = Request.Cookies["Cart"];
-                if (cartCookie!=null&&productId!=0)
+                if (cartCookie != null && productId != 0)
                 {
                     var cartItemIds = cartCookie.Split(",").ToList();
-                    
+
                     if (cartItemIds.Count <= 1)
                     {
                         Response.Cookies.Delete("Cart");
                     }
                     else
                     {
+                        //DeleteFrom Cart For Not Logged In Users
                         cartItemIds.RemoveAll(i => i == productId.ToString());
-                        if (cartItemIds.Count==0)
+                        if (cartItemIds.Count == 0)
                         {
                             Response.Cookies.Delete("Cart");
                         }
-                       
+
                         var newList = string.Join(",", cartItemIds);
-                        Response.Cookies.Append("Cart", newList,option);
+                        Response.Cookies.Append("Cart", newList, option);
                     }
-                   
+
                 }
-              
-               
+
+
 
             }
 
             return RedirectToAction("Index");
+        }
+        [Authorize]
+        public IActionResult Shopping()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var cart = _userService.GetUserCart(userId);
+
+            return View(cart);
+        }
+        [Authorize]
+        public IActionResult ShoppingPayment()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var validation = _userService.CheckUserValidation(userId);
+            
+            if (!validation.Item1 || !validation.Item2)//if both Item1 & Item2 Is true, GoTo Payment (Item1:User profile is Complete or not? && Item2:is User active? )
+            {
+                 return PartialView("_CheckUserValidation", validation);
+            }
+
+            var cart = _userService.GetUserCart(userId);
+            return View(cart);
         }
     }
 }

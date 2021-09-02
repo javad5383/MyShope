@@ -27,10 +27,6 @@ namespace JShope.Controllers
             return View(user);
         }
 
-
-
-
-
         public IActionResult EditProfile()
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -43,20 +39,17 @@ namespace JShope.Controllers
         [HttpPost]
         public IActionResult EditProfile(EditProfileViewModel users)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("","لطفا مشخصات را کامل کنید");
+                return View();
+            }
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = _userService.GetUserByUserId(userId);
 
+            _userService.UpdateUser(users, userId);
 
-            user.Email = users.Email;
-            user.BankCardNumber = users.BankCardNumber;
-            user.Family = users.Family;
-            user.Name = users.Name;
-            user.NationalCode = users.NationalCode;
-            user.PhoneNumber = users.PhoneNumber;
-
-
-            _userService.SaveChanges();
-            return View();
+            
+            return RedirectToAction("Profile");
         }
     }
 }
