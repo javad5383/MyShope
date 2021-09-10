@@ -76,7 +76,7 @@ namespace JShope.Services.Interface
             return userTake;
         }
 
-        public void UpdateUser(EditProfileViewModel user,int userId)
+        public void UpdateUser(EditProfileViewModel user, int userId)
         {
             var usr = GetUserByUserId(userId);
             usr.Email = user.Email;
@@ -92,7 +92,7 @@ namespace JShope.Services.Interface
         }
         public void UpdateUser(Users user)
         {
-         
+
 
             _context.SaveChanges();
         }
@@ -178,7 +178,8 @@ namespace JShope.Services.Interface
                         UserId = user.UserId,
                         CreateDate = DateTime.Now,
                         IsFinish = false,
-                        IsSuccess = false
+                        IsSuccess = false,
+                        DeliveryAddress = user.UserHomeAddress
                     };
                     _context.Carts.Add(crt);
                     _context.SaveChanges();
@@ -234,19 +235,19 @@ namespace JShope.Services.Interface
 
         }
 
-      
+
 
         public Cart GetUserCart(int userId)
         {
             return _context.Carts
-                .Include(u=>u.User)
+                .Include(u => u.User)
                 .Include(d => d.CartDetails)
                 .ThenInclude(p => p.Product)
                 .ThenInclude(i => i.ProductImages)
                 .FirstOrDefault(c => c.UserId == userId && !c.IsFinish);
         }
 
-        public List<CartDetail> GetCartDetailForGhostUser(List<int> productId)
+        public List<CartDetail> GetCartDetailForGhostUser(List<int> productId)//not logged in users
         {
             var product = new List<Product>();
             var cartDetail = new List<CartDetail>();
@@ -254,7 +255,7 @@ namespace JShope.Services.Interface
             foreach (var item in productId)
             {
                 var p = _context.Products
-                    .Include(p=>p.ProductImages)
+                    .Include(p => p.ProductImages)
                     .FirstOrDefault(a => a.ProductId == item);
                 product.Add(p);
 
@@ -264,7 +265,7 @@ namespace JShope.Services.Interface
             {
                 //var a = product.Count(d => d.ProductId == item.ProductId);
                 var crtDetail = cartDetail.FirstOrDefault(p => p.ProductId == item.ProductId);
-                if (crtDetail==null)
+                if (crtDetail == null)
                 {
                     var c = new CartDetail()
                     {
@@ -272,7 +273,7 @@ namespace JShope.Services.Interface
                         Price = item.Price,
                         Quantity = 1,
                         Product = item,
-                        
+
 
                     };
 
@@ -281,13 +282,13 @@ namespace JShope.Services.Interface
                 else
                 {
                     crtDetail.Quantity += 1;
-                    crtDetail.Price = item.Price* crtDetail.Quantity;
+                    crtDetail.Price = item.Price * crtDetail.Quantity;
                 }
 
-                
+
             }
 
-            return  cartDetail;
+            return cartDetail;
 
         }
 
@@ -298,25 +299,81 @@ namespace JShope.Services.Interface
             return new Tuple<bool, bool>(isComplete, isActive);
         }
 
-        public void DeleteFromCart(int cartId, int cartDetailId, int userId)
-    {
-        var cart = _context.Carts.FirstOrDefault(c => c.UserId == userId && c.CartId == cartId);
-        var crtDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.DetailId == cartDetailId);
-
-
-        if (crtDetail != null)
+        public Cart GetCartByCartId(int cartId)
         {
-            _context.CartDetails.Remove(crtDetail);
-            _context.SaveChanges();
-            //calculate total price and count
-            var cartDetailTotalPrice = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Price).Sum();
-            var cartDetailTotalCount = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Quantity).Sum();
-            cart.TotalPrice = cartDetailTotalPrice;
-            cart.Count = cartDetailTotalCount;
-            _context.SaveChanges();
+            return _context.Carts
+                .Include(u => u.User)
+                .Include(d => d.CartDetails)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(i => i.ProductImages)
+                .FirstOrDefault(c => c.CartId == cartId);
+        }
+
+        public void DeleteFromCart(int cartId, int cartDetailId, int userId)
+        {
+            var cart = _context.Carts.FirstOrDefault(c => c.UserId == userId && c.CartId == cartId);
+            var crtDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.DetailId == cartDetailId);
+
+
+            if (crtDetail != null)
+            {
+                _context.CartDetails.Remove(crtDetail);
+                _context.SaveChanges();
+                //calculate total price and count
+                var cartDetailTotalPrice = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Price).Sum();
+                var cartDetailTotalCount = _context.CartDetails.Where(c => c.CartId == cart.CartId).Select(p => p.Quantity).Sum();
+                cart.TotalPrice = cartDetailTotalPrice;
+                cart.Count = cartDetailTotalCount;
+                _context.SaveChanges();
+
+            }
 
         }
 
+        public void AddNewOrder(Cart cart)
+        {
+            Orders order = new Orders()
+            {
+                UserId = cart.UserId,
+                CartId = cart.CartId,
+                DeliveryAddress = cart.DeliveryAddress,
+                CreatedDate = DateTime.Now
+
+            };
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+        }
+
+        public List<Orders> GetAllOrders()
+        {
+            return _context.Orders.Select(a => a)
+                  .Include(c => c.Cart)
+                  .ThenInclude(u => u.User)
+                  .Include(c => c.Cart.CartDetails)
+                  .ToList();
+
+        }
+
+        public Orders GetOrderById(int orderId)
+        {
+            return _context.Orders
+                .Include(c=>c.Cart)
+                .ThenInclude(u=>u.User)
+                .Include(cd=>cd.Cart.CartDetails)
+                .ThenInclude(p=>p.Product)
+                .ThenInclude(i=>i.ProductImages)
+                .FirstOrDefault(o => o.OrderId == orderId);
+        }
+
+        public void SaveOrderPostalTrackingCode(int orderId,string postalTrackingCode)
+        {
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                order.PostalTrackingCode = postalTrackingCode;
+                order.IsDelivered = true;
+                _context.SaveChanges();
+            }
+        }
     }
-}
 }

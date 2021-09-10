@@ -43,6 +43,7 @@ namespace JShope
             services.AddTransient<IUserService, UserService>();
 
             services.AddScoped<IProductService, PoroductService>();
+            services.AddScoped<ISiteService, SiteService>();
 
             #region Authentication
 

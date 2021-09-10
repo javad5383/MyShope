@@ -13,10 +13,12 @@ namespace JShope.Models
         public bool IsFinish { get; set; }
         public bool IsSuccess { get; set; }
         public DateTime CreateDate { get; set; }
+        public string DeliveryAddress { get; set; }
         public decimal TotalPrice { get; set; }
         public int Count { get; set; }
         public Users User { get; set; }
         public List<CartDetail> CartDetails { get; set; }
+        public Orders Order  { get; set; }
 
 
     }

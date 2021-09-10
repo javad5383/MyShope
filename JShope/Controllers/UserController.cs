@@ -92,7 +92,8 @@ namespace JShope.Controllers
                 ActivationCode = Guid.NewGuid().ToString(),
                 IsDelete = false,
                 UserName = register.Email,
-                Password = PasswordHelper.EncodePasswordMd5(register.Password)
+                Password = PasswordHelper.EncodePasswordMd5(register.Password),
+                UserAvatar = "default.jpeg"
 
             };
             _userService.AddUser(user);

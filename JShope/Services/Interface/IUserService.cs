@@ -45,6 +45,15 @@ namespace JShope.Services.Interface
 
       Tuple<bool, bool> CheckUserValidation(int userId);
 
+      Cart GetCartByCartId(int cartId);
+
+      void AddNewOrder(Cart cart);
+
+      List<Orders> GetAllOrders();
+      Orders GetOrderById(int orderId);
+
+      void SaveOrderPostalTrackingCode(int orderId, string postalTrackingCode);
+
 
    }
 }

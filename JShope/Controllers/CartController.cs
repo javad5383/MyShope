@@ -6,13 +6,14 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Hanssens.Net;
+using ZarinPal;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace JShope.Controllers
 {
-   
+
     public class CartController : Controller
     {
         private IUserService _userService;
@@ -21,7 +22,7 @@ namespace JShope.Controllers
         {
             _userService = userService;
         }
-         
+
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -40,9 +41,10 @@ namespace JShope.Controllers
                 var intProductId = Array.ConvertAll(cartCookieString, int.Parse).ToList();
                 ViewData["cart"] = _userService.GetCartDetailForGhostUser(intProductId);
             }
+
             return View();
         }
-     
+
         public IActionResult AddToCart(int productId)
         {
             if (User.Identity.IsAuthenticated)
@@ -73,7 +75,7 @@ namespace JShope.Controllers
 
             return RedirectToAction("Index");
         }
-      
+
         public IActionResult Delete(int cartId, int cartDetailId, int productId)
         {
             //DeleteFrom Cart For  Logged In Users
@@ -118,6 +120,7 @@ namespace JShope.Controllers
 
             return RedirectToAction("Index");
         }
+
         [Authorize]
         public IActionResult Shopping()
         {
@@ -126,19 +129,81 @@ namespace JShope.Controllers
 
             return View(cart);
         }
+
         [Authorize]
         public IActionResult ShoppingPayment()
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var validation = _userService.CheckUserValidation(userId);
-            
-            if (!validation.Item1 || !validation.Item2)//if both Item1 & Item2 Is true, GoTo Payment (Item1:User profile is Complete or not? && Item2:is User active? )
+
+            if (!validation.Item1 || !validation.Item2) //if both Item1 & Item2 Is true, GoTo Payment (Item1:User profile is Complete or not? && Item2:is User active? )
             {
-                 return PartialView("_CheckUserValidation", validation);
+                return PartialView("_CheckUserValidation", validation);
             }
 
             var cart = _userService.GetUserCart(userId);
             return View(cart);
         }
+
+        public IActionResult PaymentRequest()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var cart = _userService.GetUserCart(userId);
+
+            var payment = new ZarinpalSandbox.Payment((int)cart.TotalPrice);
+
+            var res = payment.PaymentRequest("خرید اینترنتی", "https://localhost:44328/cart/Verification/" + cart.CartId, "javad.mohammadi5383@gmail.com", "09139824915");
+
+            if (res.Result.Status == 100)
+            {
+                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+            }
+
+            return null;
+        }
+
+        public IActionResult Verification(int id)
+        {
+            var cart = _userService.GetCartByCartId(id);
+            if (HttpContext.Request.Query["Status"] != "" &&
+                HttpContext.Request.Query["Status"].ToString().ToLower() == "ok"
+                && HttpContext.Request.Query["Authority"] != "")
+            {
+                string authority = HttpContext.Request.Query["Authority"];
+                var payment = new ZarinpalSandbox.Payment((int)cart.TotalPrice);
+                var res = payment.Verification(authority).Result;
+                
+                if (res.Status == 100)
+                {
+                    cart.IsFinish = true;
+                    cart.IsSuccess = true;
+                    ViewBag.isSuccess = true;
+                    _userService.SaveChanges();
+                    _userService.AddNewOrder(cart);
+
+                }   
+               
+                
+            }
+            else
+            {
+                cart.IsFinish = true;
+                cart.IsSuccess = false;
+                _userService.SaveChanges();
+                ViewBag.isSuccess = false;
+                _userService.AddNewOrder(cart);
+
+            }
+            ViewBag.authority = HttpContext.Request.Query["Authority"];
+            return View(cart);
+
+        }
+
+      
     }
+
+
 }
+
+
+

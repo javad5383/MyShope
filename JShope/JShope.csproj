@@ -250,12 +250,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+    <PackageReference Include="Zarinpal" Version="3.0.1" />
+    <PackageReference Include="ZarinPal-SDK" Version="0.0.8" />
+    <PackageReference Include="ZarinpalSandbox" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\img\product\" />
     <Folder Include="wwwroot\assets\vendor_components\flat-color-icons\PNG\512\A\" />
-    <Folder Include="wwwroot\images\avatar\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 

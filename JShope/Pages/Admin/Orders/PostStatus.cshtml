@@ -1,0 +1,146 @@
+﻿@page
+@model JShope.Pages.Admin.Orders.PostStatusModel
+@{
+    var quantity = Model.Order.Cart.CartDetails.Select(q => q.Quantity).Sum();
+    var totalPrice = Model.Order.Cart.TotalPrice.ToString("##,###");
+    var cart = Model.Order.Cart;
+    var user = Model.Order.Cart.User;
+}
+
+<div class="wrapper" style="height: auto; min-height: 100%;">
+    <div class="content-wrapper" style="min-height: 591px;">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="d-flex align-items-center">
+                <div class="mr-auto">
+                    <h3 class="page-title">Checkout</h3>
+                    <div class="d-inline-block align-items-center">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item" aria-current="page">e-Commerce</li>
+                                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h4 class="box-title">Product Summary</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>تصویر نمایه</th>
+                                            <th>نام خریدار</th>
+                                            <th>آدرس ایمیل</th>
+                                            <th class="w-200">شماره همراه</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><img src="/images/avatar/@user.UserAvatar" alt="" width="80"></td>
+                                            <td>@user.Name</td>
+                                            <td>@user.Email</td>
+                                            <td>@user.PhoneNumber</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th colspan="3" class="text-right">تعداد آیتم‌های خریداری شده</th>
+                                            <th>@quantity</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right">کد تخفیف</td>
+                                            <td>----</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right">هزینه پستی</td>
+                                            <td>----</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="right"> قیمت محصولات خریداری شده </td>
+                                            <td>@totalPrice</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="text-right">کد رهگیری پرداخت</th>
+                                            <th>------</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="text-right font-size-24">خالص پرداختی</th>
+                                            <th class="font-size-24">@totalPrice</th>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <form  method="post">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box">
+                            <div class="product-text">
+                                <p style="margin-right: 3%">  در صورت ارسال کالا، کد رهگیری مرسوله را وارد کرده سپس کلید "ثبت "را بزنید.</p>
+                            </div>
+                            <div style="width: 50%; margin: 3%; margin-top: 1%" class="input-group">
+                                <input  placeholder="کد رهگیری پست" name="postalTrackingCode" type="text" class="form-control">
+                                <div style="display: flex">
+                                    <div class="input-group-prepend">
+                                        <button type="submit" data-toggle="tooltip" data-original-title="تائید ارسال" onclick="return confirm('تائید می‌کنید که سفارش ارسال شد؟')" class="btn btn-success">ثبت</button>
+                                    </div>
+                                    <div style="margin-right: 1%" class="input-group-prepend">
+                                        <a href="/admin/orders"  data-toggle="tooltip" data-original-title="بازگشت" class="btn btn-danger">بازگشت</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <h2 class="box-title mb-15">آیتم‌های سبد خرید</h2>
+            <div class="row">
+                @foreach (var item in cart.CartDetails)
+                {
+                    <div class="col-12 col-lg-6 col-xl-3">
+                        <div style="position: relative" class="box">
+                            <span data-toggle="tooltip" data-original-title="رنگ درخواستی" style="background-color: @item.Product.Color; position: absolute; right: 15px; top: 30px; width: 10px;height: 10px" class="avatar avatar-sm border border-gray ">
+
+                            </span>
+                            <div class="box-body">
+                                <div class="product-img">
+                                    <img src="/images/product/@item.Product.ProductImages.Select(n=>n.Names).First()" alt="">
+                                </div>
+                                <div class="product-text">
+                                    <div class="pro-img-overlay">
+                                        <a href="javascript:void(0)" class="btn btn-info btn-icon-circle"><i class="mdi mdi-settings"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-danger btn-icon-circle"><i class="mdi mdi-delete"></i></a>
+                                    </div>
+                                    <h5 class="pro-price text-blue">@item.Product.Price.ToString("##,###")</h5>
+                                    <h3 class="box-title mb-0" style="margin-top: 15%">@item.Product.ProductName</h3>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+
+        </section>
+    </div>
+</div>

@@ -63,6 +63,9 @@ namespace JShope.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DeliveryAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsFinish")
                         .HasColumnType("bit");
 
@@ -147,6 +150,42 @@ namespace JShope.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("JShope.Models.Orders", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeliveryAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PostalTrackingCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SeenByAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("CartId")
+                        .IsUnique();
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("JShope.Models.Product", b =>
@@ -360,6 +399,17 @@ namespace JShope.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("JShope.Models.Orders", b =>
+                {
+                    b.HasOne("JShope.Models.Cart", "Cart")
+                        .WithOne("Order")
+                        .HasForeignKey("JShope.Models.Orders", "CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("JShope.Models.Product", b =>
                 {
                     b.HasOne("JShope.Models.Brands", "Brand")
@@ -405,6 +455,8 @@ namespace JShope.Migrations
             modelBuilder.Entity("JShope.Models.Cart", b =>
                 {
                     b.Navigation("CartDetails");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("JShope.Models.Category", b =>

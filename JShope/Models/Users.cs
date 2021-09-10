@@ -46,7 +46,6 @@ namespace JShope.Models
 
         public List<Cart> Carts { get; set; }
 
-        
 
         //public string IpAddress { get; set; }
     }

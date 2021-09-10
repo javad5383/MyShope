@@ -1,0 +1,134 @@
+﻿@page
+@using System.Net.WebSockets
+@using JShope.Extension
+@model JShope.Pages.Admin.Orders.IndexModel
+@{
+    var orders = Model.Orders;
+
+}
+
+<div class="content-wrapper" style="min-height: 460px;">
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <div id="productorder_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="productorder_length"><label>Show <select name="productorder_length" aria-controls="productorder" class="form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="productorder_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="productorder"></label></div></div></div><div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="productorder" class="table table-hover no-wrap product-order dataTable no-footer" data-page-size="10" role="grid" aria-describedby="productorder_info">
+                                            <thead>
+                                                <tr class="bg-secondary" role="row">
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Customer: activate to sort column descending">نام خریدار</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending">شماره سفارش</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Photo: activate to sort column ascending">نمایه</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Quantity: activate to sort column ascending">تعداد کالاها</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">تاریخ ثبت سفارش</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">وضعیت پرداخت</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">وضعیت ارسال</th>
+                                                    <th class="" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1">...</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in orders)
+                                                {
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">@item.Cart.User.Name</td>
+                                                        <td>@item.OrderId</td>
+                                                        <td><img src="/images/avatar/@item.Cart.User.UserAvatar" alt="آواتار" style="max-height: 90px" width="80"></td>
+                                                        <td>@item.Cart.CartDetails.Select(q => q.Quantity).Sum()</td>
+                                                        <td>@item.CreatedDate.ToKhorshidi()</td>
+                                                        @if (item.Cart.IsSuccess && item.Cart.IsFinish)
+                                                        {
+                                                            <td><span class="label label-success">پرداخت شد</span></td>
+                                                            @if (!item.IsDelivered)
+                                                            {
+                                                                <td><span class="label label-warning">در انتظار ارسال پستی</span></td>
+                                                                <td>
+                                                                    <a class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="ویرایش">
+                                                                        <i class="ti-marker-alt"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
+                                                                        <i class="ti-trash"></i>
+                                                                    </a>
+                                                                    <a asp-page="PostStatus" asp-route-OrderId="@item.OrderId" class="btn btn-icon-circle btn-success" data-original-title=" تائید ارسال " data-toggle="tooltip">
+                                                                        <i class=" ti-angle-double-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <td><span class="label label-success"> فرستاده شد </span></td>
+                                                                <td>
+                                                                    <a class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="ویرایش">
+                                                                        <i class="ti-marker-alt"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
+                                                                        <i class="ti-trash"></i>
+                                                                    </a>
+                                                                </td>
+
+                                                            }
+                                                           
+                                                        }
+                                                        else if (!item.Cart.IsSuccess && item.Cart.IsFinish)
+                                                        {
+                                                            <td><span class="label label-danger">پرداخت ناموفق</span></td>
+                                                            <td><span class="label label-secondary">----------------</span></td>
+
+                                                            <td>
+                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="Edit">
+                                                                    <i class="ti-marker-alt"></i>
+                                                                </a>
+                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="Delete" data-toggle="tooltip">
+                                                                    <i class="ti-trash"></i>
+                                                                </a>
+                                                            </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-5">
+                                        <div class="dataTables_info" id="productorder_info" role="status" aria-live="polite">Showing 1 to 10 of 12 entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="productorder_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="productorder_previous">
+                                                    <a href="#" aria-controls="productorder" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                                <li class="paginate_button page-item active">
+                                                    <a href="#" aria-controls="productorder" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+                                                </li>
+                                                <li class="paginate_button page-item ">
+                                                    <a href="#" aria-controls="productorder" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+                                                </li>
+
+                                                <li class="paginate_button page-item next" id="productorder_next">
+                                                    <a href="#" aria-controls="productorder" data-dt-idx="3" tabindex="0" class="page-link">Next</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!--<span class="label label-warning">Pending</span></td>
+        <span class="label label-danger">Failed</span></td>-->
