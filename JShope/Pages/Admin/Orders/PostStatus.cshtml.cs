@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace JShope.Pages.Admin.Orders
 {
@@ -21,7 +22,12 @@ namespace JShope.Pages.Admin.Orders
         public Models.Orders Order { get; set; }
         public void OnGet(int orderId)
         {
-            Order = _userService.GetOrderById(orderId);
+            if (orderId!=0)
+            {
+                Order = _userService.GetOrderById(orderId);
+                
+            }
+           
         }
         public IActionResult OnPost(string postalTrackingCode)
         {

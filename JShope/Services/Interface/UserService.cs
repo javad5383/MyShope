@@ -25,7 +25,6 @@ namespace JShope.Services.Interface
             return user.UserId;
 
         }
-
         public bool IsEmailExist(string email)
         {
             return _context.Users.Any(e => e.Email == email);
@@ -235,8 +234,6 @@ namespace JShope.Services.Interface
 
         }
 
-
-
         public Cart GetUserCart(int userId)
         {
             return _context.Carts
@@ -247,7 +244,7 @@ namespace JShope.Services.Interface
                 .FirstOrDefault(c => c.UserId == userId && !c.IsFinish);
         }
 
-        public List<CartDetail> GetCartDetailForGhostUser(List<int> productId)//not logged in users
+        public List<CartDetail> GetCartDetailForGuestUser(List<int> productId)//not logged in users
         {
             var product = new List<Product>();
             var cartDetail = new List<CartDetail>();
@@ -330,42 +327,45 @@ namespace JShope.Services.Interface
 
         }
 
-        public void AddNewOrder(Cart cart)
+        public void AddNewOrder(Cart cart, string authority)
         {
+            authority = authority.TrimStart(new char[] { '0' });//Remove  Leading Zeros
             Orders order = new Orders()
             {
                 UserId = cart.UserId,
                 CartId = cart.CartId,
                 DeliveryAddress = cart.DeliveryAddress,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                PaymentAuthority = authority,
+                OrderNumber = $"JK-{cart.UserId}-{cart.CartId}-{cart.CreateDate.Year}-{cart.CreateDate.Month}-{cart.CreateDate.Day}-{cart.CreateDate.Hour}-{cart.CreateDate.Minute}-{cart.CreateDate.Second}-{cart.CreateDate.Millisecond}"
 
             };
             _context.Orders.Add(order);
             _context.SaveChanges();
         }
 
-        public List<Orders> GetAllOrders()
+        public IQueryable<Orders> GetAllOrders()
         {
             return _context.Orders.Select(a => a)
-                  .Include(c => c.Cart)
-                  .ThenInclude(u => u.User)
-                  .Include(c => c.Cart.CartDetails)
-                  .ToList();
+                .Include(c => c.Cart.User)
+                .Include(d=>d.Cart)
+                .ThenInclude(d=>d.CartDetails);
+
 
         }
 
         public Orders GetOrderById(int orderId)
         {
             return _context.Orders
-                .Include(c=>c.Cart)
-                .ThenInclude(u=>u.User)
-                .Include(cd=>cd.Cart.CartDetails)
-                .ThenInclude(p=>p.Product)
-                .ThenInclude(i=>i.ProductImages)
+                .Include(c => c.Cart)
+                .ThenInclude(u => u.User)
+                .Include(cd => cd.Cart.CartDetails)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(i => i.ProductImages)
                 .FirstOrDefault(o => o.OrderId == orderId);
         }
 
-        public void SaveOrderPostalTrackingCode(int orderId,string postalTrackingCode)
+        public void SaveOrderPostalTrackingCode(int orderId, string postalTrackingCode)
         {
             var order = _context.Orders.FirstOrDefault(o => o.OrderId == orderId);
             if (order != null)
@@ -374,6 +374,36 @@ namespace JShope.Services.Interface
                 order.IsDelivered = true;
                 _context.SaveChanges();
             }
+        }
+
+        public IEnumerable<Orders> SortOrders(IEnumerable<Orders> orders, string sortingMethod)
+        {
+            switch (sortingMethod)
+            {
+                case "ByName":
+                    return orders.OrderBy(c => c.Cart.User.Name);
+                case "ByOrderNumber":
+                    return orders.OrderBy(n => n.OrderNumber);
+                case "ByQuantity":
+
+                    return orders.OrderByDescending(c => c.Cart.CartDetails.Sum(q=>q.Quantity));
+                case "ByDate":
+                    return orders.OrderByDescending(c => c.CreatedDate);
+                case "ByPayment":
+                    return orders.OrderByDescending(p=>p.Cart.IsSuccess).ThenByDescending(d=>d.CreatedDate);
+                case "ByDeliverStatus":
+                    return orders.OrderBy(i => i.IsDelivered).ThenByDescending(p => p.Cart.IsSuccess);
+
+                default:
+                    return   orders.OrderBy(i => i.IsDelivered).ThenByDescending(p => p.Cart.IsSuccess); ;
+
+
+            }
+        }
+
+        public IEnumerable<Orders> searchOrders(string searchStr, IEnumerable<Orders> orders)
+        {
+            return orders.Where(s => s.Cart.User.Name.Contains(searchStr) || s.OrderNumber.Contains(searchStr));
         }
     }
 }

@@ -143,6 +143,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\un
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\mohammad\source\repos\JShope\JShope\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.AssemblyInfoInputs.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.AssemblyInfo.cs
@@ -157,6 +158,8 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.TagH
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.TagHelpers.output.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.RazorCoreGenerate.cache
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Index.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Orders\Index.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Orders\PostStatus.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Product\AddProduct.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Product\Categories\EditCategory.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Product\Categories\Index.cshtml.g.cs
@@ -198,6 +201,7 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Script.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Stylesheet.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_CheckUserValidation.cshtml.g.cs
+C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_GateWayError.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ProfileSideBar.cshtml.g.cs
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -215,6 +219,3 @@ C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.cspr
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.dll
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.pdb
 C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.genruntimeconfig.cache
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\JShope.csproj.AssemblyReference.cache
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Orders\Index.cshtml.g.cs
-C:\Users\mohammad\source\repos\JShope\JShope\obj\Debug\netcoreapp3.1\Razor\Pages\Admin\Orders\PostStatus.cshtml.g.cs

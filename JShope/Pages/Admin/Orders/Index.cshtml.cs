@@ -18,10 +18,26 @@ namespace JShope.Pages.Admin.Orders
             _userService = userService;
         }
 
-        public List<Models.Orders> Orders { get; set; }
-        public void OnGet()
+        public IEnumerable<Models.Orders> Orders { get; set; }
+        public void OnGet(string sortingMethod,string search)
         {
-           Orders= _userService.GetAllOrders();
+            Orders = _userService.GetAllOrders();
+            if (sortingMethod==null&& search==null)
+            {
+               
+                Orders = _userService.SortOrders(Orders, "ByDeliverStatus");
+            }
+            if (sortingMethod != null)
+            {
+                ViewData["sort"] = sortingMethod;
+               Orders = _userService.SortOrders(Orders, sortingMethod);
+            }
+
+            if (search == null) return;
+            ViewData["search"] = search;
+            Orders = _userService.searchOrders(search, Orders);
+
+
         }
     }
 }

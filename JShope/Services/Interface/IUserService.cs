@@ -41,19 +41,20 @@ namespace JShope.Services.Interface
        void DeleteFromCart(int cartId,int cartDetailId,int userId);
        Cart GetUserCart(int userId);
 
-      List<CartDetail> GetCartDetailForGhostUser(List<int> productId);
+      List<CartDetail> GetCartDetailForGuestUser(List<int> productId);
 
       Tuple<bool, bool> CheckUserValidation(int userId);
 
       Cart GetCartByCartId(int cartId);
 
-      void AddNewOrder(Cart cart);
+      void AddNewOrder(Cart cart,string authority);
 
-      List<Orders> GetAllOrders();
+      IQueryable<Orders> GetAllOrders();
       Orders GetOrderById(int orderId);
 
       void SaveOrderPostalTrackingCode(int orderId, string postalTrackingCode);
+      IEnumerable<Orders> SortOrders(IEnumerable<Orders> orders, string sortingMethod);
 
-
+      IEnumerable<Orders> searchOrders(string searchStr, IEnumerable<Orders> orders);
    }
 }

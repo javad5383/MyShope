@@ -1,0 +1,22 @@
+﻿@model Exception
+    <link href="~/assets/css/main.css" rel="stylesheet" />
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <main class="page-404">
+        <div class="container text-center">
+            <div class="border border-danger">
+                <div style="margin-top: 3%" class="page-404-title">
+                    <h1> پرداخت موقتا از دسترس خارج است،لطفا مدتی بعد دوباره دوباره تلاش کنید </h1>
+
+                </div>
+                <div style="margin-top: 3%" class="page-404-actions">
+                    <a href="/" class="page-404-action page-404-action--primary">صفحه اصلی</a>
+                </div>
+                <div class="page-404-image">
+                    <img src="/images/alert/GateWayError.png">
+                </div>
+                <br/>
+                <h5 style="margin-top: 1%">@Model.Message</h5>
+
+            </div>
+        </div>
+    </main>

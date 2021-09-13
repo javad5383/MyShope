@@ -39,7 +39,7 @@ namespace JShope.Controllers
             {
                 var cartCookieString = cartCookie.Split(",");
                 var intProductId = Array.ConvertAll(cartCookieString, int.Parse).ToList();
-                ViewData["cart"] = _userService.GetCartDetailForGhostUser(intProductId);
+                ViewData["cart"] = _userService.GetCartDetailForGuestUser(intProductId);
             }
 
             return View();
@@ -147,19 +147,27 @@ namespace JShope.Controllers
 
         public IActionResult PaymentRequest()
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var cart = _userService.GetUserCart(userId);
-
-            var payment = new ZarinpalSandbox.Payment((int)cart.TotalPrice);
-
-            var res = payment.PaymentRequest("خرید اینترنتی", "https://localhost:44328/cart/Verification/" + cart.CartId, "javad.mohammadi5383@gmail.com", "09139824915");
-
-            if (res.Result.Status == 100)
+            try
             {
-                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
-            }
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var cart = _userService.GetUserCart(userId);
 
-            return null;
+                var payment = new ZarinpalSandbox.Payment((int)cart.TotalPrice);
+
+                var res = payment.PaymentRequest("خرید اینترنتی", "https://localhost:44328/cart/Verification/" + cart.CartId, "javad.mohammadi5383@gmail.com", "09139824915");
+
+                if (res.Result.Status == 100)
+                {
+                    return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+                }
+            }
+            catch (Exception e)
+            {
+                return PartialView("_GateWayError",e);
+            }
+           
+
+            return NotFound();
         }
 
         public IActionResult Verification(int id)
@@ -179,11 +187,10 @@ namespace JShope.Controllers
                     cart.IsSuccess = true;
                     ViewBag.isSuccess = true;
                     _userService.SaveChanges();
-                    _userService.AddNewOrder(cart);
+                    _userService.AddNewOrder(cart,authority);
 
                 }   
-               
-                
+             
             }
             else
             {
@@ -191,7 +198,7 @@ namespace JShope.Controllers
                 cart.IsSuccess = false;
                 _userService.SaveChanges();
                 ViewBag.isSuccess = false;
-                _userService.AddNewOrder(cart);
+                _userService.AddNewOrder(cart,"");
 
             }
             ViewBag.authority = HttpContext.Request.Query["Authority"];

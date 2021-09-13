@@ -17,63 +17,60 @@
                     <div class="box-body">
                         <div class="table-responsive">
                             <div id="productorder_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                                <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="productorder_length"><label>Show <select name="productorder_length" aria-controls="productorder" class="form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="productorder_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="productorder"></label></div></div></div><div class="row">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div id="productorder_filter" class="dataTables_length">
+                                            <label>Search:<input value="@(ViewData["search"] ?? "")"  id="searchOrder" type="search" class="form-control form-control-sm" placeholder="" aria-controls="productorder"></label>
+                                        </div>
+                                        <a href="#" id="searchBtn" class="btn btn-success">جستجو</a>
+                                        <a href="#" id="clearIn" class="btn btn-success">بازگشت</a>
+                                    </div>
+                                </div>
+                                <div  class="row">
                                     <div class="col-sm-12">
+
                                         <table id="productorder" class="table table-hover no-wrap product-order dataTable no-footer" data-page-size="10" role="grid" aria-describedby="productorder_info">
                                             <thead>
                                                 <tr class="bg-secondary" role="row">
-                                                    <th class="sorting_asc" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Customer: activate to sort column descending">نام خریدار</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending">شماره سفارش</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Photo: activate to sort column ascending">نمایه</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Quantity: activate to sort column ascending">تعداد کالاها</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">تاریخ ثبت سفارش</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">وضعیت پرداخت</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">وضعیت ارسال</th>
+                                                    <th  class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Photo: activate to sort column ascending">نمایه</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByName&search=@ViewData["search"]'" class="sorting_asc" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Customer: activate to sort column descending">نام خریدار</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByOrderNumber&search=@ViewData["search"]'" style="max-width: 5%" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending">شماره سفارش</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByQuantity&search=@ViewData["search"]'" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Quantity: activate to sort column ascending">تعداد کالاها</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByDate&search=@ViewData["search"]'" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending">تاریخ ثبت سفارش</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByPayment&search=@ViewData["search"]'" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">وضعیت پرداخت</th>
+                                                    <th onclick="window.location='/admin/orders/?sortingMethod=ByDeliverStatus&search=@ViewData["search"]'" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1">وضعیت ارسال</th>
                                                     <th class="" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1">...</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="tbl">
                                                 @foreach (var item in orders)
                                                 {
                                                     <tr role="row" class="odd">
-                                                        <td class="sorting_1">@item.Cart.User.Name</td>
-                                                        <td>@item.OrderId</td>
                                                         <td><img src="/images/avatar/@item.Cart.User.UserAvatar" alt="آواتار" style="max-height: 90px" width="80"></td>
+                                                        <td class="sorting_1">@item.Cart.User.Name @item.Cart.User.Family</td>
+                                                        <td>@item.OrderNumber</td>
                                                         <td>@item.Cart.CartDetails.Select(q => q.Quantity).Sum()</td>
                                                         <td>@item.CreatedDate.ToKhorshidi()</td>
                                                         @if (item.Cart.IsSuccess && item.Cart.IsFinish)
                                                         {
                                                             <td><span class="label label-success">پرداخت شد</span></td>
-                                                            @if (!item.IsDelivered)
+                                                            @if (item.IsDelivered)
                                                             {
-                                                                <td><span class="label label-warning">در انتظار ارسال پستی</span></td>
-                                                                <td>
-                                                                    <a class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="ویرایش">
-                                                                        <i class="ti-marker-alt"></i>
-                                                                    </a>
-                                                                    <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
-                                                                        <i class="ti-trash"></i>
-                                                                    </a>
-                                                                    <a asp-page="PostStatus" asp-route-OrderId="@item.OrderId" class="btn btn-icon-circle btn-success" data-original-title=" تائید ارسال " data-toggle="tooltip">
-                                                                        <i class=" ti-angle-double-left"></i>
-                                                                    </a>
-                                                                </td>
+                                                                <td><span class="label label-success">فرستاده شد</span></td>
                                                             }
                                                             else
                                                             {
-
-                                                                <td><span class="label label-success"> فرستاده شد </span></td>
-                                                                <td>
-                                                                    <a class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="ویرایش">
-                                                                        <i class="ti-marker-alt"></i>
-                                                                    </a>
-                                                                    <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
-                                                                        <i class="ti-trash"></i>
-                                                                    </a>
-                                                                </td>
-
+                                                                <td><span class="label label-warning">در انتظار ارسال پستی</span></td>
                                                             }
-                                                           
+                                                            <td>
+
+                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
+                                                                    <i class="ti-trash"></i>
+                                                                </a>
+                                                                <a asp-page="PostStatus" asp-route-OrderId="@item.OrderId" class="btn btn-icon-circle btn-success" data-original-title=" تائید ارسال " data-toggle="tooltip">
+                                                                    <i class=" ti-angle-double-left"></i>
+                                                                </a>
+                                                            </td>
                                                         }
                                                         else if (!item.Cart.IsSuccess && item.Cart.IsFinish)
                                                         {
@@ -81,10 +78,8 @@
                                                             <td><span class="label label-secondary">----------------</span></td>
 
                                                             <td>
-                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-info" data-toggle="tooltip" data-original-title="Edit">
-                                                                    <i class="ti-marker-alt"></i>
-                                                                </a>
-                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="Delete" data-toggle="tooltip">
+
+                                                                <a href="javascript:void(0)" class="btn btn-icon-circle btn-danger" data-original-title="پاک کردن" data-toggle="tooltip">
                                                                     <i class="ti-trash"></i>
                                                                 </a>
                                                             </td>
@@ -94,9 +89,11 @@
                                                 }
                                             </tbody>
                                         </table>
+
+
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div id="referesh" class="row">
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info" id="productorder_info" role="status" aria-live="polite">Showing 1 to 10 of 12 entries</div>
                                     </div>
@@ -130,5 +127,29 @@
     </section>
     <!-- /.content -->
 </div>
-<!--<span class="label label-warning">Pending</span></td>
-        <span class="label label-danger">Failed</span></td>-->
+<script>
+    $(document).ready(function () {
+
+      
+        if ($("#searchOrder").val() !== "") {
+            $("#clearIn").show();
+        } else {
+            $("#clearIn").hide();
+        }
+
+   
+        
+        $("#searchBtn").click(function () {
+            var searchVal = $("#searchOrder").val();
+            if (searchVal !== "") {
+               
+                window.location = "/admin/orders/?search=" + searchVal;
+            }
+           
+        });
+        $("#clearIn").click(function() {
+            $("#searchOrder").val("");
+            window.location = "/admin/orders/";
+        });
+    });
+</script>
