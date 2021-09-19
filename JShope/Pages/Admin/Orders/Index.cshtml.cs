@@ -21,6 +21,7 @@ namespace JShope.Pages.Admin.Orders
         public IEnumerable<Models.Orders> Orders { get; set; }
         public void OnGet(string sortingMethod,string search)
         {
+           
             Orders = _userService.GetAllOrders();
             if (sortingMethod==null&& search==null)
             {
@@ -32,10 +33,10 @@ namespace JShope.Pages.Admin.Orders
                 ViewData["sort"] = sortingMethod;
                Orders = _userService.SortOrders(Orders, sortingMethod);
             }
-
+            _userService.SeenByAdmin();
             if (search == null) return;
             ViewData["search"] = search;
-            Orders = _userService.searchOrders(search, Orders);
+            Orders = _userService.SearchOrders(search, Orders);
 
 
         }

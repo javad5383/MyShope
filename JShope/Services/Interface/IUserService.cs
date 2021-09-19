@@ -55,6 +55,8 @@ namespace JShope.Services.Interface
       void SaveOrderPostalTrackingCode(int orderId, string postalTrackingCode);
       IEnumerable<Orders> SortOrders(IEnumerable<Orders> orders, string sortingMethod);
 
-      IEnumerable<Orders> searchOrders(string searchStr, IEnumerable<Orders> orders);
+      IEnumerable<Orders> SearchOrders(string searchStr, IEnumerable<Orders> orders);
+      void SeenByAdmin();
+
    }
 }

@@ -401,9 +401,20 @@ namespace JShope.Services.Interface
             }
         }
 
-        public IEnumerable<Orders> searchOrders(string searchStr, IEnumerable<Orders> orders)
+        public IEnumerable<Orders> SearchOrders(string searchStr, IEnumerable<Orders> orders)
         {
             return orders.Where(s => s.Cart.User.Name.Contains(searchStr) || s.OrderNumber.Contains(searchStr));
+        }
+
+        public void SeenByAdmin()
+        {
+            var seen = _context.Orders.Where(s => !s.SeenByAdmin);
+            foreach (var item in seen)
+            {
+                item.SeenByAdmin = true;
+            }
+            _context.SaveChanges();
+
         }
     }
 }

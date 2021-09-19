@@ -19,10 +19,5 @@ $(document).ready(function () {
 
     });
 
-    $("#imageZoom").imageZoom({ zoom: 200 });
-    function changeImg(src) {
-        $("#imageZoom").attr('src', src);
-        $("#imageZoom").imageZoom({ zoom: 200 });
-
-    }
+   
 });

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyEshop.Data;
 
 namespace JShope.Migrations
 {
     [DbContext(typeof(JShopeContext))]
-    partial class JShopeContextModelSnapshot : ModelSnapshot
+    [Migration("20210917195001_proforen")]
+    partial class proforen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,6 +209,9 @@ namespace JShope.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -225,10 +230,10 @@ namespace JShope.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("SubGroupId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalQuantity")
+                    b.Property<int?>("SubGroupId")
                         .HasColumnType("int");
 
                     b.Property<int>("Visits")
@@ -237,8 +242,6 @@ namespace JShope.Migrations
                     b.HasKey("ProductId");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("GroupId");
 
                     b.HasIndex("SubGroupId");
 
@@ -447,19 +450,11 @@ namespace JShope.Migrations
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("JShope.Models.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("JShope.Models.SubGroup", "SubGroups")
                         .WithMany("Products")
                         .HasForeignKey("SubGroupId");
 
                     b.Navigation("Brand");
-
-                    b.Navigation("Group");
 
                     b.Navigation("SubGroups");
                 });
@@ -467,7 +462,7 @@ namespace JShope.Migrations
             modelBuilder.Entity("JShope.Models.ProductColors", b =>
                 {
                     b.HasOne("JShope.Models.Product", "Product")
-                        .WithMany("ProductColors")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -522,8 +517,6 @@ namespace JShope.Migrations
             modelBuilder.Entity("JShope.Models.Product", b =>
                 {
                     b.Navigation("CartDetails");
-
-                    b.Navigation("ProductColors");
 
                     b.Navigation("ProductImages");
                 });

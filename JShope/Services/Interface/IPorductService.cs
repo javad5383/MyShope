@@ -90,8 +90,9 @@ namespace JShope.Services.Interface
 
         #endregion
 
-
-
+        void AddColors(List<ProductColors> productColors);
+        void EditProductColors(int productId, List<string> colorName, List<string> colorCode);
+        void RemoveProductColors(int productId);
 
         #region ShowProductForProductsMain
 

@@ -20,19 +20,19 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <div id="productorder_filter" class="dataTables_length">
-                                            <label>Search:<input value="@(ViewData["search"] ?? "")"  id="searchOrder" type="search" class="form-control form-control-sm" placeholder="" aria-controls="productorder"></label>
+                                            <label>Search:<input value="@(ViewData["search"] ?? "")" id="searchOrder" type="search" class="form-control form-control-sm" placeholder="" aria-controls="productorder"></label>
                                         </div>
                                         <a href="#" id="searchBtn" class="btn btn-success">جستجو</a>
                                         <a href="#" id="clearIn" class="btn btn-success">بازگشت</a>
                                     </div>
                                 </div>
-                                <div  class="row">
+                                <div class="row">
                                     <div class="col-sm-12">
 
                                         <table id="productorder" class="table table-hover no-wrap product-order dataTable no-footer" data-page-size="10" role="grid" aria-describedby="productorder_info">
                                             <thead>
                                                 <tr class="bg-secondary" role="row">
-                                                    <th  class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Photo: activate to sort column ascending">نمایه</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Photo: activate to sort column ascending">نمایه</th>
                                                     <th onclick="window.location='/admin/orders/?sortingMethod=ByName&search=@ViewData["search"]'" class="sorting_asc" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Customer: activate to sort column descending">نام خریدار</th>
                                                     <th onclick="window.location='/admin/orders/?sortingMethod=ByOrderNumber&search=@ViewData["search"]'" style="max-width: 5%" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending">شماره سفارش</th>
                                                     <th onclick="window.location='/admin/orders/?sortingMethod=ByQuantity&search=@ViewData["search"]'" class="sorting" tabindex="0" aria-controls="productorder" rowspan="1" colspan="1" aria-label="Quantity: activate to sort column ascending">تعداد کالاها</th>
@@ -130,26 +130,27 @@
 <script>
     $(document).ready(function () {
 
-      
+
         if ($("#searchOrder").val() !== "") {
             $("#clearIn").show();
         } else {
             $("#clearIn").hide();
         }
 
-   
-        
+
+
         $("#searchBtn").click(function () {
             var searchVal = $("#searchOrder").val();
             if (searchVal !== "") {
-               
+
                 window.location = "/admin/orders/?search=" + searchVal;
             }
-           
+
         });
-        $("#clearIn").click(function() {
+        $("#clearIn").click(function () {
             $("#searchOrder").val("");
             window.location = "/admin/orders/";
         });
+      
     });
 </script>

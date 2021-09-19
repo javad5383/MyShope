@@ -12,7 +12,6 @@ namespace JShope.Models
         [Key]
         public int SubGroupId { get; set; }
 
-
         public string SubGroupName { get; set; }
 
         public int GroupId { get; set; }

@@ -22,68 +22,42 @@ namespace JShope.Pages.Admin.Product
 
         [BindProperty]
         public Models.Product Product { get; set; }
-        [BindProperty] 
-        public List<ProductImage> ProductImage { get; set; }
-
         public void OnGet(int id)
         {
             Product = _productService.GetProductById(id);
-            ProductImage= _productService.GetProductImage(id);
-
         }
-
-        public IActionResult OnPost(int id,List<int> imgIdForRemove,List<IFormFile> file)
+        public IActionResult OnPost(int id, List<int> imgIdForRemove, List<IFormFile> file, List<string> colorName, List<string> colorCode)
         {
-
-            if (imgIdForRemove!=null)
+            if (colorCode.Count == 0 && colorName.Count == 0)
+            {
+                _productService.RemoveProductColors(id);
+            }
+            _productService.EditProductColors(id,colorName,colorCode);
+            if (imgIdForRemove != null)
             {
                 foreach (var item in imgIdForRemove)
                 {
                     _productService.RemoveImage(item, id);
                 }
-               
-               
-
             }
-
-            if (Product!=null)
+            if (Product != null)
             {
-               
-
-
-
                 if (file != null)
                 {
-
                     foreach (var item in file)
                     {
-
                         var fileName = Guid.NewGuid() + item.FileName;
                         var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/product", fileName);
 
                         using var stream = new FileStream(imagePath, FileMode.Create);
 
                         item.CopyTo(stream);
-                       
+
                         _productService.AddProductImage(fileName, id);
                     }
-
-
                 }
-
                 _productService.UpdateProduct(Product);
-
             }
-            
-           
-           
-
-
-           
-
-                
-            
-
 
             return Redirect("/admin/product");
         }

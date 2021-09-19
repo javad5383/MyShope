@@ -11,7 +11,8 @@
     <meta name="author" content="">
     <link rel="icon" href="/images/favicon.ico">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link rel="stylesheet" href="/assets/vendor_components/bootstrap/dist/css/bootstrap.css">
 
     <!-- Bootstrap extend-->
@@ -221,20 +222,27 @@
 
                         <li>
                             <!-- inner menu: contains the actual data -->
-                            <ul class="menu sm-scrol">
+                            <ul class="menu ace_scroller">
                                 @if (newOrdersCount != 0)
                                 {
                                     <li>
-                                        <a href="#">
+                                        <a href="/admin/orders">
                                             <i class="fa fa-shopping-cart text-success"></i>  @newOrdersCount سفارش جدید
                                         </a>
                                     </li>
                                 }
-
+                                else
+                                {
+                                    <li>
+                                        <a href="#">
+                                            <i ></i>  موردی برای نمایش نیست
+                                        </a>
+                                    </li>
+                                }
 
                             </ul>
                         </li>
-                        <li class="footer"><a href="#" class="text-white bg-danger">View all</a></li>
+                        <li class="footer"><a href="#" class="text-white bg-danger"></a></li>
                     </ul>
                 </li>
                 <!-- Tasks-->

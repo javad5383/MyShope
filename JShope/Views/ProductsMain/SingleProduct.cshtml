@@ -12,14 +12,18 @@
                             <a href="#"><span>فروشگاه اینترنتی جی کالا</span></a>
                         </li>
                         <li>
-                            <a asp-action="Index" asp-route-id="@Model.SubGroups.Group.Category.CategoryId" asp-route-show="ByCategory"><span>@Model.SubGroups.Group.Category.CategoryName</span></a>
+                            <a asp-action="Index" asp-route-id="@Model.Group.CategoryId" asp-route-show="ByCategory"><span>@Model.Group.Category.CategoryName</span></a>
                         </li>
                         <li>
-                            <a asp-action="Index" asp-route-id="@Model.SubGroups.Group.GroupId" asp-route-show="ByGroup"><span>@Model.SubGroups.Group.GroupName</span></a>
+                            <a asp-action="Index" asp-route-id="@Model.Group.GroupId" asp-route-show="ByGroup"><span>@Model.Group.GroupName</span></a>
                         </li>
-                        <li>
-                            <a asp-action="Index" asp-route-id="@Model.SubGroups.SubGroupId" asp-route-show="BySubGroup"><span>@((Model.SubGroups!=null)? Model.SubGroups.SubGroupName:"")</span></a>
-                        </li>
+                        @if (Model.SubGroups != null)
+                        {
+                            <li>
+                                <a asp-action="Index" asp-route-id="@Model.SubGroups.SubGroupId" asp-route-show="BySubGroup"><span>@((Model.SubGroups!=null)? Model.SubGroups.SubGroupName:"")</span></a>
+                            </li>
+                        }
+
                         <li>
                             <span>@Model.ProductName </span>
                         </li>
@@ -47,9 +51,7 @@
                                                     </a>
                                                 </li>
                                             }
-
                                         }
-
 
                                     </ul>
                                 </div>
@@ -132,27 +134,28 @@
                                     <li>
                                         <span>دسته‌بندی</span> :
                                         <a href="#" class="btn-link-border">
-                                            @((@Model.SubGroups != null)? Model.SubGroups.SubGroupName : "متفرقه")  
+                                            @((@Model.SubGroups != null)? Model.SubGroups.SubGroupName : "متفرقه")
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="product-variants default">
-                                <span>انتخاب رنگ: </span>
-                                <div class="radio">
-                                    <input type="radio" name="radio1" id="radio1" value="option1">
-                                    <label for="radio1">
-                                        <i style="color: @Model.Color" class=""></i>
-                                    </label>
-                                </div>
-
-                                <div class="radio">
-                                    <input type="radio" name="radio1" id="radio2" value="option2" checked="">
-                                    <label for="radio2">
-                                        نقره ای
-                                    </label>
-                                </div>
-
+                                @if (Model.ProductColors != null)
+                                {
+                                    <span>انتخاب رنگ: </span>
+                                    <div class="radio">
+                                        @{ var counter = 0;}
+                                        @foreach (var item in Model.ProductColors)
+                                        {
+                                            <input  type="radio"  name="selectedColor" @((counter==0)?"checked":"")  id="@item.ColorId">
+                                            <label  for="@item.ColorId">
+                                                @item.ColorName
+                                            </label>
+                                            counter++;
+                                        }
+                                    </div>
+                                }
+                               
                             </div>
                             <div class="product-guarantee default">
                                 <i class="fa fa-check-circle"></i>
@@ -179,7 +182,7 @@
                             </div>
                             <div class="product-add default">
                                 <div class="parent-btn">
-                                    
+
                                     <a id="AddTocrt" proId="@Model.ProductId" pName="@Model.ProductName" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId" class="dk-btn dk-btn-info">
                                         افزودن به سبد خرید
                                         <i class="now-ui-icons shopping_cart-simple"></i>
@@ -238,7 +241,7 @@
                                     </a>
                                 </li>
                                 <li class="box-tabs-tab">
-                                    <a id="localstorage" data-toggle="tab" href="#params" role="tab" aria-expanded="false"> 
+                                    <a id="localstorage" data-toggle="tab" href="#params" role="tab" aria-expanded="false">
                                         <i class="now-ui-icons shopping_cart-simple"></i> مشخصات
                                     </a>
                                 </li>
@@ -791,8 +794,47 @@
 </main>
 
 <script src="~/js/image-zoom.js"></script>
+<script>
+    $("#imageZoom").imageZoom({ zoom: 200 });
+    function changeImg(src) {
+        $("#imageZoom").attr('src', src);
+        $("#imageZoom").imageZoom({ zoom: 200 });
 
+    }
+</script>
 
+@*<div class="demo-radio-button">
+        
+                                            <input name="group4" type="radio" id="radio_7" class="radio-col-red" checked="">
+                                            <label for="radio_7">Red</label>
+                                            
+        <input name="group4" type="radio" id="radio_9" class="radio-col-purple">
+        <label for="radio_9">Purple</label>
+        <input name="group4" type="radio" id="radio_10" class="radio-col-deep-purple">
+        <label for="radio_10">Deep Purple</label>
+        <input name="group4" type="radio" id="radio_12" class="radio-col-blue">
+        <label for="radio_12">Blue</label>
+        <input name="group4" type="radio" id="radio_13" class="radio-col-light-blue">
+        <label for="radio_13">Light Blue</label>
+        <input name="group4" type="radio" id="radio_15" class="radio-col-teal">
+        <label for="radio_15">Teal</label>
+        <input name="group4" type="radio" id="radio_16" class="radio-col-green">
+        <label for="radio_16">Green</label>
+        <input name="group4" type="radio" id="radio_19" class="radio-col-yellow">
+        <label for="radio_19">Yellow</label>
+        <input name="group4" type="radio" id="radio_21" class="radio-col-orange">
+        <label for="radio_21">Orange</label>
+        <input name="group4" type="radio" id="radio_22" class="radio-col-deep-orange">
+        <label for="radio_22">Deep Orange</label>
+        <input name="group4" type="radio" id="radio_23" class="radio-col-maroon">
+        <label for="radio_23">Maroon</label>
+        <input name="group4" type="radio" id="radio_24" class="radio-col-grey">
+        <label for="radio_24">Grey</label>
+        <input name="group4" type="radio" id="radio_25" class="radio-col-navy">
+        <label for="radio_25">Navy</label>
+        <input name="group4" type="radio" id="radio_26" class="radio-col-black">
+        <label for="radio_26">Black</label>
+    </div>*@
 
 
 

@@ -24,13 +24,13 @@ $(function () {
 	if( $('#e_chart_3').length > 0 ){
 		var eChart_3 = echarts.init(document.getElementById('e_chart_3'));
 		var data = [{
-			value: 5713,
+			value: 1000,
 			name: ''
 		}, {
-			value: 8458,
+			value: 1000,
 			name: ''
 		}, {
-			value: 1254,
+			value: 1000,
 			name: ''
 		}, {
 			value: 2589,

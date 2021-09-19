@@ -21,20 +21,11 @@ namespace JShope.Models
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
         public string ProductName { get; set; }
 
-      
-
-
         [Display(Name = "قیمت ")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
         public decimal Price { get; set; }
 
-        [Display(Name = "موجودی")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
-        public int Quantity { get; set; }
-
-        [Display(Name = "رنگ")]
-        public string Color { get; set; }
-
+        public int TotalQuantity { get; set; }
 
         [MaxLength(500)]
         public string Description { get; set; }
@@ -42,7 +33,6 @@ namespace JShope.Models
 
         [Display(Name = "دسته بندی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید ")]
-        
         public int CategoryId { get; set; }
 
         [Display(Name = "گروه")]
@@ -58,7 +48,8 @@ namespace JShope.Models
         
         public List<ProductImage> ProductImages { get; set; }
         public SubGroup SubGroups { get; set; }
-
+        public Group Group { get; set; }
+        public List<ProductColors> ProductColors { get; set; }
         public Brands Brand { get; set; }
 
         public List<CartDetail> CartDetails { get; set; }

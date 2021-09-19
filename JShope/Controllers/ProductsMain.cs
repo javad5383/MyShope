@@ -27,14 +27,12 @@ namespace JShope.Controllers
         //selectedId: productId of selected item in search field suggestion(pass by JS)
         //search: search field value after user press search button
         //brands: checked brands in checkBox
-        
-
         public IActionResult Index(int id, string show,string sortMethod,List<int> brands,string search,int selectedId)  
         {
             if (selectedId != 0)
             {
-                var p = _productService.GetProductById(selectedId);
-                //TODO: Redirect to single Product
+
+                return Redirect($"/productSMain/SingleProduct?productId={selectedId}");
             }
             if (search!=null)
             {
@@ -81,14 +79,7 @@ namespace JShope.Controllers
             }
             return NotFound();
 
-
-
-
-
         }
-
-
-        
         public IActionResult SearchBox(string search)
         {
             
@@ -96,8 +87,6 @@ namespace JShope.Controllers
             
             return Json(result.Select(s=>new {value=s.ProductName, data = s.ProductId }).ToArray());
         }
-
-
         public IActionResult SingleProduct(int productId)
         {
             var product = _productService.GetProductById(productId);

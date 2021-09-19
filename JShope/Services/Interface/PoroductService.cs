@@ -220,11 +220,12 @@ namespace JShope.Services.Interface
         public Product GetProductById(int productId)
         {
             return _context.Products
-                .Include(i=>i.ProductImages)
-                .Include(b=>b.Brand)
-                .Include(c=>c.SubGroups)
-                .ThenInclude(g=>g.Group)
-                .ThenInclude(c=>c.Category)
+                .Include(i => i.ProductImages)
+                .Include(b => b.Brand)
+                .Include(c=>c.ProductColors)
+                .Include(c => c.SubGroups)
+                .Include(g => g.Group)
+                .ThenInclude(c => c.Category)
                 .SingleOrDefault(p => p.ProductId == productId);
         }
 
@@ -242,8 +243,7 @@ namespace JShope.Services.Interface
             {
                 Names = imageName,
                 ProductId = productId
-
-
+                
             };
 
             _context.ProductImages.Add(productImage);
@@ -258,8 +258,8 @@ namespace JShope.Services.Interface
         public void RemoveImage(int imgId, int productId)
         {
 
-            var productImage = _context.ProductImages.FirstOrDefault(i =>
-                i.ProductId == productId && i.ImageId == imgId);
+            var productImage = _context.ProductImages.FirstOrDefault(i => i.ProductId == productId && i.ImageId == imgId);
+
 
 
             if (productImage != null)
@@ -298,7 +298,7 @@ namespace JShope.Services.Interface
         public List<Product> GetProductByGroupId(int groupId)
         {
             return _context.Products.Where(p => p.GroupId == groupId).ToList();
-           
+
         }
 
         #endregion
@@ -307,16 +307,16 @@ namespace JShope.Services.Interface
 
         public string GetBrandNameById(int brandId)
         {
-           
+
             return _context.Brands.FirstOrDefault(b => b.BrandId == brandId)?.BrandName;
         }
 
         public IEnumerable<int?> GetDistinctBrands(List<Product> products)
         {
-           return  products.Select(p => p.BrandId ).Distinct();
-            
+            return products.Select(p => p.BrandId).Distinct();
+
         }
-        
+
         public IQueryable<Brands> GetDistinctBrandsByGroupId(int groupId)
         {
             return _context.Groups.Where(g => g.GroupId == groupId)
@@ -327,7 +327,7 @@ namespace JShope.Services.Interface
         {
             return _context.SubGroups.Where(g => g.SubGroupId == subGroupId)
                 .Select(g => g.Group)
-                .SelectMany(g=>g.Brands)
+                .SelectMany(g => g.Brands)
                 .Distinct();
         }
 
@@ -350,14 +350,46 @@ namespace JShope.Services.Interface
             return _context.Products.Where(p => p.CategoryId == categoryId && p.GroupId == groupId && p.SubGroupId == subGroupId).ToList();
         }
 
+        public void AddColors(List<ProductColors> productColors)
+        {
+            _context.ProductColors.AddRange(productColors);
+            _context.SaveChanges();
+        }
+
+        public void EditProductColors(int productId, List<string> colorName, List<string> colorCode)
+        {
+            var productColorsList = _context.ProductColors.Where(c => c.ProductId == productId);
+            _context.ProductColors.RemoveRange(productColorsList);
+            var newColorsList = new List<ProductColors>();
+             for (int i = 0; i < colorCode.Count; i++)
+             {
+                 var newColor = new ProductColors()
+                 {
+                     ColorCode = colorCode[i],
+                     ColorName = colorName[i],
+                     ProductId = productId
+                 };
+                newColorsList.Add(newColor);
+             }
+             _context.ProductColors.AddRange(newColorsList);
+             _context.SaveChanges();
+        }
+
+        public void RemoveProductColors(int productId)
+        {
+            var productColors = _context.ProductColors.Where(p => p.ProductId == productId);
+            _context.RemoveRange(productColors);
+            _context.SaveChanges();
+        }
+
         public IQueryable<Product> SortProducts(IQueryable<Product> products, string sortMethod)
         {
             switch (sortMethod)
             {
-                    
+
                 case "Visits":
-                    
-                    return  products.OrderByDescending(p => p.Visits);
+
+                    return products.OrderByDescending(p => p.Visits);
                 case "Newest":
                     return products.OrderByDescending(p => p.CreateDate);
 
@@ -407,7 +439,7 @@ namespace JShope.Services.Interface
                     Value = s.SubGroupId.ToString()
                 }).ToList();
         }
-        
+
 
 
 
@@ -417,12 +449,12 @@ namespace JShope.Services.Interface
 
         #region Show Product Method For ProductMain 
 
-        public IQueryable<Product> ProductShowMethod(int id,string showMethod)
+        public IQueryable<Product> ProductShowMethod(int id, string showMethod)
         {
-          var pro=  _context.Products.Where(p => p.CategoryId == id);
+            var pro = _context.Products.Where(p => p.CategoryId == id);
             switch (showMethod)
             {
-                    
+
                 case "ByCategory":
                     return _context.Products.Where(p => p.CategoryId == id);
 
@@ -434,26 +466,26 @@ namespace JShope.Services.Interface
                 default:
                     return null;
             }
-            
+
         }
 
-        public IQueryable<Product> GetProductByBrand(IQueryable<Product> products,List<int> brandIds)  //***********************
+        public IQueryable<Product> GetProductByBrand(IQueryable<Product> products, List<int> brandIds)  //***********************
         {
 
-            IQueryable<Product> pro =products.Where(b=> brandIds.Contains((int) b.BrandId));
-              
-            
+            IQueryable<Product> pro = products.Where(b => brandIds.Contains((int)b.BrandId));
 
-            return pro ;
+
+
+            return pro;
         }
 
-       public IQueryable<Product> GetProductsByName(string searchWord)
+        public IQueryable<Product> GetProductsByName(string searchWord)
         {
             return _context.Products.Where(p => p.ProductName.Contains(searchWord));
 
         }
 
-      
+
 
         #endregion
 
