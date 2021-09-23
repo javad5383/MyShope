@@ -30,7 +30,7 @@ namespace JShope.Pages.Admin.Product
         public void  OnGet(int subGroupId)
         {
            
-            Product = _productService.GetProduct();
+            Product = _productService.GetProducts().ToList();
 
            
         }
@@ -81,7 +81,7 @@ namespace JShope.Pages.Admin.Product
                 return NotFound();
 
             }
-            Product = _productService.GetProduct();
+            Product = _productService.GetProducts().ToList();
 
             return Page();
         }

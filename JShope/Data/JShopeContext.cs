@@ -24,6 +24,9 @@ namespace MyEshop.Data
         public DbSet<CartDetail> CartDetails { get; set; }
         public DbSet<Orders> Orders { get; set; }
         public DbSet<ProductColors> ProductColors { get; set; }
+        public DbSet<UserFavorites> UserFavorites { get; set; }
+        public DbSet<Specifications> Specifications { get; set; }
+        public DbSet<Titles> Titles { get; set; }
         
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

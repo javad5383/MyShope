@@ -45,7 +45,7 @@ namespace JShope.Models
         public long BankCardNumber { get; set; }
 
         public List<Cart> Carts { get; set; }
-
+        public List<UserFavorites> UserFavorites { get; set; }
 
         //public string IpAddress { get; set; }
     }

@@ -1,6 +1,9 @@
-﻿
-@model Product
-@*<link href="~/css/ImgZoomStyle.css" rel="stylesheet" />*@
+﻿@model Product
+@{
+    var pId = Model.ProductId;
+    var userId = ViewBag.userId;
+    var favorite = Model.UserFavorites.Any(f => f.ProductId == pId&&f.UserId==userId);
+}
 
 <main class="single-product default">
     <div class="container">
@@ -37,9 +40,11 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class=" default">
-                                <div class="image-container" style="height: 411px; width: 411px;"><img class="zoom-images" id="imageZoom" src="/images/product/@Model.ProductImages.First().Names" width="411" style="position: absolute;"></div>
+                                <div class="image-container" style="height: 70%; width: 100%;">
+                                    <img class="zoom-images" id="imageZoom" src="/images/product/@Model.ProductImages.First().Names" width="411" style="position: absolute;">
+                                </div>
 
-                                <div id="gallery_01f" style="width:500px;float:left;">
+                                <div id="gallery_01f" style="width: 500px; float: left;">
                                     <ul class="gallery-items">
                                         @if (Model.ProductImages.Count(i => i.ImageId > 0) > 1)
                                         {
@@ -52,14 +57,12 @@
                                                 </li>
                                             }
                                         }
-
                                     </ul>
                                 </div>
                             </div>
                             <ul class="gallery-options">
                                 <li>
-
-                                    <button @*class="add-favorites"*@><i onclick="myFunction(this)" class="fa fa-heart"></i></button>
+                                    <button onclick="favorFunc(this.id)" id="@Model.ProductId" class="add-favorites"><i style="@(favorite ? "color: crimson":"")" class="fa fa-heart"></i></button>
                                     <span class="tooltip-option">افزودن به علاقمندی</span>
                                 </li>
                                 <li>
@@ -129,12 +132,12 @@
                                 <ul>
                                     <li>
                                         <span>برند</span> :
-                                        <span class="product-brand-title">@((Model.Brand!=null)? Model.Brand.BrandName:"متفرقه")</span>
+                                        <span class="product-brand-title">@((Model.Brand != null) ? Model.Brand.BrandName : "متفرقه")</span>
                                     </li>
                                     <li>
                                         <span>دسته‌بندی</span> :
                                         <a href="#" class="btn-link-border">
-                                            @((@Model.SubGroups != null)? Model.SubGroups.SubGroupName : "متفرقه")
+                                            @((@Model.SubGroups != null) ? Model.SubGroups.SubGroupName : "متفرقه")
                                         </a>
                                     </li>
                                 </ul>
@@ -147,15 +150,14 @@
                                         @{ var counter = 0;}
                                         @foreach (var item in Model.ProductColors)
                                         {
-                                            <input  type="radio"  name="selectedColor" @((counter==0)?"checked":"")  id="@item.ColorId">
-                                            <label  for="@item.ColorId">
+                                            <input type="radio" class="radio-col-purple" name="selectedColor" @((counter == 0) ? "checked" : "") id="@item.ColorId">
+                                            <label for="@item.ColorId">
                                                 @item.ColorName
                                             </label>
                                             counter++;
                                         }
                                     </div>
                                 }
-                               
                             </div>
                             <div class="product-guarantee default">
                                 <i class="fa fa-check-circle"></i>
@@ -795,46 +797,19 @@
 
 <script src="~/js/image-zoom.js"></script>
 <script>
-    $("#imageZoom").imageZoom({ zoom: 200 });
-    function changeImg(src) {
-        $("#imageZoom").attr('src', src);
+    
         $("#imageZoom").imageZoom({ zoom: 200 });
+        function changeImg(src) {
+            $("#imageZoom").attr('src', src);
+            $("#imageZoom").imageZoom({ zoom: 200 });
 
+        }
+
+
+    function favorFunc(id) {
+        $.get( "/productsMain/addFavorite/"+id , function( data ) {
+            location.reload();
+        });
     }
 </script>
-
-@*<div class="demo-radio-button">
-        
-                                            <input name="group4" type="radio" id="radio_7" class="radio-col-red" checked="">
-                                            <label for="radio_7">Red</label>
-                                            
-        <input name="group4" type="radio" id="radio_9" class="radio-col-purple">
-        <label for="radio_9">Purple</label>
-        <input name="group4" type="radio" id="radio_10" class="radio-col-deep-purple">
-        <label for="radio_10">Deep Purple</label>
-        <input name="group4" type="radio" id="radio_12" class="radio-col-blue">
-        <label for="radio_12">Blue</label>
-        <input name="group4" type="radio" id="radio_13" class="radio-col-light-blue">
-        <label for="radio_13">Light Blue</label>
-        <input name="group4" type="radio" id="radio_15" class="radio-col-teal">
-        <label for="radio_15">Teal</label>
-        <input name="group4" type="radio" id="radio_16" class="radio-col-green">
-        <label for="radio_16">Green</label>
-        <input name="group4" type="radio" id="radio_19" class="radio-col-yellow">
-        <label for="radio_19">Yellow</label>
-        <input name="group4" type="radio" id="radio_21" class="radio-col-orange">
-        <label for="radio_21">Orange</label>
-        <input name="group4" type="radio" id="radio_22" class="radio-col-deep-orange">
-        <label for="radio_22">Deep Orange</label>
-        <input name="group4" type="radio" id="radio_23" class="radio-col-maroon">
-        <label for="radio_23">Maroon</label>
-        <input name="group4" type="radio" id="radio_24" class="radio-col-grey">
-        <label for="radio_24">Grey</label>
-        <input name="group4" type="radio" id="radio_25" class="radio-col-navy">
-        <label for="radio_25">Navy</label>
-        <input name="group4" type="radio" id="radio_26" class="radio-col-black">
-        <label for="radio_26">Black</label>
-    </div>*@
-
-
 

@@ -16,15 +16,15 @@
                             <input id="input1" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
                         </div>
                         <div>
-                            <a id="btn1" class="btn btn-success my-2 my-sm-0">جستجو</a>
-                            <a id="clearField1" class="btn btn-info my-2 my-sm-0">پاک کردن</a>
+                            <button id="btn1" class="btn btn-success my-2 my-sm-0">جستجو</button>
+                            <a href="#" id="clearField1" class="btn btn-info my-2 my-sm-0">پاک کردن</a>
                         </div>
                     </div>
                     <div>
                         <div class="col-md-2">
                             <div>
                                 <label for="test">دسته بندی: </label>
-                                <select class="form-control" onchange="jm()" id="test" name="catId">
+                                <select class="form-control" onchange="submit()" id="test" name="catId">
                                     <option>همه</option>
                                     @foreach (var item in _productService.GetCategory())
                                     {
@@ -38,7 +38,7 @@
                             {
                                 <div>
                                     <label for="test">گروه ها: </label>
-                                    <select class="form-control" onchange="jm()" id="test" name="groupId">
+                                    <select class="form-control" onchange="submit()" id="" name="groupId">
                                         <option>همه</option>
                                         @foreach (var item in _productService.GetGroupsByCategoryId(Model.CategoryId))
                                         {
@@ -52,7 +52,7 @@
                                 {
                                     <div>
                                         <label for="test">زیرگروه ها: </label>
-                                        <select class="form-control" onchange="jm()" id="test" name="subGroupId">
+                                        <select class="form-control" onchange="submit()" id="" name="subGroupId">
                                             <option>همه</option>
                                             @foreach (var item in _productService.GetSubGroupsByGroupId(Model.GroupId))
                                             {
@@ -80,7 +80,7 @@
                                     <tr>
                                         <th></th>
                                         <th>نام</th>
-                                        <th></th>
+                                        <th>توضیحات</th>
                                         <th>قیمت</th>
                                         <th>تعداد</th>
                                         <th></th>
@@ -99,8 +99,8 @@
                                                 </a>
                                             </td>
                                             <td> <a href="/productSMain/SingleProduct?productId=@item.ProductId"> @item.ProductName </a> </td>
-                                            <td>
-                                                <h5>@item.Description</h5>
+                                            <td >
+                                                <h5 >@item.Description</h5>
                                             </td>
                                             <td width="150">
                                                 <h5>@item.Price</h5>
@@ -109,8 +109,10 @@
                                                 @item.TotalQuantity
                                             </td>
                                             <td>
-                                                <a href="/admin/product/delete/@item.ProductId" class="btn btn-danger-outline ti-trash "></a>
-                                                <a href="/admin/product/editproduct/@item.ProductId" class="btn btn-primary-outline  ">ویرایش</a>
+                                                <div style="display: flex">
+                                                    <a href="/admin/product/delete/@item.ProductId" class="btn btn-danger-outline ti-trash "></a>
+                                                    <a style="margin-right: 1%" href="/admin/product/editproduct/@item.ProductId" class="btn btn-primary-outline  ">ویرایش</a>
+                                                </div>
                                             </td>
                                         </tr>
                                     }
@@ -126,9 +128,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        function jm() {
-            $("#frm1").submit();
-        }
+       
         $("#clearField1").hide();
         $("#input1").keyup(function (e) {
             if ($(this).val() !== null) {
@@ -143,4 +143,7 @@
             $("#clearField1").hide();
         });
     });
+    //function jm() {
+    //    $("#frm1").submit();
+    //}
 </script>

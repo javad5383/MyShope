@@ -9,9 +9,10 @@
             <!-- Basic Forms -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h4 class="box-title">Form Validation</h4>
+                    <h4 class="box-title">افزودن کالا</h4>
                 </div>
                 <!-- /.box-header -->
+
                 <div class="box-body">
                     <div class="row">
                         <div class="col">
@@ -45,7 +46,7 @@
                                         </div>
                                         <div style="margin-top: 20px" class="col-sm-12 col-lg-12 ">
                                             <div class="col-sm-12 col-lg-12">
-                                                <h5>عکس </h5>
+                                               <h5>عکس </h5>
                                                 <div class="panel">
                                                     <div id="dvPreview" class="user-heading round"> </div>
                                                 </div>
@@ -67,24 +68,32 @@
                                             <div style="margin-top: 25px">
                                                 <div class="col-md-12 col-sm-12" style="display: flex">
 
-                                                    <div class="col-md-4 col-sm-12">
+                                                    <div class="col-md-3 col-sm-12">
                                                         <h5>دسته بندی </h5>
                                                         <div class="controls ">
                                                             <select class="form-control" asp-for="Product.CategoryId" asp-items="@ViewData["category"] as SelectList"></select>
                                                         </div>
                                                         <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-12">
+                                                    <div class="col-md-3 col-sm-12">
                                                         <h5>گروه </h5>
                                                         <div class="controls">
                                                             <select class="form-control" asp-for="Product.GroupId" asp-items="@ViewData["groups"] as SelectList"></select>
                                                         </div>
                                                         <span class="text-danger" asp-validation-for="Product.GroupId"></span>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-12">
+                                                    <div class="col-md-3 col-sm-12">
                                                         <h5>زیر گروه </h5>
                                                         <div class="controls">
                                                             <select class="form-control" asp-for="Product.SubGroupId" asp-items="@ViewData["subGroups"] as SelectList">
+                                                                <option value="0">انتخاب کنید</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-12">
+                                                        <h5>برند </h5>
+                                                        <div class="controls">
+                                                            <select class="form-control" asp-for="Product.Brand.BrandId" asp-items="@ViewData["brands"] as SelectList">
                                                                 <option value="0">انتخاب کنید</option>
                                                             </select>
                                                         </div>
@@ -152,6 +161,7 @@
         $("#Product_CategoryId").change(function () {
             $("#Product_GroupId").empty();
             $("#Product_SubGroupId").empty();
+            $("#Product_Brand_BrandId").empty();
             $.getJSON("/home/GetGroups/" + $("#Product_CategoryId :selected").val(),
                 function (data) {
                     $.each(data,
@@ -163,11 +173,19 @@
         });
         $("#Product_GroupId").change(function () {
             $("#Product_SubGroupId").empty();
+            $("#Product_Brand_BrandId").empty();
             $.getJSON("/home/GetSubGroups/" + $("#Product_GroupId :selected").val(),
                 function (data) {
                     $.each(data,
                         function () {
                             $("#Product_SubGroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+                        });
+                });
+            $.getJSON("/home/GetBrands/" + $("#Product_GroupId :selected").val(),
+                function (data) {
+                    $.each(data,
+                        function () {
+                            $("#Product_Brand_BrandId").append('<option value=' + this.value + '>' + this.text + '</option>');
                         });
                 });
         });

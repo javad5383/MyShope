@@ -44,14 +44,13 @@ namespace JShope.Models
         public DateTime CreateDate { get; set; }
       
         
-        
-        
         public List<ProductImage> ProductImages { get; set; }
         public SubGroup SubGroups { get; set; }
         public Group Group { get; set; }
         public List<ProductColors> ProductColors { get; set; }
         public Brands Brand { get; set; }
-
+        public List<UserFavorites> UserFavorites { get; set; }
         public List<CartDetail> CartDetails { get; set; }
+        public List<Specifications> Specifications { get; set; }
     }
 }

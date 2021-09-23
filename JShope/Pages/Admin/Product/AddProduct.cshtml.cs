@@ -42,6 +42,8 @@ namespace JShope.Pages.Admin.Product
 
             var subGroups = _productService.GetSubGroupsForFilterItems(int.Parse(groups.First().Value));
             ViewData["subGroups"] = new SelectList(subGroups, "Value", "Text");
+            var brands = _productService.GetBrandSelectListItems(int.Parse(groups.First().Value));
+            ViewData["brands"] = new SelectList(brands, "Value", "Text");
 
             #endregion
 
@@ -60,6 +62,8 @@ namespace JShope.Pages.Admin.Product
 
                 var subGroups = _productService.GetSubGroupsForFilterItems(int.Parse(groups.First().Value));
                 ViewData["subGroups"] = new SelectList(subGroups, "Value", "Text");
+                var brands = _productService.GetBrandSelectListItems(int.Parse(groups.First().Value));
+                ViewData["brands"] = new SelectList(brands, "Value", "Text");
                 return Page();
             }
             var newProduct = new Models.Product()
@@ -76,6 +80,10 @@ namespace JShope.Pages.Admin.Product
             if (Product.SubGroupId != 0)
             {
                 newProduct.SubGroupId = Product.SubGroupId;
+            }
+            if (Product.BrandId != 0)
+            {
+                newProduct.BrandId = Product.BrandId;
             }
             var pId = _productService.AddProduct(newProduct);
             if (quantity != null && colorName != null)

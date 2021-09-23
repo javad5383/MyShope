@@ -27,7 +27,10 @@ namespace JShope.Services.Interface
         #region category
         public List<Category> GetCategory()
         {
-            return _context.Categories.ToList();
+            return _context.Categories
+                .Include(g=>g.Groups)
+                .ThenInclude(s=>s.SubGroups)
+                .ToList();
         }
         public void AddCategory(string categoryName)
         {
@@ -212,9 +215,14 @@ namespace JShope.Services.Interface
             _context.SaveChanges();
         }
 
-        public List<Product> GetProduct()
+        public IEnumerable<Product> GetProducts()
         {
-            return _context.Products.ToList();
+            return _context.Products
+                .Include(i => i.ProductImages)
+                .Include(c => c.ProductColors)
+                .Include(c => c.SubGroups)
+                .Include(g => g.Group)
+                .ThenInclude(c => c.Category);
         }
 
         public Product GetProductById(int productId)
@@ -222,7 +230,8 @@ namespace JShope.Services.Interface
             return _context.Products
                 .Include(i => i.ProductImages)
                 .Include(b => b.Brand)
-                .Include(c=>c.ProductColors)
+                .Include(f => f.UserFavorites)
+                .Include(c => c.ProductColors)
                 .Include(c => c.SubGroups)
                 .Include(g => g.Group)
                 .ThenInclude(c => c.Category)
@@ -243,7 +252,7 @@ namespace JShope.Services.Interface
             {
                 Names = imageName,
                 ProductId = productId
-                
+
             };
 
             _context.ProductImages.Add(productImage);
@@ -270,14 +279,9 @@ namespace JShope.Services.Interface
                     File.Delete(deleteImagePath);
 
                 }
-
                 _context.ProductImages.Remove(productImage);
                 _context.SaveChanges();
             }
-
-
-
-
         }
 
         public List<Product> SearchProducts(string filter)
@@ -361,18 +365,18 @@ namespace JShope.Services.Interface
             var productColorsList = _context.ProductColors.Where(c => c.ProductId == productId);
             _context.ProductColors.RemoveRange(productColorsList);
             var newColorsList = new List<ProductColors>();
-             for (int i = 0; i < colorCode.Count; i++)
-             {
-                 var newColor = new ProductColors()
-                 {
-                     ColorCode = colorCode[i],
-                     ColorName = colorName[i],
-                     ProductId = productId
-                 };
+            for (int i = 0; i < colorCode.Count; i++)
+            {
+                var newColor = new ProductColors()
+                {
+                    ColorCode = colorCode[i],
+                    ColorName = colorName[i],
+                    ProductId = productId
+                };
                 newColorsList.Add(newColor);
-             }
-             _context.ProductColors.AddRange(newColorsList);
-             _context.SaveChanges();
+            }
+            _context.ProductColors.AddRange(newColorsList);
+            _context.SaveChanges();
         }
 
         public void RemoveProductColors(int productId)
@@ -382,7 +386,7 @@ namespace JShope.Services.Interface
             _context.SaveChanges();
         }
 
-        public IQueryable<Product> SortProducts(IQueryable<Product> products, string sortMethod)
+        public IEnumerable<Product> SortProducts(IEnumerable<Product> products, string sortMethod)
         {
             switch (sortMethod)
             {
@@ -440,6 +444,16 @@ namespace JShope.Services.Interface
                 }).ToList();
         }
 
+        public List<SelectListItem> GetBrandSelectListItems(int groupId)
+        {
+            return _context.Groups.Where(g => g.GroupId == groupId)
+                .SelectMany(b => b.Brands)
+                .Select(b => new SelectListItem()
+                {
+                    Text = b.BrandName,
+                    Value = b.BrandId.ToString()
+                }).ToList();
+        }
 
 
 
@@ -449,40 +463,51 @@ namespace JShope.Services.Interface
 
         #region Show Product Method For ProductMain 
 
-        public IQueryable<Product> ProductShowMethod(int id, string showMethod)
+        public IEnumerable<Product> ProductShowMethod(int id, string showMethod)
         {
-            var pro = _context.Products.Where(p => p.CategoryId == id);
+            var pro = GetProducts();
             switch (showMethod)
             {
 
                 case "ByCategory":
-                    return _context.Products.Where(p => p.CategoryId == id);
+                    return pro.Where(p => p.CategoryId == id);
 
 
                 case "ByGroup":
-                    return _context.Products.Where(p => p.GroupId == id);
+                    return pro.Where(p => p.GroupId == id);
                 case "BySubGroup":
-                    return _context.Products.Where(p => p.SubGroupId == id);
+                    return pro.Where(p => p.SubGroupId == id);
                 default:
                     return null;
             }
 
         }
 
-        public IQueryable<Product> GetProductByBrand(IQueryable<Product> products, List<int> brandIds)  //***********************
+        public IEnumerable<Product> GetProductByBrand(IEnumerable<Product> products, List<int> brandIds)  //***********************
         {
 
-            IQueryable<Product> pro = products.Where(b => brandIds.Contains((int)b.BrandId));
+            var pro = GetProducts().Where(b => b.BrandId != null && brandIds.Contains((int)b.BrandId));
 
 
 
             return pro;
         }
 
-        public IQueryable<Product> GetProductsByName(string searchWord)
+        public IEnumerable<Product> GetProductsByName(string searchWord)
         {
             return _context.Products.Where(p => p.ProductName.Contains(searchWord));
+        }
 
+        public void AddFavorite(int productId, int userId)
+        {
+
+            var favor = new UserFavorites()
+            {
+                UserId = userId,
+                ProductId = productId
+            };
+            _context.UserFavorites.Add(favor);
+            _context.SaveChanges();
         }
 
 

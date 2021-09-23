@@ -80,7 +80,15 @@ namespace JShope.Controllers
             list.AddRange(_productService.GetSubGroupsForFilterItems(id));
             return Json(new SelectList(list, "Value", "Text"));
         }
-
+        public IActionResult GetBrands(int id)
+        {
+            List<SelectListItem> list = new List<SelectListItem>()
+            {
+                new SelectListItem(){Text = "انتخاب کنید",Value = ""}
+            };
+            list.AddRange(_productService.GetBrandSelectListItems(id));
+            return Json(new SelectList(list, "Value", "Text"));
+        }
         public IActionResult GetProduct(int id)
         {
             var product = _productService.GetProductBySubGroupId(id);

@@ -1,19 +1,19 @@
 ﻿@using JShope.Services.Interface
+@inject IProductService _productService
+@{
+    var categories = _productService.GetCategory();
+
+}
 
 <!-- responsive-header -->
-@inject IProductService _productService
-
-
 
 <nav class="navbar direction-ltr fixed-top header-responsive">
     <div class="container">
         <div class="navbar-translate">
             <a class="navbar-brand" href="#pablo">
-                <img src="/assets/img/logo.png" height="24" alt="">
+                <img src="assets/img/logo.png" height="24px" alt="">
             </a>
-            <button class="navbar-toggler navbar-toggler-right " type="button" data-toggle="collapse"
-                    data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-bar bar1"></span>
                 <span class="navbar-toggler-bar bar2"></span>
                 <span class="navbar-toggler-bar bar3"></span>
@@ -21,16 +21,11 @@
             <div class="search-nav default">
                 <form action="">
                     <input type="text" placeholder="جستجو ...">
-                    <button type="submit"><img src="/assets/img/search.png" alt=""></button>
+                    <button type="submit"><img src="assets/img/search.png" alt=""></button>
                 </form>
                 <ul>
-
-                    <li><a href="/"><i class="now-ui-icons users_single-02"></i></a></li>
-
-
+                    <li><a href="#"><i class="now-ui-icons users_single-02"></i></a></li>
                     <li><a href="#"><i class="now-ui-icons shopping_basket"></i></a></li>
-                    <span id="cartBadge1" style="position: absolute; left:45px; top: 4px; color: #dc4e4e; font-size: 9px; font-weight: bold;">1</span>
-
                 </ul>
             </div>
         </div>
@@ -38,51 +33,41 @@
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <div class="logo-nav-res default text-center">
                 <a href="#">
-                    <img src="/assets/img/logo.png" height="36px" alt="">
+                    <img src="assets/img/logo.png" height="36px" alt="">
                 </a>
             </div>
-
             <ul class="navbar-nav default">
-                @foreach (var category in _productService.GetCategory())
+                @foreach (var category in categories)
                 {
-
                     <li class="sub-menu">
-                        <a href="/productMain/@category.CategoryId">@category.CategoryName</a>
-                        <ul>
-                            @foreach (var group in _productService.GetGroupsByCategoryId(category.CategoryId))
-                            {
+                        <a href="#">@category.CategoryName </a>
 
+                        @foreach (var group in category.Groups)
+                        {
+                            <ul>
                                 <li class="sub-menu">
                                     <a href="#">@group.GroupName</a>
-
-
                                     <ul>
-
-                                        @foreach (var subGroup in _productService.GetSubGroupsByGroupId(group.GroupId))
+                                        @if (group.SubGroups.Count != 0)
                                         {
-                                            <li>
-                                                <a href="#">@subGroup.SubGroupName</a>
-                                            </li>
+                                            @foreach (var subGroup in group.SubGroups)
+                                            {
+                                                <li>
+                                                    <a asp-action="Index" asp-controller="ProductsMain" asp-route-id="@subGroup.SubGroupId" asp-route-show="BySubGroup" >@subGroup.SubGroupName</a>
+                                                </li>
+                                            }
                                         }
-
                                     </ul>
-
                                 </li>
-                            }
-                        </ul>
+                            </ul>
+                        }
                     </li>
                 }
-
             </ul>
-
         </div>
     </div>
 </nav>
-
-
 <div class="wrapper default">
-
-
     <header class="main-header default">
         <div class="container">
             <div class="row">
@@ -105,12 +90,8 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <div class="user-login dropdown">
-
-
                         @if (!User.Identity.IsAuthenticated)
                         {
-
-
                             <a href="#" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown"
                                id="navbarDropdownMenuLink1" aria-expanded="false">
                                 ورود / ثبت نام
@@ -123,12 +104,10 @@
                                     <span>کاربر جدید هستید؟</span> <a class="register" asp-action="Register" asp-controller="User">ثبت‌نام</a>
                                 </div>
                             </ul>
-
                         }
-
                     </div>
                     <div style="display: flex">
-                        <div style="margin-right: 77%; position: relative;" class="row" >
+                        <div style="margin-right: 77%; position: relative;" class="row">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a data-toggle="tooltip" data-placement="top" title="نمایش پروفایل" class="show-onhover" href="/userprofile/profile">
@@ -137,30 +116,23 @@
                             }
                             <a data-toggle="tooltip" data-placement="top" title="سبد خرید" href="/cart">
                                 <img style=" width: 22px; margin-right: 40%" src="/assets/img/svg/shopping-cart.png" />
-
                             </a>
                             @*<span  style="background-color: #1dc249; color: white; font-size: 12pt; width: 23px; height: 22px; margin-right: -10px; margin-top: 10px; text-align: center; " class="badge badge-bold">12</span>*@
-                           
                             @*<span id="cartBadge"></span>*@
-                            <span id="cartBadge2" ><i class="fa fa fa-circle" style="color: #dc4e4e; font-size: 14px; "></i></span>
+                            <span id="cartBadge2"><i class="fa fa fa-circle" style="color: #dc4e4e; font-size: 14px; "></i></span>
                             <span id="cartBadge" style="position: absolute; left: 3px; top: 4px; color: #f2f2f2; font-size: 9px; font-weight: bold;"></span>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
         <nav class="main-menu">
             <div class="container">
-
-
                 <ul class="list float-right">
                     @foreach (var category in _productService.GetCategory())
                     {
                         <li class="list-item list-item-has-children mega-menu mega-menu-col-5">
                             <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-id="@category.CategoryId" asp-route-Show="ByCategory">@category.CategoryName</a>
-
                             <ul class="sub-menu nav">
                                 @foreach (var group in _productService.GetGroupsByCategoryId(category.CategoryId))
                                 {
@@ -176,27 +148,17 @@
                                                     <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-id="@subGroup.SubGroupId" asp-route-show="BySubGroup">@subGroup.SubGroupName </a>
                                                 </li>
                                             }
-
-
-
                                         </ul>
                                     </li>
                                 }
-
                                 @*<img src="/assets/img/1636.png" alt="">*@
                             </ul>
                         </li>
-
-
                     }
-
-
                     <li class="list-item amazing-item">
                         <a class="nav-link" href="#" target="_blank">شگفت‌انگیزها</a>
                     </li>
                 </ul>
-
-
             </div>
         </nav>
     </header>
@@ -221,19 +183,19 @@
     var cartListCount = cartCookie.split(',').length;
     if (cartCookie === "") {
         $("#cartBadge,#cartBadge1,#cartBadge2").hide();
-     
+
 
     } else {
         $("#cartBadge,#cartBadge1,#cartBadge2").show();
         $("#cartBadge,#cartBadge1").text(cartListCount);
-       
+
     }
     var cartLengthAfterLogin = getCookie("CartLength");
-    //if (cartLengthAfterLogin!=="0") {
-    //    $("#cartBadge,#cartBadge1,#cartBadge2").show();
-    //    $("#cartBadge,#cartBadge1").text(cartLengthAfterLogin);
-    //} else {
-    //    $("#cartBadge,#cartBadge1,#cartBadge2").hide();
-    //}
+        //if (cartLengthAfterLogin!=="0") {
+        //    $("#cartBadge,#cartBadge1,#cartBadge2").show();
+        //    $("#cartBadge,#cartBadge1").text(cartLengthAfterLogin);
+        //} else {
+        //    $("#cartBadge,#cartBadge1,#cartBadge2").hide();
+        //}
 </script>
 

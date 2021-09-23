@@ -42,7 +42,6 @@ namespace JShope.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BrandId");
@@ -291,6 +290,26 @@ namespace JShope.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("JShope.Models.Specifications", b =>
+                {
+                    b.Property<int>("SpecificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("HeadLine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SpecificationId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Specifications");
+                });
+
             modelBuilder.Entity("JShope.Models.SubGroup", b =>
                 {
                     b.Property<int>("SubGroupId")
@@ -309,6 +328,51 @@ namespace JShope.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("SubGroups");
+                });
+
+            modelBuilder.Entity("JShope.Models.Titles", b =>
+                {
+                    b.Property<int>("TitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Explanation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpecificationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TitleId");
+
+                    b.HasIndex("SpecificationId");
+
+                    b.ToTable("Titles");
+                });
+
+            modelBuilder.Entity("JShope.Models.UserFavorites", b =>
+                {
+                    b.Property<int>("FavoritesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavoritesId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFavorites");
                 });
 
             modelBuilder.Entity("JShope.Models.Users", b =>
@@ -486,6 +550,17 @@ namespace JShope.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("JShope.Models.Specifications", b =>
+                {
+                    b.HasOne("JShope.Models.Product", "Product")
+                        .WithMany("Specifications")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("JShope.Models.SubGroup", b =>
                 {
                     b.HasOne("JShope.Models.Group", "Group")
@@ -495,6 +570,36 @@ namespace JShope.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("JShope.Models.Titles", b =>
+                {
+                    b.HasOne("JShope.Models.Specifications", "Specification")
+                        .WithMany("Titles")
+                        .HasForeignKey("SpecificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Specification");
+                });
+
+            modelBuilder.Entity("JShope.Models.UserFavorites", b =>
+                {
+                    b.HasOne("JShope.Models.Product", "Products")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JShope.Models.Users", "User")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Products");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("JShope.Models.Brands", b =>
@@ -526,6 +631,15 @@ namespace JShope.Migrations
                     b.Navigation("ProductColors");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("Specifications");
+
+                    b.Navigation("UserFavorites");
+                });
+
+            modelBuilder.Entity("JShope.Models.Specifications", b =>
+                {
+                    b.Navigation("Titles");
                 });
 
             modelBuilder.Entity("JShope.Models.SubGroup", b =>
@@ -536,6 +650,8 @@ namespace JShope.Migrations
             modelBuilder.Entity("JShope.Models.Users", b =>
                 {
                     b.Navigation("Carts");
+
+                    b.Navigation("UserFavorites");
                 });
 #pragma warning restore 612, 618
         }

@@ -52,7 +52,7 @@ namespace JShope.Services.Interface
         int AddProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(Product product);
-        List<Product> GetProduct();
+        IEnumerable<Product> GetProducts();
         Product GetProductById(int productId);
         List<Product> GetProductBySubGroupId(int subGroupId);
         void RemoveProduct(Product product);
@@ -61,13 +61,11 @@ namespace JShope.Services.Interface
         void RemoveImage(int imgId, int productId);
         List<Product> SearchProducts(string filter);
 
-        
-
         List<Product> GetProductByCategoryId(int categoryId);
 
         List<Product> GetProductByGroupId(int groupId);
 
-        
+        void AddFavorite(int productId,int userId);
 
         #endregion
 
@@ -96,12 +94,12 @@ namespace JShope.Services.Interface
 
         #region ShowProductForProductsMain
 
-        IQueryable<Product> ProductShowMethod(int id,string showMethod);
-        IQueryable<Product> SortProducts(IQueryable<Product> products, string sortMethod);
+        IEnumerable<Product> ProductShowMethod(int id,string showMethod);
+        IEnumerable<Product> SortProducts(IEnumerable<Product> products, string sortMethod);
 
-        IQueryable<Product> GetProductByBrand(IQueryable<Product> products,List<int> brandId);
+        IEnumerable<Product> GetProductByBrand(IEnumerable<Product> products,List<int> brandId);
 
-        IQueryable<Product> GetProductsByName(string searchWord);
+        IEnumerable<Product> GetProductsByName(string searchWord);
 
         #endregion
 
@@ -109,6 +107,7 @@ namespace JShope.Services.Interface
         List<SelectListItem> GetCategoryForFilterItems();
         List<SelectListItem> GetGroupsForFilterItems(int categoryId);
         List<SelectListItem> GetSubGroupsForFilterItems(int groupId);
+        public List<SelectListItem> GetBrandSelectListItems(int groupId);
 
         #endregion
 
@@ -138,10 +137,10 @@ namespace JShope.Services.Interface
 
 
 
-       
 
 
 
-       
+
+
     }
 }

@@ -2,11 +2,12 @@
 @using System.Collections
 @model List<Product>
 @{
-
     TempData.Keep("selectedBrands");
     var selectedBrands = TempData["selectedBrands"];
-
-
+    var brands = ViewData["brand"] as List<Brands>;
+    var categories = Model.Select(c => c.Group.Category).Distinct();
+    var groups = Model.Select(g => g.Group).Distinct();
+    var subGroups = Model.Select(s => s.SubGroups).Distinct();
 
 }
 
@@ -36,46 +37,44 @@
                                 <i class="now-ui-icons arrows-1_minimal-down"></i>
                             </div>
                         </div>
-                        <div class="box-content">
+                        <!--<div class="box-content">
                             <div class="collapse show" id="collapseExample1">
-
-
-                                <div>
+                                <div>-->
                                     @*<div class="checkbox">
                                             <input id="checkbox1" type="checkbox">
                                             <label for="checkbox1">
                                                 ریمکس
                                             </label>
                                         </div>*@
-
-                                    <ul>
-                                        <li>
-                                            <span class="caretjav">
-                                                <a href="#" style="color: blue">toDo</a>
-                                            </span>
-                                            <ul style="margin-right: 15px">
-
-                                                <li>
-                                                    <span class="caretjav">
-                                                        <a href="#" style="color: blue">toDo</a>
-                                                    </span>
-                                                    <ul style="margin-right: 45px">
-
-
-                                                        <li>
-                                                            <a href="#" style="color: blue">toDo</a>
-                                                        </li>
-
-
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
+                                    @*<ul>
+                                       
+                                            <li>
+                                                <span class="caretjav">
+                                                    <a href="#" style="color: blue">@categories.Select(n=>n.CategoryName).First()</a>
+                                                </span>
+                                                <ul style="margin-right: 15px">
+                                                    <li>
+                                                        <span class="caretjav">
+                                                            <a href="#" style="color: blue">@groups.Select(n=>n.GroupName).First()</a>
+                                                        </span>
+                                                        <ul style="margin-right: 45px">
+                                                            @foreach (var sub in subGroups)
+                                                            {
+                                                                <li>
+                                                                    <a href="#" style="color: blue">@sub.SubGroupName</a>
+                                                                </li>
+                                                            }
+                                                           
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        
+                                      
+                                    </ul>*@
+                                <!--</div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="box">
                         <div class="box-header">
@@ -92,11 +91,10 @@
                                            placeholder="نام برند مورد نظر را بنویسید…">
                                     <span class="ui-input-cleaner"></span>
                                 </div>
-                                @if ((IEnumerable<Brands>)ViewData["brand"] != null)
+                                @if (brands!=null)
                                 {
                                     <div class="filter-option">
-
-                                        @foreach (var item in (IEnumerable<Brands>)ViewData["brand"])
+                                        @foreach (var item in brands)
                                         {
                                             if (item != null)
                                             {
@@ -113,7 +111,6 @@
                                         }
                                     </div>
                                 }
-
                             </div>
                         </div>
                     </div>
@@ -172,46 +169,41 @@
                                     <ul class="row listing-items">
                                         @foreach (var item in Model)
                                         {
-                                           
                                             <li class="col-xl-3 col-lg-4 col-md-6 col-12 no-padding">
                                                 <a asp-controller="ProductsMain" asp-action="SingleProduct" asp-route-productId="@item.ProductId">
-                                                <div class="product-box">
-                                                    <div class="product-seller-details product-seller-details-item-grid">
-                                                        <span class="product-main-seller">
-                                                            <span class="product-seller-details-label">
-                                                                فروشنده:
-                                                            </span>دیجی کالا
-                                                        </span>
-                                                        <span class="product-seller-details-badge-container"></span>
-                                                    </div>
-                                                    <p class="product-box-img" href="#">
-                                                        <img src="/images/product/@_productService.GetProductImage(item.ProductId).FirstOrDefault()?.Names" alt="">
-                                                    </p>
-                                                    <div class="product-box-content">
-                                                        <div class="product-box-content-row">
-                                                            <div class="product-box-title">
-                                                                <p >
-                                                                    @item.ProductName
-                                                                </p>
-                                                            </div>
+                                                    <div class="product-box">
+                                                        <div class="product-seller-details product-seller-details-item-grid">
+                                                            <span class="product-main-seller">
+                                                                <span class="product-seller-details-label">
+                                                                    فروشنده:
+                                                                </span>دیجی کالا
+                                                            </span>
+                                                            <span class="product-seller-details-badge-container"></span>
                                                         </div>
-                                                        <div class="product-box-row product-box-row-price">
-                                                            <div class="price">
-                                                                <div class="price-value">
-                                                                    <div class="price-value-wrapper">
-                                                                        @item.Price.ToString("##,###") <span class="price-currency">تومان</span>
+                                                        <p class="product-box-img" href="#">
+                                                            <img src="/images/product/@_productService.GetProductImage(item.ProductId).FirstOrDefault()?.Names" alt="">
+                                                        </p>
+                                                        <div class="product-box-content">
+                                                            <div class="product-box-content-row">
+                                                                <div class="product-box-title">
+                                                                    <p>
+                                                                        @item.ProductName
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-box-row product-box-row-price">
+                                                                <div class="price">
+                                                                    <div class="price-value">
+                                                                        <div class="price-value-wrapper">
+                                                                            @item.Price.ToString("##,###") <span class="price-currency">تومان</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 </a>
                                             </li>
-
-                                           
-
-
                                         }
                                     </ul>
                                 </div>
@@ -246,9 +238,6 @@
             </div>
         </div>
     </form>
-
-
-
 </main>
 <script>
     function checkPost() {

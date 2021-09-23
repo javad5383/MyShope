@@ -11,7 +11,7 @@ namespace JShope.Models
         [Key]
         public int BrandId { get; set; }
 
-        [Required]
+        
         public string BrandName { get; set; }
 
         public virtual ICollection<Group> Groups  { get; set; }
