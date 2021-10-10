@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 
 using JShope.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace JShope.Services.Interface
 {
@@ -23,7 +24,7 @@ namespace JShope.Services.Interface
        List<Users> GetUsers();
        List<Users> GetUsersForPaging(int take=8,int pageNumber=1);
 
-        void UpdateUser(EditProfileViewModel user,int userId);
+        void EditUser(EditProfileViewModel user,int userId,IFormFile userAvatar);
         void UpdateUser(Users user);
 
         EditProfileViewModel GetUserViewModel(int userId);
@@ -36,12 +37,11 @@ namespace JShope.Services.Interface
        void RemoveUser(int userId);
        void RemoveUserAvatar(int userId);
         //cart
-       void AddToCart(int productId,int userId);
-      
+       void AddToCart(int productId,int userId,int selectedProductColor);
+       List<CartDetail> AddToCartForGuestUser(List<CartDetail> cartDetails,int productId, int selectedProductColorId);
+       CartDetail GetCartDetailForGuestUser(int productId,int selectedProductColorId);
        void DeleteFromCart(int cartId,int cartDetailId,int userId);
        Cart GetUserCart(int userId);
-
-      List<CartDetail> GetCartDetailForGuestUser(List<int> productId);
 
       Tuple<bool, bool> CheckUserValidation(int userId);
 

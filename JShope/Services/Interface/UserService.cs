@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace JShope.Services.Interface
 {
@@ -75,7 +77,7 @@ namespace JShope.Services.Interface
             return userTake;
         }
 
-        public void UpdateUser(EditProfileViewModel user, int userId)
+        public void EditUser(EditProfileViewModel user, int userId, IFormFile userAvatar)
         {
             var usr = GetUserByUserId(userId);
             usr.Email = user.Email;
@@ -88,6 +90,29 @@ namespace JShope.Services.Interface
             usr.IsComplete = true;
 
             _context.SaveChanges();
+            if (userAvatar != null)
+            {
+                if (usr.UserAvatar != null)
+                {
+                    var deleteImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", usr.UserAvatar);
+                    if (System.IO.File.Exists(deleteImagePath))
+                    {
+                        System.IO.File.Delete(deleteImagePath);
+                    }
+                }
+                //delete previous avatar
+                //change  avatar name in DB
+                var newAvatarName = Guid.NewGuid() + "-" + userAvatar.FileName;
+                usr.UserAvatar = newAvatarName;
+                //save new avatar 
+                var fileName = userAvatar.FileName;
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", newAvatarName);
+
+                using var stream = new FileStream(imagePath, FileMode.Create);
+
+                userAvatar.CopyTo(stream);
+                _context.SaveChanges();
+            }
         }
         public void UpdateUser(Users user)
         {
@@ -98,20 +123,26 @@ namespace JShope.Services.Interface
 
         public EditProfileViewModel GetUserViewModel(int userId)
         {
-            var cuser = _context.Users.FirstOrDefault(s => s.UserId == userId);
-            var user = new EditProfileViewModel()
+            var cUser = _context.Users.FirstOrDefault(s => s.UserId == userId);
+            if (cUser!=null)
             {
-                BankCardNumber = cuser.BankCardNumber,
-                Email = cuser.Email,
-                Family = cuser.Family,
-                Name = cuser.Name,
-                NationalCode = cuser.NationalCode,
-                PhoneNumber = cuser.PhoneNumber,
-                UserId = cuser.UserId,
-                UserHomeAddress = cuser.UserHomeAddress
-            };
+                var user = new EditProfileViewModel()
+                {
+                    BankCardNumber = cUser.BankCardNumber,
+                    Email = cUser.Email,
+                    Family = cUser.Family,
+                    Name = cUser.Name,
+                    NationalCode = cUser.NationalCode,
+                    PhoneNumber = cUser.PhoneNumber,
+                    UserId = cUser.UserId,
+                    UserHomeAddress = cUser.UserHomeAddress,
+                    UserAvatar = cUser.UserAvatar
+                };
+                return user;
+            }
 
-            return user;
+            return null;
+
         }
 
         public void SaveChanges()
@@ -163,7 +194,7 @@ namespace JShope.Services.Interface
             }
         }
 
-        public void AddToCart(int productId, int userId)
+        public void AddToCart(int productId, int userId, int selectedProductColor)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
             var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
@@ -179,6 +210,7 @@ namespace JShope.Services.Interface
                         IsFinish = false,
                         IsSuccess = false,
                         DeliveryAddress = user.UserHomeAddress
+                        
                     };
                     _context.Carts.Add(crt);
                     _context.SaveChanges();
@@ -189,6 +221,7 @@ namespace JShope.Services.Interface
                         Price = product.Price,
                         Quantity = 1
                     };
+                    if (selectedProductColor != 0) { cartDetail.SelectedProductColor = selectedProductColor; }
                     crt.TotalPrice = cartDetail.Price;
                     crt.Count = cartDetail.Quantity;
                     _context.CartDetails.Add(cartDetail);
@@ -197,7 +230,10 @@ namespace JShope.Services.Interface
                 }
                 else
                 {
-                    var cartDetail = _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.ProductId == product.ProductId);
+
+                    var cartDetail = selectedProductColor != 0 ?
+                        _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.ProductId == product.ProductId && c.SelectedProductColor == selectedProductColor)
+                        : _context.CartDetails.FirstOrDefault(c => c.CartId == cart.CartId && c.ProductId == product.ProductId);
                     if (cartDetail == null)
                     {
                         CartDetail crtDetail = new CartDetail()
@@ -205,7 +241,8 @@ namespace JShope.Services.Interface
                             ProductId = product.ProductId,
                             CartId = cart.CartId,
                             Price = product.Price,
-                            Quantity = 1
+                            Quantity = 1,
+                            SelectedProductColor = selectedProductColor
                         };
                         _context.CartDetails.Add(crtDetail);
 
@@ -234,6 +271,86 @@ namespace JShope.Services.Interface
 
         }
 
+        public List<CartDetail> AddToCartForGuestUser(List<CartDetail> cartDetails, int productId, int selectedProductColorId)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+            if (product!=null)
+            {
+                if (cartDetails != null )
+                {
+                    var existingCartDetail = cartDetails.Find(p => p.ProductId == productId && p.SelectedProductColor == selectedProductColorId);
+                    if (existingCartDetail != null)
+                    {
+
+                        existingCartDetail.Quantity++;
+                        existingCartDetail.Price = product.Price * existingCartDetail.Quantity;
+                        existingCartDetail.SelectedProductColor = selectedProductColorId;
+                        
+                    }
+                    else
+                    {
+                       
+                        CartDetail crtDetail = new CartDetail()
+                        {
+                            Product = product,
+                            ProductId = product.ProductId,
+                            Price = product.Price,
+                            Quantity = 1,
+                            SelectedProductColor = selectedProductColorId
+                        };
+                       
+                        cartDetails.Add(crtDetail);
+                        return cartDetails;
+
+                    }
+                    
+                }
+                else
+                {
+                    var cartDetailList = new List<CartDetail>();
+                    CartDetail crtDetail = new CartDetail()
+                    {
+                        Product = product,
+                        ProductId = product.ProductId,
+                        Price = product.Price,
+                        Quantity = 1,
+                        SelectedProductColor = selectedProductColorId
+                    };
+
+                    cartDetailList.Add(crtDetail);
+                    return cartDetailList;
+
+                }
+               
+
+            }
+
+            return null;
+
+        }
+
+        public CartDetail GetCartDetailForGuestUser(int productId, int selectedProductColorId)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+
+            if (product != null)
+            {
+                var productColor = _context.ProductColors.FirstOrDefault(p =>
+                    p.ProductId == product.ProductId && p.ColorId == selectedProductColorId);
+                CartDetail cartDetail = new CartDetail()
+                {
+                    Product = product,
+                    ProductId = product.ProductId,
+                    Price = product.Price,
+                    Quantity = 1,
+                    SelectedProductColor = productColor?.ProductId ?? 0 //if productColor!=null{SelectedProductColor== productColor.ProductId else:=0}
+                };
+                return cartDetail;
+            }
+
+            return null;
+        }
+
         public Cart GetUserCart(int userId)
         {
             return _context.Carts
@@ -242,51 +359,6 @@ namespace JShope.Services.Interface
                 .ThenInclude(p => p.Product)
                 .ThenInclude(i => i.ProductImages)
                 .FirstOrDefault(c => c.UserId == userId && !c.IsFinish);
-        }
-
-        public List<CartDetail> GetCartDetailForGuestUser(List<int> productId)//not logged in users
-        {
-            var product = new List<Product>();
-            var cartDetail = new List<CartDetail>();
-
-            foreach (var item in productId)
-            {
-                var p = _context.Products
-                    .Include(p => p.ProductImages)
-                    .FirstOrDefault(a => a.ProductId == item);
-                product.Add(p);
-
-            }
-
-            foreach (var item in product)
-            {
-                //var a = product.Count(d => d.ProductId == item.ProductId);
-                var crtDetail = cartDetail.FirstOrDefault(p => p.ProductId == item.ProductId);
-                if (crtDetail == null)
-                {
-                    var c = new CartDetail()
-                    {
-                        ProductId = item.ProductId,
-                        Price = item.Price,
-                        Quantity = 1,
-                        Product = item,
-
-
-                    };
-
-                    cartDetail.Add(c);
-                }
-                else
-                {
-                    crtDetail.Quantity += 1;
-                    crtDetail.Price = item.Price * crtDetail.Quantity;
-                }
-
-
-            }
-
-            return cartDetail;
-
         }
 
         public Tuple<bool, bool> CheckUserValidation(int userId)
@@ -348,17 +420,21 @@ namespace JShope.Services.Interface
         {
             return _context.Orders.Select(a => a)
                 .Include(c => c.Cart.User)
-                .Include(d=>d.Cart)
-                .ThenInclude(d=>d.CartDetails);
+                .Include(d => d.Cart)
+                .ThenInclude(d => d.CartDetails);
 
 
         }
 
         public Orders GetOrderById(int orderId)
         {
+           
             return _context.Orders
                 .Include(c => c.Cart)
                 .ThenInclude(u => u.User)
+                .Include(cd => cd.Cart.CartDetails)
+                .ThenInclude(p => p.Product)
+                .ThenInclude(i=> i.ProductColors)
                 .Include(cd => cd.Cart.CartDetails)
                 .ThenInclude(p => p.Product)
                 .ThenInclude(i => i.ProductImages)
@@ -386,16 +462,16 @@ namespace JShope.Services.Interface
                     return orders.OrderBy(n => n.OrderNumber);
                 case "ByQuantity":
 
-                    return orders.OrderByDescending(c => c.Cart.CartDetails.Sum(q=>q.Quantity));
+                    return orders.OrderByDescending(c => c.Cart.CartDetails.Sum(q => q.Quantity));
                 case "ByDate":
                     return orders.OrderByDescending(c => c.CreatedDate);
                 case "ByPayment":
-                    return orders.OrderByDescending(p=>p.Cart.IsSuccess).ThenByDescending(d=>d.CreatedDate);
+                    return orders.OrderByDescending(p => p.Cart.IsSuccess).ThenByDescending(d => d.CreatedDate);
                 case "ByDeliverStatus":
                     return orders.OrderBy(i => i.IsDelivered).ThenByDescending(p => p.Cart.IsSuccess);
 
                 default:
-                    return   orders.OrderBy(i => i.IsDelivered).ThenByDescending(p => p.Cart.IsSuccess); ;
+                    return orders.OrderBy(i => i.IsDelivered).ThenByDescending(p => p.Cart.IsSuccess); ;
 
 
             }
@@ -416,5 +492,7 @@ namespace JShope.Services.Interface
             _context.SaveChanges();
 
         }
+
+
     }
 }

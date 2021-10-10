@@ -25,11 +25,6 @@ namespace JShope.Pages.Admin.Product
 
         [BindProperty]
         public Models.Product Product { get; set; }
-
-        public ProductColors ProductColor { get; set; }
-        //[BindProperty]
-        //public List<ProductColors> ProductColorList{ get; set; }
-
         public void OnGet()
         {
             #region Select
@@ -49,7 +44,7 @@ namespace JShope.Pages.Admin.Product
 
         }
 
-        public IActionResult OnPost(List<IFormFile> file, List<int> quantity, List<string> colorName, List<string> colorCode)
+        public IActionResult OnPost(List<IFormFile> file, List<int> quantity, List<string> colorName, List<string> colorCode, List<string> specificationTitle, List<string> titleExplanation)
         {
 
             if (!ModelState.IsValid)
@@ -71,7 +66,7 @@ namespace JShope.Pages.Admin.Product
                 ProductName = Product.ProductName,
                 Description = Product.Description,
                 Price = Product.Price,
-                TotalQuantity  = Product.TotalQuantity,
+                TotalQuantity = Product.TotalQuantity,
                 CategoryId = Product.CategoryId,
                 GroupId = Product.GroupId,
                 CreateDate = DateTime.Now
@@ -86,24 +81,47 @@ namespace JShope.Pages.Admin.Product
                 newProduct.BrandId = Product.BrandId;
             }
             var pId = _productService.AddProduct(newProduct);
+            //add quantity and color of product
             if (quantity != null && colorName != null)
             {
-                
                 var colorsList = new List<ProductColors>();
                 for (int i = 0; i < quantity.Count; i++)
                 {
-                    var colors = new ProductColors
+                    if (quantity[i] != 0 && colorName[i] != null)
                     {
-                        Quantity = quantity[i],
-                        ColorCode = colorCode[i],
-                        ColorName = colorName[i],
-                        ProductId = pId
-                    };
-                    colorsList.Add(colors);
+                        var colors = new ProductColors
+                        {
+                            Quantity = quantity[i],
+                            ColorCode = colorCode[i],
+                            ColorName = colorName[i],
+                            ProductId = pId
+                        };
+                        colorsList.Add(colors);
+                    }
+
                 }
                 _productService.AddColors(colorsList);
             }
-            
+            //add specification
+            if (specificationTitle != null && titleExplanation != null)
+            {
+                var titleList = new List<Titles>();
+                for (int i = 0; i < specificationTitle.Count; i++)
+                {
+                    if (specificationTitle[i] != null && titleExplanation[i] != null)
+                    {
+                        var title = new Titles()
+                        {
+                            Title = specificationTitle[i],
+                            Explanation = titleExplanation[i]
+                        };
+                        titleList.Add(title);
+                    }
+
+                }
+                _productService.AddProductSpecificationTitle(pId, "مشخصات کلی", titleList);
+
+            }
             if (file != null)
             {
                 foreach (var item in file)

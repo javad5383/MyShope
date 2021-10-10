@@ -1,0 +1,114 @@
+﻿@page
+@model JShope.Pages.Admin.Brands.IndexModel
+@{
+}
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content">
+            <form method="post">
+                <div id="grp_2" class="container-fluid">
+                    <h1> برند</h1>
+                    <div style="margin-top: 3%" class="form-row align-items-center">
+                        <div style="margin-left: 2%">
+                            <h3>افزودن برند جدید:</h3>
+                        </div>
+                        <div class="col-auto">
+                            <input name="brandName" type="text" class="form-control mb-2" placeholder=" نام برند جدید" id="inlineFormInput1">
+                            <span id="inlineFormInput2" class="text-danger"></span>
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn2" type="submit" class="btn btn-success-outline  "><i class="fa fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 3%" class="row">
+                        @if (Model.Brands != null)
+                        {
+                            foreach (var item in Model.Brands)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-3  ">
+                                    <div class="form-group">
+                                        <div class="input-group  colorpicker-element">
+                                            <input readonly="readonly" value="@item.BrandName" class="form-control">
+                                            <a href="/admin/brands?brandId=@item.BrandId" class="btn btn-icon  ti-eye  btn-success-outline" data-toggle="tooltip" data-placement="top" title="دیدن کالاها"></a>
+                                            <a style="margin-right: 1%" href="" class="btn btn-icon  ti-trash  btn-danger-outline"></a>
+                                            <a style="margin-right: 1%" href="" class="btn btn-icon    btn-primary-outline">ویرایش</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-danger">
+                                <h2>هیچ برندی یافت نشد!</h2>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <a style="padding-right: 10%; padding-left: 10%; margin-right: 35%;margin-top: 50px" href="/admin/product/categories" class="btn btn-icon    btn-danger-outline">بازگشت</a>
+
+                <div style="margin-top: 50px" class="row" id="pushJQ">
+                    @if (Model.Products != null)
+                    {
+                        foreach (var item in Model.Products)
+                        {
+                            <div class="col-12 col-lg-6 col-xl-4">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <div class="product-img">
+                                            <img src="/images/product/@item.ProductImages.Select(n=>n.Names).First()" alt="">
+                                        </div>
+                                        <div >
+                                            <h3 class="box-title mb-0">@item.ProductName</h3>
+                                            <h2 style="margin-top: 30px" class="pro-price text-blue">@item.Price.ToString("##,###")</h2>
+                                            <small style="margin-top: 30px" class="text-muted">@item.Description</small>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        }
+                      
+                    }
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+@*<script>
+    $(document).ready(function () {
+        $(".ti-eye").click(function (event) {
+           
+            $("#pushJQ").empty();
+            var id = event.target.id;
+            console.log(id);
+            $.get("/home/getProductByBrands?brandId=" + id, function (data) {
+                
+                console.log(JSON.parse(data));
+                $.each(data, function (i) {
+                   
+                    $("#pushJQ").append('<div class="col-12 col-lg-6 col-xl-4"> +' +
+                        '<div class="box">'
+                        + '<div class="box-body">'
+                        + '<div class="product-img">'
+                        + '<img src="/images/product/" alt="">'
+                        + '</div>' + '<div class="product-text">'
+                        + '<div class="pro-img-overlay">'
+                        + '<a href="javascript:void(0)" class="btn btn-info btn-icon-circle"><i class="mdi mdi-settings"></i></a>'
+                        + '<a href="javascript:void(0)" class="btn btn-danger btn-icon-circle"><i class="mdi mdi-delete"></i></a>'
+                        + '</div>' + '<h2 class="pro-price text-blue">$270</h2>' + '<h3 class="box-title mb-0">' +data[i].productName+ '</h3>'
+                        + '<small class="text-muted db">Lorem Ipsum Dummy Text</small>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>');
+                });
+
+
+            });
+        });
+
+    });
+</script>*@

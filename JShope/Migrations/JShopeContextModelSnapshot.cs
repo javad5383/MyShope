@@ -103,6 +103,9 @@ namespace JShope.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SelectedProductColor")
+                        .HasColumnType("int");
+
                     b.HasKey("DetailId");
 
                     b.HasIndex("CartId");

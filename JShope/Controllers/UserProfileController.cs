@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JShope.Services.Interface;
 using System.Security.Claims;
 using JShope.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace JShope.Controllers
 {
@@ -37,7 +38,7 @@ namespace JShope.Controllers
 
 
         [HttpPost]
-        public IActionResult EditProfile(EditProfileViewModel users)
+        public IActionResult EditProfile(EditProfileViewModel users,IFormFile userAvatar)
         {
             if (!ModelState.IsValid)
             {
@@ -46,7 +47,7 @@ namespace JShope.Controllers
             }
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            _userService.UpdateUser(users, userId);
+            _userService.EditUser(users, userId,userAvatar);
 
             
             return RedirectToAction("Profile");

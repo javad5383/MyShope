@@ -6,126 +6,203 @@
 <div class="wrapper">
     <div class="content-wrapper">
         <section class="content">
-            <!-- Basic Forms -->
-            <div class="box">
-                <div class="box-header with-border">
-                    <h4 class="box-title">افزودن کالا</h4>
-                </div>
-                <!-- /.box-header -->
+            <div class="box-header with-border">
+                <h1 class="box-title">افزودن کالا</h1>
+            </div>
+            <form method="post" id="frm_1" enctype="multipart/form-data">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-lg-12 " style="display: flex">
+                                        <div class="col-sm-6 col-lg-6">
+                                            <h5>نام <span class="text-danger">*</span></h5>
+                                            <div class="controls">
+                                                <input asp-for="Product.ProductName" type="text" class="form-control">
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.ProductName"></span>
+                                        </div>
+                                        <div class="col-sm-6 col-lg-6">
+                                            <h5>قیمت <span class="text-danger">*</span></h5>
+                                            <div class="controls">
+                                                <input asp-for="Product.Price" type="number" class="form-control">
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.Price"></span>
+                                        </div>
 
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col">
-                            <form method="post" id="frm_1" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="col-sm-12 col-lg-12 " style="display: flex">
-                                            <div class="col-sm-6 col-lg-6">
-                                                <h5>نام <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    <input asp-for="Product.ProductName" type="text" class="form-control">
-                                                </div>
-                                                <span class="text-danger" asp-validation-for="Product.ProductName"></span>
-                                            </div>
-                                            <div class="col-sm-6 col-lg-6">
-                                                <h5>قیمت <span class="text-danger">*</span></h5>
-                                                <div class="controls">
-                                                    <input asp-for="Product.Price" type="number" class="form-control">
-                                                </div>
-                                                <span class="text-danger" asp-validation-for="Product.Price"></span>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-sm-12 col-lg-12" style="margin-top: 2%">
-
-                                            <div class="col-sm-12 col-lg-12">
-                                                <h5>توضیحات </h5>
-                                                <textarea asp-for="Product.Description" id="textarea" class="form-control"></textarea>
-                                            </div>
-                                            <span class="text-danger" asp-validation-for="Product.Description"></span>
-                                        </div>
-                                        <div style="margin-top: 20px" class="col-sm-12 col-lg-12 ">
-                                            <div class="col-sm-12 col-lg-12">
-                                               <h5>عکس </h5>
-                                                <div class="panel">
-                                                    <div id="dvPreview" class="user-heading round"> </div>
-                                                </div>
-                                                <div style="margin-top: 10px; display: flex">
-                                                    <div class="col-md-12">
-                                                        <input multiple="" style="margin-top: 5px; margin-bottom: 5px" type="file" class="upload" name="file" id="uplodimg" />
-                                                        <a id="clrimg" onclick="clearimg()" class="btn btn-danger" href="#">پاک کردن عکس</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-danger" asp-validation-for="Product.ProductImages"></span>
-                                        </div>
-                                        <div class="col-sm-12 col-lg-12" style="margin-top: 20px" id="ProductColor">
-                                            <div class="col-sm-12 col-lg-3 ">
-                                                <a  href="#" id="addColor" class="btn btn-success ">افزودن رنک</a>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-12" style="margin-top: 2%">
                                         <div class="col-sm-12 col-lg-12">
-                                            <div style="margin-top: 25px">
-                                                <div class="col-md-12 col-sm-12" style="display: flex">
-
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <h5>دسته بندی </h5>
-                                                        <div class="controls ">
-                                                            <select class="form-control" asp-for="Product.CategoryId" asp-items="@ViewData["category"] as SelectList"></select>
-                                                        </div>
-                                                        <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <h5>گروه </h5>
-                                                        <div class="controls">
-                                                            <select class="form-control" asp-for="Product.GroupId" asp-items="@ViewData["groups"] as SelectList"></select>
-                                                        </div>
-                                                        <span class="text-danger" asp-validation-for="Product.GroupId"></span>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <h5>زیر گروه </h5>
-                                                        <div class="controls">
-                                                            <select class="form-control" asp-for="Product.SubGroupId" asp-items="@ViewData["subGroups"] as SelectList">
-                                                                <option value="0">انتخاب کنید</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-12">
-                                                        <h5>برند </h5>
-                                                        <div class="controls">
-                                                            <select class="form-control" asp-for="Product.Brand.BrandId" asp-items="@ViewData["brands"] as SelectList">
-                                                                <option value="0">انتخاب کنید</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div asp-validation-summary="All"></div>
-                                            <div style="display: flex; margin-top: 5%">
-                                                <button style="width: 25%" type="submit" form="frm_1" class="btn btn-success-outline" id="FormValidate()" >انجام</button>
-                                                <a style="width: 25%; margin-right: 1%" href="/admin/product" class="btn btn-danger-outline">بازگشت</a>
-                                            </div>
+                                            <h5>توضیحات </h5>
+                                            <textarea asp-for="Product.Description" id="textarea" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">افزودن عکس</h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div style="margin-top: 20px" class="col-sm-12 col-lg-12 ">
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div class="panel">
+                                            <div id="dvPreview" class="user-heading round"> </div>
+                                        </div>
+                                        <div class="col-md-12" style="margin-top: 10px; display: flex">
+                                            <div style="position: relative" class="fileupload btn btn-outline btn-success">
+                                                <input multiple="" style="opacity: 0; position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; cursor: pointer" type="file" class="upload" name="file" id="uplodimg" />
+                                                <i class="ion-upload mr-5"></i>Upload Anonther Image
+                                            </div>
+                                            <a id="clrimg" onclick="clearimg()" class="btn btn-outline btn-danger" href="#">پاک کردن عکس</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">افزودن رنگ</h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-sm-12 col-lg-12" style="margin-top: 20px" id="ProductColor">
+                                    <div class="col-sm-12 col-lg-3 ">
+                                        <a href="#" id="addColor" class="btn btn-success ">+ رنگ جدید</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">افزودن دسته بندی، گروه، زیرگروه و برند</h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-12">
+                                    <div class="col-md-12 col-sm-12" style="display: flex">
+                                        <div class="col-md-3 col-sm-12">
+                                            <h5>دسته بندی <span class="text-danger">*</span> </h5>
+                                            <div class="controls ">
+                                                <select class="form-control" asp-for="Product.CategoryId" asp-items="@ViewData["category"] as SelectList"></select>
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.CategoryId"></span>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <h5> گروه <span class="text-danger">*</span> </h5>
+                                            <div class="controls">
+                                                <select class="form-control" asp-for="Product.GroupId" asp-items="@ViewData["groups"] as SelectList"></select>
+                                            </div>
+                                            <span class="text-danger" asp-validation-for="Product.GroupId"></span>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <h5>زیر گروه </h5>
+                                            <div class="controls">
+                                                <select class="form-control" asp-for="Product.SubGroupId" asp-items="@ViewData["subGroups"] as SelectList">
+                                                    <option value="0">انتخاب کنید</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <h5>برند </h5>
+                                            <div class="controls">
+                                                <select class="form-control" asp-for="Product.Brand.BrandId" asp-items="@ViewData["brands"] as SelectList">
+                                                    <option value="0">انتخاب کنید</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">افزودن ویژگی‌های کالا</h4>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-12">
+                                    <div class="col-sm-12 col-lg-12 ">
+                                        <div class="col-sm-6 col-lg-3">
+                                            <h5>عنوان ویژگی </h5>
+                                            <div class="controls">
+                                                <input readonly="" value="مشخصات کلی" name="headLine" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="proTitle">
+                                        <div id="getDiv" class="col-sm-12 col-lg-12 " style="display: flex;margin-top: 20px">
+                                            <div class="col-sm-5 col-lg-5">
+                                                <h5>ویژگی </h5>
+                                                <div class="controls">
+                                                    <input placeholder="مثال: وزن" list="listid" autocomplete="on" type="text" min="0" name="specificationTitle" class="form-control">
+                                                    <datalist id='listid'>
+                                                        <option value='ابعاد'></option>
+                                                        <option value='وزن'></option>
+                                                        <option value='ویژگی‌های خاص'></option>
+                                                    </datalist>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5 col-lg-5">
+                                                <h5>توضیح </h5>
+                                                <div class="controls">
+                                                    <input placeholder="مثال: 150 گرم " name="titleExplanation" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-12 " style="display: flex;margin-top: 20px">
+                                        <div class="col-sm-6 col-lg-2">
+                                            <a  href="#" id="addTitle" class="btn btn-success">افزودن ویژگی</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="col-12">
+                                    <div class="col-sm-6 col-lg-6 " style="display: flex">
+                                        <div class="col-sm-6 col-lg-6">
+                                            <button type="submit" style="width: 100%" form="frm_1" class="btn btn-success-outline" id="FormValidate()">انجام</button>
+                                        </div>
+                                        <div class="col-sm-6 col-lg-6">
+                                            <a style="width: 100%" href="/admin/product" class="btn btn-danger-outline">بازگشت</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </section>
     </div>
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         //clear selected img (*by me)
-        function clearimg() {
-            var img = document.getElementById('uplodimg');
-            img.value = "";
-            var dvPreview = $("#dvPreview");
-            dvPreview.html("");
-            $("#clrimg").hide();   //hide clear button  (*by me)
-        }
+
         $(function () {
 
             //hide clear button  (*by me)
@@ -135,7 +212,7 @@
                 if (typeof (FileReader) != "undefined") {
                     var dvPreview = $("#dvPreview");
                     dvPreview.html("");
-                    var regex = /^([a-zA-Z0-9\s_\\.\-:()])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:()_])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
                     $($(this)[0].files).each(function () {
                         var file = $(this);
                         if (regex.test(file[0].name.toLowerCase())) {
@@ -190,55 +267,71 @@
                 });
         });
 
-
-        var addColorBody =
-            '<div class="col-sm-12 col-lg-12 " style="display: flex; margin-top: 25px; height: 100px">' +
-            '<div class="col-sm-12 col-lg-4">' +
-            '<h5>تعداد <span class="text-danger">*</span>' +
-            '</h5>' +
-            '<input name="quantity" type="number" class="form-control"><span class="text-danger" asp-validation-for="ProductColors.Quantity">' +
-            '</span>' +
-            '</div>' +
-            '<div class="col-sm-12 col-lg-4">' +
-            '<h5>نام رنگ <span class="text-danger">*</span>' +
-            '</h5>' +
-            '<input  name="colorName" type="text" class="form-control">' +
-            '<span class="text-danger" asp-validation-for="ProductColors.ColorName">' +
-            '</span>' +
-            '</div>' +
-            '<div class="col-sm-12 col-lg-4"><h5>رنگ </h5>' +
-            '<input style="width: 25%" name="colorCode" type="color" class="form-control ">' +
-            '<span class="text-danger" asp-validation-for="ProductColors.ColorCode">' +
-            '</span>' +
-            '</div>' +
-            '</div>';
-
-
-
         $("#addColor").click(function () {
-
+            var addColorBody =
+                '<div class="col-sm-12 col-lg-12 " style="display: flex; margin-top: 25px; height: 100px">' +
+                '<div class="col-sm-12 col-lg-4">' +
+                '<h5>تعداد <span class="text-danger">*</span></h5>' +
+                '<input name="quantity" min="0" type="number" value="0" class="form-control">' +
+                '</div>' +
+                '<div class="col-sm-12 col-lg-4">' +
+                '<h5>نام رنگ <span class="text-danger">*</span>' +
+                '</h5>' +
+                '<input  name="colorName" type="text" class="form-control">' +
+                '</span>' +
+                '</div>' +
+                '<div class="col-sm-12 col-lg-4">' +
+                '<h5>رنگ </h5>' +
+                '<input style="width: 25%" name="colorCode" type="color" class="form-control ">' +
+                '</span>' +
+                '</div>' +
+                '</div>';
             $("#ProductColor").append(addColorBody);
         });
 
-    });
-   
-</script>
-@*<div class="col-sm-12 col-lg-12 " style="display: flex; margin-top: 25px; height: 100px">
-    <div class="col-sm-12 col-lg-4">
-        <h5>تعداد <span class="text-danger">*</span></h5>
-        <input asp-for="ProductColors.Quantity" type="number" class="form-control">
-        <span class="text-danger" asp-validation-for="ProductColors.Quantity"></span>
-    </div>
-    <div class="col-sm-12 col-lg-4">
-        <h5>نام رنگ <span class="text-danger">*</span></h5>
-        <input asp-for="ProductColors.ColorName" type="text" class="form-control">
-        <span class="text-danger" asp-validation-for="ProductColors.ColorName"></span>
-    </div>
-    <div class="col-sm-12 col-lg-4">
-        <h5>رنگ </h5>
-        <input style="width: 25%" asp-for="ProductColors.ColorCode" type="color" class="form-control ">
-        <span class="text-danger" asp-validation-for="ProductColors.ColorCode"></span>
-    </div>
 
-</div>
-'*@
+        var titleId = 0;
+        $("#addTitle").click(function () {
+            titleId++;
+            var appendBody = '<div id="newTitle'+titleId+'" class="col-sm-12 col-lg-12 " style="display: flex;margin-top: 20px">' +
+                '<div class="col-sm-5 col-lg-5">' +
+                '<h5>ویژگی </h5>' +
+                '<div class="controls">' +
+                '<input placeholder="مثال: وزن" list="listid" autocomplete="on" type="text" name="specificationTitle" class="form-control">' +
+                '<datalist id="listid">' +
+                '<option value="ابعاد">' +
+                '</option><option value="وزن">' +
+                '</option><option value="ویژگی‌های خاص"></option>' +
+                '</datalist>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-sm-5 col-lg-5">' +
+                '<h5>توضیح </h5>' +
+                '<div class="controls">' +
+                '<input placeholder="مثال: 150 گرم " name="titleExplanation" class="form-control">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-sm-2 col-lg-2">' +
+                '<div style="margin-top: 23px" class="controls">' +
+                '<a href="#"  id="newTitle' + titleId +'" onclick="clearTitle(this.id)" class="btn btn-danger ti-trash"></a>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            $("#proTitle").append(appendBody);
+        });
+
+
+    });
+    function clearimg() {
+        var img = document.getElementById('uplodimg');
+        img.value = "";
+        var dvPreview = $("#dvPreview");
+        dvPreview.html("");
+        $("#clrimg").hide();   //hide clear button  (*by me)
+    }
+
+    function clearTitle(id) {
+        document.getElementById(id).remove();
+    }
+</script>

@@ -2,7 +2,8 @@
 @{
     var pId = Model.ProductId;
     var userId = ViewBag.userId;
-    var favorite = Model.UserFavorites.Any(f => f.ProductId == pId&&f.UserId==userId);
+    var favorite = Model.UserFavorites.Any(f => f.ProductId == pId && f.UserId == userId);
+    var specifications = Model.Specifications;
 }
 
 <main class="single-product default">
@@ -61,10 +62,13 @@
                                 </div>
                             </div>
                             <ul class="gallery-options">
-                                <li>
-                                    <button onclick="favorFunc(this.id)" id="@Model.ProductId" class="add-favorites"><i style="@(favorite ? "color: crimson":"")" class="fa fa-heart"></i></button>
-                                    <span class="tooltip-option">افزودن به علاقمندی</span>
-                                </li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <button onclick="favorFunc(this.id)" id="@Model.ProductId" class="add-favorites"><i style="@(favorite ? "color: crimson" : "")" class="fa fa-heart"></i></button>
+                                        <span class="tooltip-option">افزودن به علاقمندی</span>
+                                    </li>
+                                }
                                 <li>
                                     <button data-toggle="modal" data-target="#myModal"><i class="fa fa-share "></i></button>
                                     <span class="tooltip-option">اشتراک گذاری</span>
@@ -151,7 +155,7 @@
                                         @foreach (var item in Model.ProductColors)
                                         {
                                             <input type="radio" class="radio-col-purple" name="selectedColor" @((counter == 0) ? "checked" : "") id="@item.ColorId">
-                                            <label for="@item.ColorId">
+                                            <label s for="@item.ColorId">
                                                 @item.ColorName
                                             </label>
                                             counter++;
@@ -170,6 +174,7 @@
                                     <a href="#" class="btn-link-border">ناسا</a>
                                 </p>
                             </div>
+                            <input type="hidden" name="productId" id="@Model.ProductId" />
                             <div class="price-product defualt">
                                 <div class="price-value">
                                     <span> @Model.Price.ToString("##,###") </span>
@@ -185,7 +190,7 @@
                             <div class="product-add default">
                                 <div class="parent-btn">
 
-                                    <a id="AddTocrt" proId="@Model.ProductId" pName="@Model.ProductName" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId" class="dk-btn dk-btn-info">
+                                    <a id="AddToCart" href="#" @*asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId"*@ class="dk-btn dk-btn-info">
                                         افزودن به سبد خرید
                                         <i class="now-ui-icons shopping_cart-simple"></i>
                                     </a>
@@ -514,89 +519,32 @@
                                         <article>
                                             <h2 class="param-title">
                                                 مشخصات فنی
-                                                <span>Apple iPhone X 256GB Mobile Phone</span>
+                                                <span>@Model.ProductName</span>
                                             </h2>
-                                            <section>
-                                                <h3 class="params-title">مشخصات کلی</h3>
-                                                <ul class="params-list">
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">ابعاد</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                7.7 × 70.9 × 143.6 میلی‌متر
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">توضیحات سیم کارت</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                سایز نانو (8.8 × 12.3 میلی‌متر)
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">وزن</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                174 گرم
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">ویژگی‌های خاص</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                مقاوم در برابر آب , مناسب عکاسی , مناسب عکاسی
-                                                                سلفی , مناسب بازی , مجهز به حس‌گر تشخیص چهره
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">تعداد سیم کارت</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                تک سیم کارت
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </section>
-                                            <section>
-                                                <h3 class="params-title">پردازنده</h3>
-                                                <ul class="params-list">
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">تراشه</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                Apple A11 Bionic Chipset
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="params-list-key">
-                                                            <span class="block">نوع پردازنده</span>
-                                                        </div>
-                                                        <div class="params-list-value">
-                                                            <span class="block">
-                                                                64 بیت
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </section>
+                                            @if (Model.Specifications != null)
+                                            {
+                                                foreach (var specification in specifications)
+                                                {
+                                                    <section>
+                                                        <h3 class="params-title">@specification.HeadLine</h3>
+                                                        <ul class="params-list">
+                                                            @foreach (var item in specification.Titles)
+                                                            {
+                                                                <li>
+                                                                    <div class="params-list-key">
+                                                                        <span class="block">@item.Title</span>
+                                                                    </div>
+                                                                    <div class="params-list-value">
+                                                                        <span class="block">
+                                                                            @item.Explanation
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </section>
+                                                }
+                                            }
                                         </article>
                                     </div>
                                     <div class="tab-pane" id="comments" role="tabpanel" aria-expanded="false">
@@ -797,19 +745,43 @@
 
 <script src="~/js/image-zoom.js"></script>
 <script>
-    
-        $("#imageZoom").imageZoom({ zoom: 200 });
-        function changeImg(src) {
-            $("#imageZoom").attr('src', src);
-            $("#imageZoom").imageZoom({ zoom: 200 });
 
-        }
+    $("#imageZoom").imageZoom({ zoom: 200 });
+    function changeImg(src) {
+        $("#imageZoom").attr('src', src);
+        $("#imageZoom").imageZoom({ zoom: 200 });
+
+    }
 
 
     function favorFunc(id) {
-        $.get( "/productsMain/addFavorite/"+id , function( data ) {
+        $.get("/productsMain/addFavorite/" + id, function (data) {
             location.reload();
         });
     }
+
+    var addToCart = document.getElementById("AddToCart");
+
+
+
+    addToCart.addEventListener("click", function () {
+        var proId = document.getElementsByName("productId");
+        var radioColor = document.getElementsByClassName('radio-col-purple');
+        var checkedColor = "";
+        if (radioColor.length !== 0) {
+
+            for (var item of radioColor) {
+                if (item.checked) {
+                    checkedColor = item.id;
+                }
+            }
+        }
+
+        console.log(radioColor);
+        console.log(proId[0].id);
+        proId = proId[0].id;
+        addToCart.href = '/cart/AddToCart/?productId=' + proId + '&selectedColor=' + checkedColor;
+
+    });
 </script>
 

@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Hanssens.Net;
-using ZarinPal;
+﻿using JShope.Models;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 
 namespace JShope.Controllers
 {
@@ -32,47 +30,51 @@ namespace JShope.Controllers
                 //Response.Cookies.Append("CartLength", cart.CartDetails.Select(q=>q.Quantity).Sum().ToString());ToDo
                 return View(cart);
             }
-
             var cartCookie = Request.Cookies["Cart"];
-
             if (cartCookie != null)
             {
-                var cartCookieString = cartCookie.Split(",");
-                var intProductId = Array.ConvertAll(cartCookieString, int.Parse).ToList();
-                ViewData["cart"] = _userService.GetCartDetailForGuestUser(intProductId);
+                var cartDetailList=JsonConvert.DeserializeObject<List<CartDetail>>(cartCookie);
+                ViewData["cart"] = cartDetailList;
             }
-
             return View();
         }
-
-        public IActionResult AddToCart(int productId)
+        public IActionResult AddToCart(string productId, string selectedColor)
         {
+            var proId = int.Parse(productId);
+            var selectedProductColorId = 0;
+            if (selectedColor != null)
+            {
+                selectedProductColorId = int.Parse(selectedColor);
+            }
+
             if (User.Identity.IsAuthenticated)
             {
-                //Add to cart for logged in users
+                // Add to cart for logged in users
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                if (productId != 0 && userId != 0)
+                if (proId != 0 && userId != 0)
                 {
-                    _userService.AddToCart(productId, userId);
+                    _userService.AddToCart(proId, userId, selectedProductColorId);
                 }
-
             }
             else
             {
-                //Add to cart for not logged in user's
-                CookieOptions option = new CookieOptions { Expires = DateTime.Now.AddDays(5), Secure = true };
+                //Add to cartDetail to cookies for not logged in user's
                 var cartCookie = Request.Cookies["Cart"];
+                CookieOptions option = new CookieOptions { Expires = DateTime.Now.AddDays(5), Secure = true };
                 if (cartCookie != null)
                 {
-                    var newCookie = cartCookie + "," + productId;
-                    Response.Cookies.Append("Cart", newCookie, option);
+                    var cartDetailList = JsonConvert.DeserializeObject<List<CartDetail>>(cartCookie);
+                    var addToCart = _userService.AddToCartForGuestUser(cartDetailList, proId, selectedProductColorId);
+                    var jsonCartDetail = JsonConvert.SerializeObject(cartDetailList);
+                    Response.Cookies.Append("Cart", jsonCartDetail, option);
                 }
                 else
                 {
-                    Response.Cookies.Append("Cart", productId.ToString(), option);
+                    var addToCart = _userService.AddToCartForGuestUser(null, proId, selectedProductColorId);
+                    var jsonCartDetail = JsonConvert.SerializeObject(addToCart);
+                    Response.Cookies.Append("Cart", jsonCartDetail, option);
                 }
             }
-
             return RedirectToAction("Index");
         }
 
@@ -163,9 +165,9 @@ namespace JShope.Controllers
             }
             catch (Exception e)
             {
-                return PartialView("_GateWayError",e);
+                return PartialView("_GateWayError", e);
             }
-           
+
 
             return NotFound();
         }
@@ -180,17 +182,17 @@ namespace JShope.Controllers
                 string authority = HttpContext.Request.Query["Authority"];
                 var payment = new ZarinpalSandbox.Payment((int)cart.TotalPrice);
                 var res = payment.Verification(authority).Result;
-                
+
                 if (res.Status == 100)
                 {
                     cart.IsFinish = true;
                     cart.IsSuccess = true;
                     ViewBag.isSuccess = true;
                     _userService.SaveChanges();
-                    _userService.AddNewOrder(cart,authority);
+                    _userService.AddNewOrder(cart, authority);
 
-                }   
-             
+                }
+
             }
             else
             {
@@ -198,7 +200,7 @@ namespace JShope.Controllers
                 cart.IsSuccess = false;
                 _userService.SaveChanges();
                 ViewBag.isSuccess = false;
-                _userService.AddNewOrder(cart,"");
+                _userService.AddNewOrder(cart, "");
 
             }
             ViewBag.authority = HttpContext.Request.Query["Authority"];
@@ -206,7 +208,6 @@ namespace JShope.Controllers
 
         }
 
-      
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using JShope.Models;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,61 +27,23 @@ namespace JShope.Pages.Admin.Users
             Users = _userService.GetUserByUserId(id);
         }
 
-        public IActionResult OnPost(int id,IFormFile file)
+        public IActionResult OnPost(int id, IFormFile file)
         {
-            var user = _userService.GetUserByUserId(id);
-           
-            user.UserId = Users.UserId;
-            user.BankCardNumber = Users.BankCardNumber;
-            user.Email = Users.Email;
-            user.Family = Users.Family;
-            user.Name = Users.Name;
-            user.IsActive = Users.IsActive;
-            user.NationalCode = Users.NationalCode;
-            user.PhoneNumber = Users.PhoneNumber;
-            user.UserHomeAddress = Users.UserHomeAddress;
-            user.UserName = Users.UserName;
-
-
-
-
-
-            if (file != null)
+            var userId = _userService.GetUserByUserId(id).UserId;
+            var editProfileViewModel = new EditProfileViewModel()
             {
-                if (user.UserAvatar!=null)
-                {
-                    var deleteImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", user.UserAvatar);
-
-                    if (System.IO.File.Exists(deleteImagePath))
-                    {
-                        System.IO.File.Delete(deleteImagePath);
-                    }
-                }
-                //delete previous avatar
-               
-
-
-
-                //change  avatar name in DB
-                var newAvatarName = Guid.NewGuid() + "-" + file.FileName; 
-                user.UserAvatar = newAvatarName;
-
-
-                //save new avatar 
-                var fileName = file.FileName;
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatar", newAvatarName);
-
-                using var stream = new FileStream(imagePath, FileMode.Create);
-
-                file.CopyTo(stream);
-
-               
-
-            }
-            _userService.UpdateUser(user);
+                BankCardNumber = Users.BankCardNumber,
+                Email = Users.Email,
+                Family = Users.Family,
+                Name = Users.Name,
+                NationalCode = Users.NationalCode,
+                PhoneNumber = Users.PhoneNumber,
+                UserHomeAddress = Users.UserHomeAddress
+            };
+            _userService.EditUser(editProfileViewModel,userId,file);
             return Redirect($"/admin/users/UserProfile/{id}");
         }
 
-       
+
     }
 }

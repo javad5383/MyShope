@@ -66,15 +66,16 @@ namespace JShope.Services.Interface
         List<Product> GetProductByGroupId(int groupId);
 
         void AddFavorite(int productId,int userId);
-
+        void AddProductSpecificationTitle(int productId,string headLine, List<Titles> titlesList);
+        ProductColors GetProductColor(int productId, int colorId);
         #endregion
 
         #region Brand
 
-        string GetBrandNameById(int brandId);
+        List<Brands> GetBrands();
         IEnumerable<int?> GetDistinctBrands(List<Product> products);
 
-
+        void AddBrand(string brandName);
         IQueryable<Brands> GetDistinctBrandsByGroupId(int groupId);
         IQueryable<Brands> GetDistinctBrandsBySubGroupId(int GsubroupId);
             #endregion
@@ -98,6 +99,7 @@ namespace JShope.Services.Interface
         IEnumerable<Product> SortProducts(IEnumerable<Product> products, string sortMethod);
 
         IEnumerable<Product> GetProductByBrand(IEnumerable<Product> products,List<int> brandId);
+        List<Product> GetProductByBrandId(int brandId);
 
         IEnumerable<Product> GetProductsByName(string searchWord);
 

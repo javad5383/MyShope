@@ -13,14 +13,9 @@ namespace JShope.Models
         [Key]
         public int ColorId { get; set; }
 
-        [Display(Name = "نام رنگ")]
-       
         public string ColorName { get; set; }
 
-        [Display(Name = "تعداد")]
-       
         public int Quantity { get; set; }
-        [Display(Name = "رنگ")]
         
         public string ColorCode { get; set; }
 

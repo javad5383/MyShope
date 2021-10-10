@@ -23,7 +23,6 @@ namespace JShope.Services.Interface
         }
 
 
-
         #region category
         public List<Category> GetCategory()
         {
@@ -230,6 +229,8 @@ namespace JShope.Services.Interface
             return _context.Products
                 .Include(i => i.ProductImages)
                 .Include(b => b.Brand)
+                .Include(s=>s.Specifications)
+                .ThenInclude(t=>t.Titles)
                 .Include(f => f.UserFavorites)
                 .Include(c => c.ProductColors)
                 .Include(c => c.SubGroups)
@@ -309,16 +310,25 @@ namespace JShope.Services.Interface
 
         #region Brand
 
-        public string GetBrandNameById(int brandId)
+        public List<Brands> GetBrands()
         {
-
-            return _context.Brands.FirstOrDefault(b => b.BrandId == brandId)?.BrandName;
+            return _context.Brands.ToList();
         }
 
         public IEnumerable<int?> GetDistinctBrands(List<Product> products)
         {
             return products.Select(p => p.BrandId).Distinct();
 
+        }
+
+        public void AddBrand(string brandName)
+        {
+            Brands brand = new Brands()
+            {
+                BrandName = brandName
+            };
+            _context.Brands.Add(brand);
+            _context.SaveChanges();
         }
 
         public IQueryable<Brands> GetDistinctBrandsByGroupId(int groupId)
@@ -337,6 +347,24 @@ namespace JShope.Services.Interface
 
         #endregion
 
+
+        public void AddProductSpecificationTitle(int productId, string headLine, List<Titles> titlesList)
+        {
+            Specifications specifications = new Specifications()
+            {
+                HeadLine = headLine,
+                Titles = titlesList,
+                ProductId = productId
+            };
+            _context.Specifications.Add(specifications);
+            _context.SaveChanges();
+        }
+
+        public ProductColors GetProductColor(int productId, int colorId)
+        {
+            return _context.ProductColors.FirstOrDefault(p => p.ProductId == productId && p.ColorId == colorId);
+
+        }
         #region FilterItems
 
         public List<Product> FilterProduct(int? categoryId)
@@ -491,6 +519,13 @@ namespace JShope.Services.Interface
 
 
             return pro;
+        }
+
+        public List<Product> GetProductByBrandId(int brandId)
+        {
+            return _context.Products.Where(b => b.BrandId == brandId)
+                .Include(i=>i.ProductImages)
+                .ToList();
         }
 
         public IEnumerable<Product> GetProductsByName(string searchWord)

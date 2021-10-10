@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace JShope.Controllers
 {
@@ -24,7 +27,7 @@ namespace JShope.Controllers
             _productService = productService;
             _userService = userService;
         }
-       
+
         public IActionResult Index()
         {
             //add to cart from cookies(If user Added Items to Cart before login)
@@ -34,21 +37,23 @@ namespace JShope.Controllers
                 var cartCookie = Request.Cookies["Cart"];
                 if (cartCookie != null)
                 {
-                    var cartCookieString = cartCookie.Split(",");
-                    var intProductIds = Array.ConvertAll(cartCookieString, int.Parse).ToList();
+                    var cartDetails = JsonConvert.DeserializeObject<List<CartDetail>>(cartCookie);
+                    //var itemIds = cartDetails.Select(p => p.Product.ProductId);
+                    //var cartCookieString = cartCookie.Split(",");
+                    //var intProductIds = Array.ConvertAll(cartCookieString, int.Parse).ToList();
                     var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    foreach (var item in intProductIds)
+                    foreach (var item in cartDetails)
                     {
-                        _userService.AddToCart(item, userId);
+                        _userService.AddToCart(item.ProductId, userId, item.SelectedProductColor);
                     }
                     Response.Cookies.Delete("Cart");
-                    Response.Cookies.Append("CartLength",intProductIds.Count.ToString());
+                    Response.Cookies.Append("CartLength", cartDetails.Count.ToString());
                     return Redirect("/cart");
                 }
             }
             return View();
         }
-     
+
         public IActionResult Privacy()
         {
             return View();
@@ -89,6 +94,16 @@ namespace JShope.Controllers
             list.AddRange(_productService.GetBrandSelectListItems(id));
             return Json(new SelectList(list, "Value", "Text"));
         }
+
+        //public IActionResult GetProductByBrands(int brandId)
+        //{
+        //    var products = _productService.GetProductByBrandId(brandId);
+
+           
+
+        //   return Json( products);
+
+        //}
         public IActionResult GetProduct(int id)
         {
             var product = _productService.GetProductBySubGroupId(id);
@@ -98,4 +113,5 @@ namespace JShope.Controllers
         #endregion
 
     }
+
 }

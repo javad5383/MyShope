@@ -1,4 +1,5 @@
 ﻿@page
+@using JShope.Services.Interface
 @model JShope.Pages.Admin.Orders.PostStatusModel
 @{
     var quantity = Model.Order.Cart.CartDetails.Select(q => q.Quantity).Sum();
@@ -6,6 +7,7 @@
     var cart = Model.Order.Cart;
     var user = Model.Order.Cart.User;
 }
+
 
 <div class="wrapper" style="height: auto; min-height: 100%;">
     <div class="content-wrapper" style="min-height: 591px;">
@@ -166,12 +168,17 @@
                 {
                     <div class="col-12 col-lg-6 col-xl-3">
                         <div style="position: relative" class="box">
-                            <span data-toggle="tooltip" data-original-title="رنگ درخواستی" style=" position: absolute; right: 15px; top: 30px; width: 10px;height: 10px" class="avatar avatar-sm border border-gray ">
-
-                            </span>
+                            @if (item.SelectedProductColor!=0)
+                            {
+                                var productColor = @item.Product.ProductColors.FirstOrDefault(p => p.ColorId == item.SelectedProductColor);
+                                if (productColor!=null)
+                                {
+                                    <span data-toggle="tooltip" data-original-title=" رنگ درخواستی @(productColor.ColorName)" style="position: absolute; right: 15px; top: 30px; width: 10px; height: 10px; background-color:@productColor.ColorCode " class="avatar avatar-sm border border-gray "></span>
+                                }
+                            }
                             <div class="box-body">
                                 <div class="product-img">
-                                    <img src="/images/product/@item.Product.ProductImages.Select(n=>n.Names).First()" alt="">
+                                    <img src="/images/product/@item.Product.ProductImages.Select(n => n.Names).First()" alt="">
                                 </div>
                                 <div class="product-text">
                                     <div class="pro-img-overlay">

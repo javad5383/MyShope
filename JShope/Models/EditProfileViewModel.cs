@@ -35,7 +35,7 @@ namespace JShope.Models
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string PhoneNumber { get; set; }
 
-        //public string UserAvatar { get; set; }
+        public string UserAvatar { get; set; }
 
         [DataType(DataType.CreditCard)]
         public long BankCardNumber { get; set; }
