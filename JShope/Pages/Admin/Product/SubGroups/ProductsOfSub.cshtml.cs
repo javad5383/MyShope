@@ -18,7 +18,7 @@ namespace JShope.Pages.Admin.Product.SubGroups
             _productService = productService;
         }
 
-        public List<Models.Product> Product { get; set; }
+        public IEnumerable<Models.Product> Product { get; set; }
         public ProductImage ProductImage { get; set; }
         public void OnGet(int subGroupId)
         {

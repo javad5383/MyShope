@@ -5,20 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\assets\img\product\110197298.jpg" />
-    <Content Remove="wwwroot\assets\img\product\1335154.jpg" />
-    <Content Remove="wwwroot\assets\img\product\13351544.jpg" />
-    <Content Remove="wwwroot\assets\img\product\19a2cc-200x200.jpg" />
-    <Content Remove="wwwroot\assets\img\product\2114766.jpg" />
-    <Content Remove="wwwroot\assets\img\product\2196691.jpg" />
-    <Content Remove="wwwroot\assets\img\product\2310961.jpg" />
-    <Content Remove="wwwroot\assets\img\product\2396105.jpg" />
-    <Content Remove="wwwroot\assets\img\product\3694075.jpg" />
-    <Content Remove="wwwroot\assets\img\product\4560651.jpg" />
-    <Content Remove="wwwroot\assets\img\product\482250-200x200.jpg" />
-    <Content Remove="wwwroot\assets\img\product\5489258.jpg" />
-    <Content Remove="wwwroot\assets\img\product\692674-200x200.jpg" />
-    <Content Remove="wwwroot\assets\img\product\e75a73-200x200.jpg" />
     <Content Remove="wwwroot\images\product\3709269.jpg" />
     <Content Remove="wwwroot\images\product\product-1.png" />
     <Content Remove="wwwroot\images\product\product-10.png" />
@@ -256,7 +242,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\assets\img\product\" />
     <Folder Include="wwwroot\assets\vendor_components\flat-color-icons\PNG\512\A\" />
     <Folder Include="wwwroot\images\product\" />
   </ItemGroup>

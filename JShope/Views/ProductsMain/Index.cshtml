@@ -1,13 +1,11 @@
 ﻿@using JShope.Services.Interface
-@using System.Collections
-@model List<Product>
+@model IEnumerable<Product>
 @{
     TempData.Keep("selectedBrands");
-    var selectedBrands = TempData["selectedBrands"];
-    var brands = ViewData["brand"] as List<Brands>;
-    var categories = Model.Select(c => c.Group.Category).Distinct();
-    var groups = Model.Select(g => g.Group).Distinct();
-    var subGroups = Model.Select(s => s.SubGroups).Distinct();
+    TempData.Keep("id");
+    var selectedBrands = TempData["selectedBrands"] as List<int>;
+    var brands = Model.Select(b => b.Brand).Distinct();
+    
 
 }
 
@@ -29,7 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box">
+                    @*<div class="box">
                         <div class="box-header">
                             <div class="box-toggle" data-toggle="collapse" href="#collapseExample1" role="button"
                                  aria-expanded="true" aria-controls="collapseExample1">
@@ -37,45 +35,41 @@
                                 <i class="now-ui-icons arrows-1_minimal-down"></i>
                             </div>
                         </div>
-                        <!--<div class="box-content">
+                        <div class="box-content">
                             <div class="collapse show" id="collapseExample1">
-                                <div>-->
-                                    @*<div class="checkbox">
-                                            <input id="checkbox1" type="checkbox">
-                                            <label for="checkbox1">
-                                                ریمکس
-                                            </label>
-                                        </div>*@
-                                    @*<ul>
-                                       
-                                            <li>
-                                                <span class="caretjav">
-                                                    <a href="#" style="color: blue">@categories.Select(n=>n.CategoryName).First()</a>
-                                                </span>
-                                                <ul style="margin-right: 15px">
-                                                    <li>
-                                                        <span class="caretjav">
-                                                            <a href="#" style="color: blue">@groups.Select(n=>n.GroupName).First()</a>
-                                                        </span>
-                                                        <ul style="margin-right: 45px">
-                                                            @foreach (var sub in subGroups)
-                                                            {
-                                                                <li>
-                                                                    <a href="#" style="color: blue">@sub.SubGroupName</a>
-                                                                </li>
-                                                            }
-                                                           
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        
-                                      
-                                    </ul>*@
-                                <!--</div>
+                                <div>
+                                    <div class="checkbox">
+                                        <input id="checkbox1" type="checkbox">
+                                        <label for="checkbox1">
+                                            ریمکس
+                                        </label>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <span class="caretjav">
+                                                <a href="#" style="color: blue">@categories.Select(n => n.CategoryName).First()</a>
+                                            </span>
+                                            <ul style="margin-right: 15px">
+                                                <li>
+                                                    <span class="caretjav">
+                                                        <a href="#" style="color: blue">@groups.Select(n => n.GroupName).First()</a>
+                                                    </span>
+                                                    <ul style="margin-right: 45px">
+                                                        @foreach (var sub in subGroups)
+                                                        {
+                                                            <li>
+                                                                <a href="#" style="color: blue">@sub.SubGroupName</a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>-->
-                    </div>
+                        </div>
+                    </div>*@
                     <div class="box">
                         <div class="box-header">
                             <div class="box-toggle" data-toggle="collapse" href="#collapseExample2" role="button"
@@ -91,15 +85,15 @@
                                            placeholder="نام برند مورد نظر را بنویسید…">
                                     <span class="ui-input-cleaner"></span>
                                 </div>
-                                @if (brands!=null)
+                                @if (brands != null)
                                 {
                                     <div class="filter-option">
                                         @foreach (var item in brands)
                                         {
-                                            if (item != null)
+                                            if (item!=null)
                                             {
                                                 <div class="checkbox">
-                                                    <input name="brands" onchange="checkPost()" id="@item.BrandId" value="@(item.BrandId)" type="checkbox"
+                                                    <input name="brands" onchange="submit()" id="@item.BrandId" value="@(item.BrandId)" type="checkbox"
                                                            @if (selectedBrands != null) { foreach (var selected in (List<int>)selectedBrands) { @((selected == item.BrandId) ? "checked" : "") } }>
                                                     <label for="@item.BrandId">
 
@@ -144,22 +138,22 @@
                             <ul class="listing-sort nav nav-tabs justify-content-center" role="tablist"
                                 data-label="مرتب‌سازی بر اساس :">
                                 <li>
-                                    <a id="default1" href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod})" @*asp-route-sortMethod="" asp-route-show="@ViewBag.curentShowMethod"*@ as class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین </a>
+                                    <a id="default1" href="@Url.Action("Index",new {brands=selectedBrands,showBy=@ViewBag.curentShowMethod})"  as class="@((ViewBag.sortMethod == null) ? "active" : "")">مرتبط‌ترین </a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Visits",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,showBy=@ViewBag.curentShowMethod,sortMethod="Visits",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Visits")?"active":"")">پربازدیدترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Newest",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
+                                    <a onclick="" href="@Url.Action("Index",new {brands=selectedBrands,showBy=@ViewBag.curentShowMethod,sortMethod="Newest",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Newest")?"active":"")">جدیدترین</a>
                                 </li>
                                 <li>
                                     <a @*asp-route-sortMethod=""*@>پرفروش‌ ترین‌</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Cheapest",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")">ارزان‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,showBy=@ViewBag.curentShowMethod,sortMethod="Cheapest",search=ViewData["search"]})" href="#" class="@((ViewBag.sortMethod=="Cheapest")?"active":"")" >ارزان‌ترین</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index",new {brands=selectedBrands,show=@ViewBag.curentShowMethod,sortMethod="Expensive",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
+                                    <a href="@Url.Action("Index",new {brands=selectedBrands,showBy=@ViewBag.curentShowMethod,sortMethod="Expensive",search=ViewData["search"]})" class="@((ViewBag.sortMethod=="Expensive")?"active":"")">گران‌ترین</a>
                                 </li>
                             </ul>
                         </div>
@@ -239,10 +233,10 @@
         </div>
     </form>
 </main>
-<script>
-    function checkPost() {
-        $("#productForm22").submit();
-    }
+@*<script>
+        function checkPost() {
+            $("#productForm22").submit();
+        }
 
 
-</script>
+    </script>*@

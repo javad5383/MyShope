@@ -3,53 +3,39 @@
 @{
 }
 <div class="wrapper">
-    <div class="content-wrapper">
+    <div  class="content-wrapper">
         <section class="content">
             <form method="post">
                 <div class="container">
+                    @if (Model.SubGroup != null)
+                    {
+                        <div style="margin-top: 3%" class="col-md-12">
+                            <div class="alert alert-danger">
 
-
-
-
-                    <div style="margin-top: 3%" class="col-md-12">
-
-
-                        <div class="alert alert-danger">
-
-                            <h2>از حذف @Model.SubGroup.SubGroupName مطمئن هستید؟</h2>
-                        </div>
-
-
-
-
-                    </div>
-
-
-
-
-                </div>
-                <div class="container">
-                    <div class="col-md-6">
-
-                        <div style="display: flex; align-items: center">
-
-
-                            <div style="display: flex">
-                                <button  style="width: 50%" type="submit" class="btn btn-danger-outline  ">  بله  </button>
-
-                                <a style="width: 50%;margin-right: 2%" href="/admin/product/subgroups/@Model.SubGroup.GroupId" class="btn btn-info-outline  "> بازگشت</a>
+                                <h2 >از حذف @Model.SubGroup.SubGroupName مطمئن هستید؟</h2>
                             </div>
                         </div>
+                        <div class="container">
+                            <div class="col-md-6">
+                                <div style="display: flex; align-items: center">
+                                    <div style="display: flex">
+                                        <button  style="width: 50%" type="submit" class="btn btn-danger-outline  ">  بله  </button>
 
-
-
-
-
-                    </div>
-
+                                        <a style="width: 50%;margin-right: 2%" href="/admin/product/subgroups/@Model.SubGroup.GroupId" class="btn btn-info-outline  "> بازگشت</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <script>
+                            var id = document.getElementsByClassName("content-wrapper").id;
+                            alert("زیر گروه مورد نظر پیدا نشد");
+                            window.location.replace("/admin/product/categories");
+                        </script>
+                    }
                 </div>
-
-
             </form>
         </section>
     </div>

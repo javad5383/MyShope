@@ -132,20 +132,20 @@
                     @foreach (var category in _productService.GetCategory())
                     {
                         <li class="list-item list-item-has-children mega-menu mega-menu-col-5">
-                            <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-id="@category.CategoryId" asp-route-Show="ByCategory">@category.CategoryName</a>
+                            <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-categoryId="@category.CategoryId" >@category.CategoryName</a>
                             <ul class="sub-menu nav">
-                                @foreach (var group in _productService.GetGroupsByCategoryId(category.CategoryId))
+                                @foreach (var group in category.Groups)
                                 {
                                     <li class="list-item list-item-has-children">
                                         <i class="now-ui-icons arrows-1_minimal-left"></i>
-                                        <a class="main-list-item nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-id="@group.GroupId" asp-route-show="ByGroup">
+                                        <a class="main-list-item nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-groupId="@group.GroupId" >
                                             @group.GroupName
                                         </a>
                                         <ul class="sub-menu nav">
-                                            @foreach (var subGroup in _productService.GetSubGroupsByGroupId(group.GroupId))
+                                            @foreach (var subGroup in group.SubGroups)
                                             {
                                                 <li class="list-item">
-                                                    <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-id="@subGroup.SubGroupId" asp-route-show="BySubGroup">@subGroup.SubGroupName </a>
+                                                    <a class="nav-link" asp-action="Index" asp-controller="ProductsMain" asp-route-subGroupId="@subGroup.SubGroupId" >@subGroup.SubGroupName </a>
                                                 </li>
                                             }
                                         </ul>

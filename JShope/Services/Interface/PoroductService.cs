@@ -27,8 +27,8 @@ namespace JShope.Services.Interface
         public List<Category> GetCategory()
         {
             return _context.Categories
-                .Include(g=>g.Groups)
-                .ThenInclude(s=>s.SubGroups)
+                .Include(g => g.Groups)
+                .ThenInclude(s => s.SubGroups)
                 .ToList();
         }
         public void AddCategory(string categoryName)
@@ -150,8 +150,13 @@ namespace JShope.Services.Interface
 
         public void RemoveSubGroup(SubGroup subGroup)
         {
-            _context.SubGroups.Remove(subGroup);
-            _context.SaveChanges();
+            var sub = _context.SubGroups.Find(subGroup);
+            if (sub != null)
+            {
+                _context.SubGroups.Remove(sub);
+                _context.SaveChanges();
+            }
+
         }
 
         public void AddSubGroups(int groupId, string subGroupName)
@@ -220,6 +225,7 @@ namespace JShope.Services.Interface
                 .Include(i => i.ProductImages)
                 .Include(c => c.ProductColors)
                 .Include(c => c.SubGroups)
+                .Include(b => b.Brand)
                 .Include(g => g.Group)
                 .ThenInclude(c => c.Category);
         }
@@ -229,8 +235,8 @@ namespace JShope.Services.Interface
             return _context.Products
                 .Include(i => i.ProductImages)
                 .Include(b => b.Brand)
-                .Include(s=>s.Specifications)
-                .ThenInclude(t=>t.Titles)
+                .Include(s => s.Specifications)
+                .ThenInclude(t => t.Titles)
                 .Include(f => f.UserFavorites)
                 .Include(c => c.ProductColors)
                 .Include(c => c.SubGroups)
@@ -290,22 +296,21 @@ namespace JShope.Services.Interface
             return _context.Products.Where(p => p.ProductName.Contains(filter)).ToList();
 
         }
-        public List<Product> GetProductBySubGroupId(int subGroupId)
-        {
-            return _context.Products.Where(p => p.SubGroupId == subGroupId).ToList();
-        }
 
-        public List<Product> GetProductByCategoryId(int categoryId)
-        {
-            return _context.Products.Where(p => p.CategoryId == categoryId).ToList();
-        }
 
-        public List<Product> GetProductByGroupId(int groupId)
+        public IEnumerable<Product> GetProductByCategoryId(int categoryId)
         {
-            return _context.Products.Where(p => p.GroupId == groupId).ToList();
+            return GetProducts().Where(c => c.CategoryId == categoryId);
+        }
+        public IEnumerable<Product> GetProductByGroupId(int groupId)
+        {
+            return GetProducts().Where(g => g.GroupId == groupId);
 
         }
-
+        public IEnumerable<Product> GetProductBySubGroupId(int subGroupId)
+        {
+            return GetProducts().Where(s => s.SubGroupId == subGroupId);
+        }
         #endregion
 
         #region Brand
@@ -339,10 +344,11 @@ namespace JShope.Services.Interface
         }
         public IQueryable<Brands> GetDistinctBrandsBySubGroupId(int subGroupId)
         {
-            return _context.SubGroups.Where(g => g.SubGroupId == subGroupId)
+            var a = _context.SubGroups.Where(g => g.SubGroupId == subGroupId)
                 .Select(g => g.Group)
                 .SelectMany(g => g.Brands)
                 .Distinct();
+            return a;
         }
 
         #endregion
@@ -472,10 +478,9 @@ namespace JShope.Services.Interface
                 }).ToList();
         }
 
-        public List<SelectListItem> GetBrandSelectListItems(int groupId)
+        public List<SelectListItem> GetBrandSelectListItems()
         {
-            return _context.Groups.Where(g => g.GroupId == groupId)
-                .SelectMany(b => b.Brands)
+            return _context.Brands
                 .Select(b => new SelectListItem()
                 {
                     Text = b.BrandName,
@@ -524,7 +529,7 @@ namespace JShope.Services.Interface
         public List<Product> GetProductByBrandId(int brandId)
         {
             return _context.Products.Where(b => b.BrandId == brandId)
-                .Include(i=>i.ProductImages)
+                .Include(i => i.ProductImages)
                 .ToList();
         }
 

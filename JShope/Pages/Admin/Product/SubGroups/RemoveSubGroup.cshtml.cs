@@ -19,7 +19,7 @@ namespace JShope.Pages.Admin.Product.SubGroups
             _productService = productService;
         }
 
-     
+
         public SubGroup SubGroup { get; set; }
 
         public void OnGet(int subGroupId)
@@ -29,11 +29,11 @@ namespace JShope.Pages.Admin.Product.SubGroups
 
         public IActionResult OnPost(int subGroupId)
         {
-            var sub = _productService.GetSubGroupById(subGroupId);
-            if (sub != null)
+            var subGroup = _productService.GetSubGroupById(subGroupId);
+            if (subGroupId != 0)
             {
-               _productService.RemoveSubGroup(sub);
-               return Redirect($"/admin/product/subgroups/{sub.GroupId}");
+                _productService.RemoveSubGroup(subGroup);
+                return Redirect($"/admin/subgroups/{subGroup.GroupId}");
             }
 
             return NotFound();

@@ -28,7 +28,6 @@ namespace JShope.Pages.Admin.Product.Groups
             if (id!=0)
             {
                 var categoryId = _productService.GetCategoryIdByGroupId(id);
-                _productService.RemoveSubGroups(subGroups);
                 _productService.RemoveGroupById(id);
                
                 return Redirect($"/admin/product/groups/{categoryId}");

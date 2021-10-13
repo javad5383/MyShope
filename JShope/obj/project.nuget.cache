@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fCDSwSK/t93H6MrAe8B67dKQk3wqzhLxORvIAmRFnu27NaOVKs1PJ5H1WNa1tJSjkcN/Zdnq1rgHByYKvzwzKw==",
+  "dgSpecHash": "35YZM+AleCTPHMHEz3tU/ngICtw44r/MFO0d+JZiky5HjU0p4icR6qkDSV0ZQ1LUlT/+3F7CZtEd+UZ15W5q1w==",
   "success": true,
   "projectFilePath": "C:\\Users\\mohammad\\source\\repos\\JShope\\JShope\\JShope.csproj",
   "expectedPackageFiles": [
@@ -198,7 +198,8 @@
     "C:\\Users\\mohammad\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
     "C:\\Users\\mohammad\\.nuget\\packages\\zarinpal\\3.0.1\\zarinpal.3.0.1.nupkg.sha512",
     "C:\\Users\\mohammad\\.nuget\\packages\\zarinpal-sdk\\0.0.8\\zarinpal-sdk.0.0.8.nupkg.sha512",
-    "C:\\Users\\mohammad\\.nuget\\packages\\zarinpalsandbox\\2.0.4\\zarinpalsandbox.2.0.4.nupkg.sha512"
+    "C:\\Users\\mohammad\\.nuget\\packages\\zarinpalsandbox\\2.0.4\\zarinpalsandbox.2.0.4.nupkg.sha512",
+    "C:\\Users\\mohammad\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.20\\microsoft.netcore.app.host.win-x64.3.1.20.nupkg.sha512"
   ],
   "logs": []
 }

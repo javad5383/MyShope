@@ -91,7 +91,7 @@ namespace JShope.Controllers
             {
                 new SelectListItem(){Text = "انتخاب کنید",Value = ""}
             };
-            list.AddRange(_productService.GetBrandSelectListItems(id));
+            list.AddRange(_productService.GetBrandSelectListItems());
             return Json(new SelectList(list, "Value", "Text"));
         }
 

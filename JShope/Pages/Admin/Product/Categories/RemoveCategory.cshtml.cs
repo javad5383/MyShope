@@ -31,11 +31,6 @@ namespace JShope.Pages.Admin.Product.Categories
                 var group = _productService.GetGroupsByCategoryId(id);
 
                 var subGroup = _productService.GetSubGroupsByCategoryId(id);
-
-                _productService.RemoveSubGroups(subGroup);
-
-                _productService.RemoveGroups(group);
-
                 _productService.RemoveCategoryById(id);
 
                 return Redirect("/admin/product/categories/addCategory");

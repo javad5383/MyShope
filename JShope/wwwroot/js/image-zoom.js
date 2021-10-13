@@ -1,3 +1,4 @@
+
 "use strict";
 
 /*!
@@ -96,10 +97,10 @@ perfect for store products and galleries
           zoomIn(e);
         }
       });
-      container.on('mousemove', function (e) {
+      container.on('mousemove swipe', function (e) {
         imageObj.zoom ? zoomIn(e) : null;
       });
-      container.on('mouseleave', function () {
+        container.on('mouseleave swipeleft', function () {
         imageObj.zoom = false;
         $(this).removeClass('active');
       });

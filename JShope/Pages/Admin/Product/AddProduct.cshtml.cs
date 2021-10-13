@@ -37,7 +37,7 @@ namespace JShope.Pages.Admin.Product
 
             var subGroups = _productService.GetSubGroupsForFilterItems(int.Parse(groups.First().Value));
             ViewData["subGroups"] = new SelectList(subGroups, "Value", "Text");
-            var brands = _productService.GetBrandSelectListItems(int.Parse(groups.First().Value));
+            var brands = _productService.GetBrandSelectListItems();
             ViewData["brands"] = new SelectList(brands, "Value", "Text");
 
             #endregion
@@ -57,7 +57,7 @@ namespace JShope.Pages.Admin.Product
 
                 var subGroups = _productService.GetSubGroupsForFilterItems(int.Parse(groups.First().Value));
                 ViewData["subGroups"] = new SelectList(subGroups, "Value", "Text");
-                var brands = _productService.GetBrandSelectListItems(int.Parse(groups.First().Value));
+                var brands = _productService.GetBrandSelectListItems();
                 ViewData["brands"] = new SelectList(brands, "Value", "Text");
                 return Page();
             }

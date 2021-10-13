@@ -43,7 +43,7 @@ namespace JShope.Services.Interface
         SubGroup GetSubGroupById(int subGroupId);
         void EditSubGroup(int groupId, int subGroupId, string subGroupName);
         void RemoveSubGroups(List<SubGroup> subGroups);
-        void RemoveSubGroup(SubGroup subGroup); //Remove single SubGroup
+        void RemoveSubGroup(SubGroup subGroup); 
 
         #endregion
 
@@ -54,16 +54,17 @@ namespace JShope.Services.Interface
         void DeleteProduct(Product product);
         IEnumerable<Product> GetProducts();
         Product GetProductById(int productId);
-        List<Product> GetProductBySubGroupId(int subGroupId);
+       
         void RemoveProduct(Product product);
         void AddProductImage(string imageName, int productId);
         List<ProductImage> GetProductImage(int productId);
         void RemoveImage(int imgId, int productId);
         List<Product> SearchProducts(string filter);
 
-        List<Product> GetProductByCategoryId(int categoryId);
+        IEnumerable<Product> GetProductByCategoryId(int categoryId);
 
-        List<Product> GetProductByGroupId(int groupId);
+        IEnumerable<Product> GetProductByGroupId(int groupId);
+        IEnumerable<Product> GetProductBySubGroupId(int subGroupId);
 
         void AddFavorite(int productId,int userId);
         void AddProductSpecificationTitle(int productId,string headLine, List<Titles> titlesList);
@@ -109,7 +110,7 @@ namespace JShope.Services.Interface
         List<SelectListItem> GetCategoryForFilterItems();
         List<SelectListItem> GetGroupsForFilterItems(int categoryId);
         List<SelectListItem> GetSubGroupsForFilterItems(int groupId);
-        public List<SelectListItem> GetBrandSelectListItems(int groupId);
+        public List<SelectListItem> GetBrandSelectListItems();
 
         #endregion
 
