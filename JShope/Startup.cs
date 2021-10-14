@@ -8,9 +8,11 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using JShope.Services.Interface;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyEshop.Data;
 using Microsoft.Extensions.Options;
@@ -38,10 +40,17 @@ namespace JShope
             {
                 options.UseSqlServer(Configuration.GetConnectionString("JShopConnection")/*"Data Source =.;Initial Catalog=JShop_DB;Integrated Security=true" *//*"Server =.; Initial Catalog = JShop_DB; User ID = javad; Password = 4Vmbw0@5; MultipleActiveResultSets = true"*/);
             });
-
+            //services.AddIdentity<IdentityUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<JShopeContext>()
+            //    .AddDefaultTokenProviders();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Admin",
+            //        policy => policy.RequireClaim("owner", false.ToString())
+            //    );
+            //});
 
             services.AddTransient<IUserService, UserService>();
-
             services.AddScoped<IProductService, PoroductService>();
             services.AddScoped<ISiteService, SiteService>();
 
@@ -86,7 +95,23 @@ namespace JShope
             app.UseRouting();
 
             app.UseAuthorization();
-            
+            app.Use(async (context, next) =>
+            {
+                // Do work that doesn't write to the Response.
+                if (context.Request.Path.StartsWithSegments("/Admin"))
+                {
+                    if (!context.User.Identity.IsAuthenticated)
+                    {
+                        context.Response.Redirect("/user/Login");
+                    }
+                    else if (!bool.Parse(context.User.FindFirstValue("IsAdmin")))
+                    {
+                        context.Response.Redirect("/user/Login");
+                    }
+                }
+                await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });
 
 
             app.UseEndpoints(endpoints =>

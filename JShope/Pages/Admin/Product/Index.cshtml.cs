@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing.Matching;
@@ -10,6 +11,7 @@ using Newtonsoft.Json;
 
 namespace JShope.Pages.Admin.Product
 {
+    
     public class IndexModel : PageModel
     {
         private IProductService _productService;

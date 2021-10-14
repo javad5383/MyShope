@@ -53,7 +53,7 @@
                                             @foreach (var subGroup in group.SubGroups)
                                             {
                                                 <li>
-                                                    <a asp-action="Index" asp-controller="ProductsMain" asp-route-id="@subGroup.SubGroupId" asp-route-show="BySubGroup" >@subGroup.SubGroupName</a>
+                                                    <a asp-action="Index" asp-controller="ProductsMain" asp-route-subGroupId="@subGroup.SubGroupId"  >@subGroup.SubGroupName</a>
                                                 </li>
                                             }
                                         }

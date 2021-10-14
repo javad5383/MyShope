@@ -114,36 +114,5 @@ namespace JShope.Services.Interface
 
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

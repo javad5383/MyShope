@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace JShope.Pages.Admin.Product.Categories
 {
+    
     public class EditCategoryModel : PageModel
     {
         private IProductService _productService;

@@ -2,11 +2,13 @@
 using System.Linq;
 using JShope.Models;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace JShope.Pages.Admin.Product.Categories
 {
+   
     public class AddCategoryModel : PageModel
     {
         private IProductService _productService;

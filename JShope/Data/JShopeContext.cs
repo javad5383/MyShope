@@ -1,5 +1,6 @@
 ﻿using System;
 using JShope.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace MyEshop.Data
@@ -11,8 +12,6 @@ namespace MyEshop.Data
         {
 
         }
-
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<SubGroup> SubGroups { get; set; }
@@ -27,12 +26,12 @@ namespace MyEshop.Data
         public DbSet<UserFavorites> UserFavorites { get; set; }
         public DbSet<Specifications> Specifications { get; set; }
         public DbSet<Titles> Titles { get; set; }
-        
+
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
-            
-        //   base.OnModelCreating(modelBuilder);
+
+        //    base.OnModelCreating(modelBuilder);
         //}
 
 

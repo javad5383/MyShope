@@ -35,7 +35,7 @@ namespace JShope.Services.Interface
         public Users Login(loginViewModel loginViewModel)
         {
             var HashPassword = PasswordHelper.EncodePasswordMd5(loginViewModel.Password);
-            var user = _context.Users.SingleOrDefault(u => u.Email == loginViewModel.Email && u.Password == HashPassword);
+            var user = _context.Users.SingleOrDefault(u => u.Email == loginViewModel.Email ||u.PhoneNumber==loginViewModel.Email && u.Password == HashPassword);
 
             return user;
         }

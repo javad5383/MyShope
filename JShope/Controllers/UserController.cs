@@ -8,13 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace JShope.Controllers
 {
     public class UserController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UserController(IUserService userService)
         {
@@ -33,7 +35,7 @@ namespace JShope.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(loginViewModel usr)
+        public async Task<IActionResult> Login(loginViewModel usr)
         {
             if (!ModelState.IsValid)
             {
@@ -41,17 +43,18 @@ namespace JShope.Controllers
             }
 
             var user = _userService.Login(usr);
-
-            if (user == null)
+           
+            if (user==null)
             {
                 ModelState.AddModelError("Email", "گاربر با مشخصات وارد شده یافت نشد");
                 return View();
             }
-
+            
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
-                new Claim(ClaimTypes.Email,user.Email)
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim("IsAdmin", user.IsAdmin.ToString())
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -60,7 +63,9 @@ namespace JShope.Controllers
             {
                 IsPersistent = usr.RememberMe
             };
-            HttpContext.SignInAsync(principal, properties);
+           
+            
+            await HttpContext.SignInAsync(principal, properties);
             return Redirect("/");
         }
 
@@ -102,7 +107,7 @@ namespace JShope.Controllers
         }
 
 
-
+        [Authorize]
         #endregion
         [Route("/Logout")]
         public IActionResult Logout()
@@ -110,14 +115,14 @@ namespace JShope.Controllers
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
-       
 
+        [Authorize]
         public IActionResult Welcome()
         {
             return View();
         }
 
-
+        [Authorize]
         [Route("/activation/{activeCode}")]
         public IActionResult Activation(string activeCode)
         {
@@ -131,11 +136,5 @@ namespace JShope.Controllers
             return NotFound();
 
         }
-
-       
-      
-
-
-        
     }
 }

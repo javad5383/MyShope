@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,6 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JShope.Pages.Admin.Product
 {
+   
     public class AddProductModel : PageModel
     {
         private IProductService _productService;

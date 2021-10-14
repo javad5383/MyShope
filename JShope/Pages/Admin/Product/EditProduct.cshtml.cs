@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using JShope.Models;
 using JShope.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace JShope.Pages.Admin.Product
 {
+    
     public class EditProductModel : PageModel
     {
         private IProductService _productService;
